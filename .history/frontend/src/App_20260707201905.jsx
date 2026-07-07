@@ -46,7 +46,7 @@ import Dashboard from "./pages/user/dashboard";
 /* ===========================
    Admin Pages
 =========================== */
-import AdminDashboard from "./pages/admin/adminDashboard";
+import AdminDashboard from "./pages/admin/AdminDashboard";
 
 // Future Admin Pages
 // import Users from "./pages/admin/Users";

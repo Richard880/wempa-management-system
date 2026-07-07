@@ -1,0 +1,73 @@
+:root{
+
+    --primary:#003B5C;
+    --secondary:#005F73;
+    --accent:#E9C46A;
+  
+    --success:#2A9D8F;
+    --danger:#C1121F;
+  
+    --white:#ffffff;
+    --light:#F5F7FA;
+    --dark:#1D3557;
+  
+  }
+body{
+    margin:0;
+    background:#f5f7fb;
+    font-family:'Segoe UI',sans-serif;
+}
+
+a{
+    text-decoration:none;
+}
+
+.card{
+    border:none;
+    border-radius:12px;
+}
+
+.hero{
+
+    min-height:95vh;
+    
+    display:flex;
+    
+    align-items:center;
+    
+    background:
+    
+    linear-gradient(
+    rgba(0,40,70,.80),
+    rgba(0,40,70,.80)
+    ),
+    
+    url("/hero-bg.jpg");
+    
+    background-size:cover;
+    
+    background-position:center;
+    
+    color:white;
+    
+    }
+    
+    .hero h1{
+    
+    font-weight:800;
+    
+    line-height:1.2;
+    
+    }
+    
+    .hero p{
+    
+    font-size:1.2rem;
+    
+    }
+    
+    .hero img{
+    
+    max-height:550px;
+    
+    }

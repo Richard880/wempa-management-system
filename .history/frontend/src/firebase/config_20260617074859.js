@@ -1,0 +1,18 @@
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "WEMPA.firebaseapp.com",
+  projectId: "wempa-fb728",
+  storageBucket: "WEMPA.appspot.com",
+  messagingSenderId: "XXXXXXXX",
+  appId: "XXXXXXXX",
+};
+
+
+const app = initializeApp(firebaseConfig);
+
+export const auth = getAuth(app);
+export const db = getFirestore(app);

@@ -1,0 +1,40 @@
+:root{
+
+    --primary:#003B5C;
+    --secondary:#005F73;
+    --accent:#E9C46A;
+  
+    --success:#2A9D8F;
+    --danger:#C1121F;
+  
+    --white:#ffffff;
+    --light:#F5F7FA;
+    --dark:#1D3557;
+  
+  }
+body{
+    margin:0;
+    background:#f5f7fb;
+    font-family:'Segoe UI',sans-serif;
+}
+
+a{
+    text-decoration:none;
+}
+
+.card{
+    border:none;
+    border-radius:12px;
+}
+
+
+    
+    .value-card{
+        transition:.35s;
+        border-radius:15px;
+    }
+    
+    .value-card:hover{
+        transform:translateY(-8px);
+        box-shadow:0 10px 25px rgba(0,0,0,.15)!important;
+    }

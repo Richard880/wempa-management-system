@@ -1,0 +1,25 @@
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+
+    background: linear-gradient(
+        135deg,
+        #003366 0%,
+        #005792 100%
+    );
+
+    overflow: hidden;
+}
+
+.hero-image-col{
+    height: 100%;
+}
+
+.hero-image{
+    width:100%;
+    max-width:650px;
+    height:auto;
+
+    object-fit:contain;
+}

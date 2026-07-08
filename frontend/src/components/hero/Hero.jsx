@@ -5,7 +5,7 @@ import HeroContent from "./HeroContent";
 
 import heroData from "../../data/heroData";
 import ScrollIndicator from "./ScrollIndicator";
-import WaveDivider from "./waveDivider";
+import WaveDivider from "./WaveDivider";
 import "../../styles/components/hero.css";
 
 function Hero() {

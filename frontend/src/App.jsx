@@ -35,7 +35,7 @@ import Login from "./pages/public/Login";
 /* ===========================
    User Pages
 =========================== */
-import Dashboard from "./pages/user/dashboard";
+import Dashboard from "./pages/user/Dashboard";
 
 // Future Pages
 // import Profile from "./pages/user/Profile";
@@ -46,7 +46,7 @@ import Dashboard from "./pages/user/dashboard";
 /* ===========================
    Admin Pages
 =========================== */
-import AdminDashboard from "./pages/admin/adminDashboard";
+import AdminDashboard from "./pages/admin/AdminDashboard";
 
 // Future Admin Pages
 // import Users from "./pages/admin/Users";

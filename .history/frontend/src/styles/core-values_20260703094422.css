@@ -1,8 +1,0 @@
-.core-values-section{
-    background:var(--white);
-    padding:var(--section-padding) 0;
-}
-
-.core-values-section .feature-card{
-    height:100%;
-}

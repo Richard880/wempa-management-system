@@ -16,6 +16,7 @@ backend/.env
 
 # VS Code
 .vscode/
+.history/
 
 # OS files
 Thumbs.db

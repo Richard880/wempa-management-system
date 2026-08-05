@@ -2,8 +2,8 @@ import  { useMemo } from "react";
 import PropTypes from "prop-types";
 import useApplicationFormStep from "../../hooks/useApplicationFormStep";
 import { FormGrid, FormSection, DynamicField } from "../../../../components/forms";
-import emergencyContactSchema from "./emergencyContactSchema";
-import emergencyContactFields from "./emergencyContactFields";
+import emergencyContactSchema from "./EmergencyContactSchema";
+import emergencyContactFields from "./EmergencyContactFields";
 import defaultValues from "./defaultValues";
 import styles from "./EmergencyContact.module.css";
 import WizardFooter from "../../../../components/workflow/WizardFooter"; // Verified absolute relative asset link

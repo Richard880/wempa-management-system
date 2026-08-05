@@ -2,8 +2,8 @@ import  { useMemo } from "react";
 import PropTypes from "prop-types";
 import { FormSection, FormGrid, DynamicField } from "../../../../components/forms";
 import useApplicationFormStep from "../../hooks/useApplicationFormStep";
-import personalInformationSchema from "./personalInformationSchema";
-import personalInformationFields from "./personalInformationFields";
+import personalInformationSchema from "./PersonalInformationSchema";
+import personalInformationFields from "./PersonalInformationFields";
 import defaultValues from "./defaultValues";
 import styles from "./PersonalInformation.module.css";
 import WizardFooter from "../../../../components/workflow/WizardFooter"; // Ensure your WizardFooter import path matches your directory layout

@@ -1,5 +1,5 @@
 import Section from "../common/Section";
-import SectionHeading from "../ui/SectionHeading";
+import SectionHeading from "../common/SectionHeading";
 import FeatureGrid from "../common/FeatureGrid";
 
 import services from "../../data/services";

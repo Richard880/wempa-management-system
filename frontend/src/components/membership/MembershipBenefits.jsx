@@ -1,7 +1,7 @@
 import { Container, Row, Col } from "react-bootstrap";
 import { motion } from "framer-motion";
 
-import SectionHeading from "../ui/SectionHeading";
+import SectionHeading from "../common/SectionHeading";
 import { membershipBenefits } from "../../data/membershipData";
 
 function MembershipBenefits() {

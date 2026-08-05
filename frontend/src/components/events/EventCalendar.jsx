@@ -1,7 +1,7 @@
 import { Container } from "react-bootstrap";
 import { FaCalendarAlt } from "react-icons/fa";
 
-import SectionHeading from "../ui/SectionHeading";
+import SectionHeading from "../common/SectionHeading";
 
 function EventCalendar() {
   const days = [

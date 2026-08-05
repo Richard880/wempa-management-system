@@ -8,7 +8,7 @@ import {
 } from "react-icons/fa";
 import { motion } from "framer-motion";
 
-import SectionHeading from "../ui/SectionHeading";
+import SectionHeading from "../common/SectionHeading";
 import { upcomingEvents } from "../../data/eventsData";
 
 function UpcomingEvents() {

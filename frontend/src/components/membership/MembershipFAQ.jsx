@@ -1,6 +1,6 @@
 import { Container, Accordion } from "react-bootstrap";
 
-import SectionHeading from "../ui/SectionHeading";
+import SectionHeading from "../common/SectionHeading";
 import { membershipFAQs } from "../../data/membershipData";
 
 function MembershipFAQ() {

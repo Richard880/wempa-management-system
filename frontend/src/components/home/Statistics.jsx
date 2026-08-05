@@ -5,7 +5,7 @@ import {
   FaFileSignature,
   FaCalendarAlt,
 } from "react-icons/fa";
-import SectionHeading from "../ui/SectionHeading";
+import SectionHeading from "../common/SectionHeading";
 import StatCard from "../common/StatCard";
 import useStatistics from "../../hooks/useStatistics";
 

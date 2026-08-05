@@ -1,0 +1,81 @@
+/* WizardFooter.module.css */
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.25rem 2rem;
+  border-top: 1px solid var(--color-border);
+  background: var(--color-surface);
+  
+  /* Prevent footer content shifting on tiny displays */
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.left,
+.center,
+.right {
+  display: flex;
+  align-items: center;
+}
+
+.center {
+  flex: 1;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Typography & Sub-component Styling Hooks */
+.progressInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.stepText {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-muted, #64748b);
+}
+
+.syncText {
+  font-size: 0.75rem;
+  color: var(--color-primary, #3b82f6);
+  font-weight: 500;
+}
+
+/* Responsive Overrides for Tablets and Mobile devices */
+@media (max-width: 768px) {
+  .footer {
+    flex-direction: column-reverse;
+    align-items: stretch;
+    gap: 1.25rem;
+    padding: 1.25rem 1rem; /* Margins compressed safely for narrow screens */
+  }
+
+  .left,
+  .center,
+  .right {
+    width: 100%;
+    justify-content: center; /* Centers action controls perfectly on stack */
+  }
+
+  /* Target buttons precisely regardless of deep React UI wrappers */
+  .left :global(button),
+  .center :global(button),
+  .right :global(button),
+  .left button,
+  .center button,
+  .right button {
+    width: 100%;
+    justify-content: center;
+    padding: 0.75rem 1rem; /* Enhanced mobile tap targets */
+  }
+  
+  .progressInfo {
+    margin-bottom: 0.25rem;
+  }
+}

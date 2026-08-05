@@ -2,7 +2,7 @@ import Section from "../common/Section";
 import SectionHeading from "../common/SectionHeading";
 import FeatureGrid from "../common/FeatureGrid";
 
-import coreValues from "/src/data/coreValues.jsx";
+import coreValues from "../../data/coreValues";
 
 function CoreValues() {
   return (

@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import useApplicationFormStep from "../../hooks/useApplicationFormStep";
 import { FormSection, FormGrid, DynamicField } from "../../../../components/forms";
 import defaultValues from "./defaultValues";
-import maritimeInformationFields from "./maritimeInformationFields";
-import maritimeInformationSchema from "./maritimeInformationSchema";
+import maritimeInformationFields from "./MaritimeInformationFields";
+import maritimeInformationSchema from "./MaritimeInformationSchema";
 import styles from "./MaritimeInformation.module.css";
 import WizardFooter from "../../../../components/workflow/WizardFooter"; // Import your footer component
 

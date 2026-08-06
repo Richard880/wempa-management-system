@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import useApplicationFormStep from "../../hooks/useApplicationFormStep";
 import { FormSection, FormGrid, DynamicField } from "../../../../components/forms";
 import defaultValues from "./defaultValues";
-import nextOfKinFields from "./nextOfKinFields";
-import nextOfKinSchema from "./nextOfKinSchema";
+import nextOfKinFields from "./NextOfKinFields";
+import nextOfKinSchema from "./NextOfKinSchema";
 import styles from "./NextOfKin.module.css";
 import WizardFooter from "../../../../components/workflow/WizardFooter"; // Verified structural asset hook
 

@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import  { useMemo } from "react";
 import PropTypes from "prop-types";
 import useApplicationFormStep from "../../hooks/useApplicationFormStep";
 import { FormSection } from "../../../../components/forms";

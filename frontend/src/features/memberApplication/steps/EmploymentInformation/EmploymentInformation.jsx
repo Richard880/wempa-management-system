@@ -2,8 +2,8 @@ import  { useMemo } from "react";
 import PropTypes from "prop-types";
 import useApplicationFormStep from "../../hooks/useApplicationFormStep";
 import { FormSection, FormGrid, DynamicField } from "../../../../components/forms";
-import employmentInformationSchema from "./employmentInformationSchema";
-import employmentInformationFields from "./employmentInformationFields";
+import employmentInformationSchema from "./EmploymentInformationSchema";
+import employmentInformationFields from "./EmploymentInformationFields";
 import defaultValues from "./defaultValues";
 import styles from "./EmploymentInformation.module.css";
 import WizardFooter from "../../../../components/workflow/WizardFooter"; // Updated to use your correct path

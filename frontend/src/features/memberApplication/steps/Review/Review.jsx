@@ -2,7 +2,7 @@
 import PropTypes from "prop-types";
 import useWizard from "../../../../components/workflow/WizardProvider/useWizard";
 import WizardFooter from "../../../../components/workflow/WizardFooter";
-import styles from "./review.module.css"; // Successfully wired up with your existing styles
+import styles from "./Review.module.css"; // Successfully wired up with your existing styles
 
 export default function Review({ application, formId }) {
   const { actions } = useWizard();

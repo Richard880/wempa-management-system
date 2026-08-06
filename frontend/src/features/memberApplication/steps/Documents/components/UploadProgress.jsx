@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-import styles from "../documents.module.css";
+import styles from "../Documents.module.css";
 
 function UploadProgress({
   progress = 0,

@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-import styles from "../documents.module.css";
+import styles from "../Documents.module.css";
 
 const STATUS_CONFIG = {
   pending: {

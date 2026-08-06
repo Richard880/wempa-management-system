@@ -4,7 +4,7 @@ import Button from "../../../../../components/ui/Button";
 import DocumentPreview from "./DocumentPreview";
 import DocumentStatusBadge from "./DocumentStatusBadge";
 import UploadProgress from "./UploadProgress";
-import styles from "../documents.module.css";
+import styles from "../Documents.module.css";
 
 function DocumentUploadCard({
   document,
@@ -15,7 +15,7 @@ function DocumentUploadCard({
   onCancel,
 }) {
   const {
-    id,
+  
     title,
     description,
     required,

@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 
 import DocumentUploadCard from "./DocumentUploadCard";
 
-import styles from "../documents.module.css";
+import styles from "../Documents.module.css";
 
 function DocumentGrid({
   documents,

@@ -1,14 +1,33 @@
-import { Navigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 
-function ProtectedRoute({ children }) {
-  const { user } = useAuth();
+import useAuth from "../features/auth/hooks/useAuth";
+import ROUTES from "../constants/routes";
 
-  if (!user) {
-    return <Navigate to="/login" />;
+import Spinner from "../components/ui/Spinner/Spinner";
+
+function ProtectedRoute() {
+  const { auth } = useAuth();
+  const location = useLocation();
+
+  if (auth.loading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center min-vh-100">
+        <Spinner />
+      </div>
+    );
   }
 
-  return children;
+  if (!auth.authenticated) {
+    return (
+      <Navigate
+        to={ROUTES.LOGIN}
+        replace
+        state={{ from: location }}
+      />
+    );
+  }
+
+  return <Outlet />;
 }
 
 export default ProtectedRoute;

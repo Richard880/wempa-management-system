@@ -1,25 +1,17 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { env } from "../utils/environment";
 
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyBYImSYIEldJ4j6QbCLsyeGHJPqEGoA-oE",
-  authDomain: "wempa-fb728.firebaseapp.com",
-  projectId: "wempa-fb728",
-  storageBucket: "wempa-fb728.firebasestorage.app",
-  messagingSenderId: "351144678304",
-  appId: "1:351144678304:web:09b289d6ad84fe31fe4ac5",
-  measurementId: "G-RPPX1E1XZ7",
+  apiKey: env.firebaseApiKey,
+  authDomain: env.firebaseAuthDomain,
+  projectId: env.firebaseProjectId,
+  storageBucket: env.firebaseStorageBucket,
+  messagingSenderId: env.firebaseMessagingSenderId,
+  appId: env.firebaseAppId,
+    ...(env.firebaseMeasurementId && {
+    measurementId: env.firebaseMeasurementId,
+  }),
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
 
-export const auth = getAuth(app);
-export const db = getFirestore(app);
+export default initializeApp(firebaseConfig);

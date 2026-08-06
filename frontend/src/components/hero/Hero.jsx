@@ -2,7 +2,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import { motion } from "framer-motion";
 
 import HeroContent from "./HeroContent";
-
+import heroShip from "../../assets/hero/heroShip.jfif";
 import heroData from "../../data/heroData";
 import ScrollIndicator from "./ScrollIndicator";
 import WaveDivider from "./WaveDivider";
@@ -30,7 +30,8 @@ function Hero() {
                 repeat: Infinity,
               }}
             >
-              <div className="hero-placeholder">🚢</div>
+              {/* The fixed image tag */}
+              <img src={heroShip} alt="Hero Ship" className="hero-img" />
             </motion.div>
           </Col>
         </Row>

@@ -1,0 +1,299 @@
+/*
+==========================================
+Upload Progress
+==========================================
+*/
+
+.progressContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  width: 100%;
+}
+
+.progressHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-size: 0.85rem;
+}
+
+.progressLabel {
+  color: var(--bs-secondary-color, #6c757d);
+}
+
+.progressValue {
+  font-weight: 600;
+  color: var(--bs-primary, #0d6efd);
+}
+
+.progressTrack {
+  width: 100%;
+  height: 8px;
+
+  overflow: hidden;
+
+  border-radius: 999px;
+
+  background: #e9ecef;
+}
+
+.progressFill {
+  height: 100%;
+
+  border-radius: inherit;
+
+  background: linear-gradient(
+      90deg,
+      #0d6efd,
+      #198754
+  );
+
+  transition:
+      width .35s ease,
+      background-color .2s ease;
+}
+
+/*
+==========================================
+Document Status Badge
+==========================================
+*/
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0.35rem 0.8rem;
+
+  border-radius: 999px;
+
+  font-size: 0.75rem;
+  font-weight: 600;
+
+  white-space: nowrap;
+}
+
+/* Pending */
+
+.pending {
+  background: #f8f9fa;
+  color: #6c757d;
+}
+
+/* Uploading */
+
+.uploading {
+  background: #e7f1ff;
+  color: #0d6efd;
+}
+
+/* Uploaded */
+
+.uploaded {
+  background: #d1ecf1;
+  color: #0c5460;
+}
+
+/* Waiting for admin review */
+
+.reviewing {
+  background: #fff3cd;
+  color: #856404;
+}
+
+/* Approved */
+
+.verified {
+  background: #d1e7dd;
+  color: #146c43;
+}
+
+/* Rejected */
+
+.rejected {
+  background: #f8d7da;
+  color: #842029;
+}
+
+/*
+==========================================
+Document Preview
+==========================================
+*/
+
+.previewContainer {
+  width: 100%;
+  height: 220px;
+
+  overflow: hidden;
+
+  border: 1px solid #dee2e6;
+  border-radius: 0.75rem;
+
+  background: #ffffff;
+}
+
+.previewImage {
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+}
+
+.previewPdf {
+  width: 100%;
+  height: 100%;
+
+  border: none;
+}
+
+.previewPlaceholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 0.75rem;
+
+  width: 100%;
+  height: 220px;
+
+  border: 2px dashed #ced4da;
+  border-radius: 0.75rem;
+
+  background: #f8f9fa;
+
+  color: #6c757d;
+
+  text-align: center;
+
+  transition:
+    border-color .2s ease,
+    background .2s ease;
+}
+
+.previewPlaceholder:hover{
+    border-color:#0d6efd;
+}
+
+.previewIcon {
+  font-size: 2.5rem;
+}
+
+/*
+==========================================
+Document Upload Card
+==========================================
+*/
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+
+  padding: 1.5rem;
+
+  background: #ffffff;
+
+  border: 1px solid #dee2e6;
+  border-radius: 1rem;
+
+  box-shadow: 0 2px 8px rgba(0,0,0,.05);
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease,
+    border-color .2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+
+  border-color: #0d6efd33;
+
+  box-shadow:
+    0 10px 24px rgba(13,110,253,.10);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.cardTitle {
+  margin: 0;
+
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.cardDescription {
+  margin-top: 0.4rem;
+
+  color: #6c757d;
+
+  font-size: 0.875rem;
+}
+
+.required {
+  margin-left: 0.25rem;
+
+  color: #dc3545;
+}
+
+.cardFooter{
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:.75rem;
+}
+
+.cardFooter > *{
+    flex:1;
+}
+
+/*
+==========================================
+Document Grid
+==========================================
+*/
+
+.grid{
+    display:grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(320px,1fr)
+        );
+
+    gap:1.5rem;
+}
+
+
+.selected {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.queued {
+  background-color: #cfe2ff;
+  color: #084298;
+}
+
+.failed {
+  background-color: #f8d7da;
+  color: #842029;
+}
+
+.cancelled {
+  background-color: #e2e3e5;
+  color: #41464b;
+}

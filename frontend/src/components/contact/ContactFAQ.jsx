@@ -1,7 +1,7 @@
 import { Container, Accordion } from "react-bootstrap";
 import { motion } from "framer-motion";
 
-import SectionHeading from "../ui/SectionHeading";
+import SectionHeading from "../common/SectionHeading";
 
 import { faqs } from "../../data/contactData";
 

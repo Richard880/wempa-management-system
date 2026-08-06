@@ -2,7 +2,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import { motion } from "framer-motion";
 
 import ContactForm from "./ContactForm";
-import SectionHeading from "../ui/SectionHeading";
+import SectionHeading from "../common/SectionHeading";
 
 import { contactInfo } from "../../data/contactData";
 

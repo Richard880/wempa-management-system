@@ -1,7 +1,7 @@
 import { Row, Col } from "react-bootstrap";
 
 import Section from "../common/Section";
-import SectionHeading from "../ui/SectionHeading";
+import SectionHeading from "../common/SectionHeading";
 import NewsCard from "../common/NewsCard";
 
 import news from "../../data/news";

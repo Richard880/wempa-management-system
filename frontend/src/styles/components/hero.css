@@ -234,7 +234,8 @@
 
 }
 
-.hero-placeholder{
+
+.hero-img {
 
     width:420px;
 
@@ -257,7 +258,7 @@
     font-size:9rem;
 
     box-shadow:0 30px 60px rgba(0,0,0,.25);
-
+ object-fit: cover;
 }
 
 /* ==========================================================

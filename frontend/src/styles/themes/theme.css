@@ -1,0 +1,72 @@
+:root {
+
+    /* =====================================
+       BRAND COLORS
+    ===================================== */
+
+    --color-primary: #005B96;
+    --color-primary-dark: #00416D;
+    --color-primary-light: rgba(0,91,150,.15);
+
+    --color-secondary: #00A896;
+    --color-accent: #F4B400;
+
+    /* =====================================
+       STATUS
+    ===================================== */
+
+    --color-success: #2E7D32;
+    --color-warning: #F57C00;
+    --color-danger: #D32F2F;
+    --color-info: #0288D1;
+
+    /* =====================================
+       TEXT
+    ===================================== */
+
+    --color-text: #1F2937;
+    --color-text-light: #6B7280;
+    --color-heading: #111827;
+
+    /* =====================================
+       BACKGROUNDS
+    ===================================== */
+
+    --color-background: #F9FAFB;
+    --color-surface: #FFFFFF;
+    --color-border: #D1D5DB;
+
+    /* =====================================
+       SHADOWS
+    ===================================== */
+
+    --shadow-sm: 0 2px 5px rgba(0,0,0,.08);
+    --shadow-md: 0 5px 15px rgba(0,0,0,.12);
+    --shadow-lg: 0 15px 40px rgba(0,0,0,.18);
+
+    /* =====================================
+       BORDER RADIUS
+    ===================================== */
+
+    --radius-sm:6px;
+    --radius-md:12px;
+    --radius-lg:18px;
+    --radius-xl:25px;
+
+    /* =====================================
+       SPACING
+    ===================================== */
+
+    --space-xs:4px;
+    --space-sm:8px;
+    --space-md:16px;
+    --space-lg:24px;
+    --space-xl:40px;
+
+    /* =====================================
+       TRANSITIONS
+    ===================================== */
+
+    --transition-fast:.2s;
+    --transition-normal:.3s;
+}

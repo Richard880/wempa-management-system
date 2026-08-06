@@ -1,0 +1,82 @@
+/* Dashboard.module.css */
+
+.mainContainer {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  maxWidth: 1400px;
+  margin: 0 auto;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.dashboardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--bs-body-color, #1e293b);
+}
+
+.subtitle {
+  margin: 0.5rem 0 0;
+  color: var(--bs-secondary-color, #64748b);
+}
+
+/* Grid Matrix Layout */
+.dashboardGrid {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(12, 1fr);
+}
+
+.rowFullWidth {
+  grid-column: span 12;
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.mainColumn {
+  grid-column: span 8;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.sidebarColumn {
+  grid-column: span 4;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.loaderContainer {
+  min-height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.errorAlert {
+  background-color: #fef2f2;
+  border: 1px solid #fee2e2;
+  color: #991b1b;
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 2rem auto;
+  max-width: 600px;
+}
+
+/* Responsive Overrides (Bypasses window.innerWidth bugs) */
+@media (max-width: 1024px) {
+  .mainColumn,
+  .sidebarColumn {
+    grid-column: span 12;
+  }
+}

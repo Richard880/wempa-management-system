@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -9,8 +9,9 @@ import { useNavigate } from "react-router-dom";
 import ROUTES from "../../../constants/routes";
 
 export default function useLoginForm() {
-  const { login } = useAuth();
-   const navigate = useNavigate();
+  // Destructure 'isAuthenticated' (or 'user') from your custom useAuth hook
+  const { login, isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
   const [authError, setAuthError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -26,11 +27,16 @@ export default function useLoginForm() {
     reValidateMode: "onChange",
   });
 
+  // Watch the global auth state. Redirect safely as soon as authentication resolves.
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate(ROUTES.MEMBER_DASHBOARD, { replace: true });
+    }
+  }, [isAuthenticated, navigate]);
+
   const onSubmit = async (data) => {
     setAuthError("");
     setLoading(true);
-
-    
 
     try {
       await login({
@@ -38,11 +44,9 @@ export default function useLoginForm() {
         password: data.password,
         rememberMe: data.rememberMe,
       });
-
-      // Navigation happens after authentication
-      // through AuthContext / Route Guards.
-       navigate(ROUTES.MEMBER_DASHBOARD);
-
+      
+      // Manual navigate removed from here. 
+      // The useEffect hook above safely handles the redirection now.
     } catch (error) {
       setAuthError(error.message || "Unable to sign in.");
     } finally {
@@ -52,10 +56,8 @@ export default function useLoginForm() {
 
   return {
     ...form,
-
     loading,
     authError,
-
     handleLogin: form.handleSubmit(onSubmit),
   };
 }

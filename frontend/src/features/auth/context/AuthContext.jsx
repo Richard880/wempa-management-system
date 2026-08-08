@@ -156,9 +156,58 @@ function AuthProvider({ children }) {
     };
   }, [fetchProfileData]);
 
-  const login = useCallback(async (credentials) => await authService.login(credentials), []);
-  const register = useCallback(async (userData) => await authService.register(userData), []);
-  const logout = useCallback(async () => await authService.logout(), []);
+   const login = useCallback(async (credentials) => {
+    // 1. Execute the Firebase / Backend sign-in request
+    const firebaseUser = await authService.login(credentials);
+    
+    // 2. Fetch the corresponding WEMPA profile data
+    const profile = await fetchProfileData(firebaseUser.uid);
+
+    // 3. FORCE synchronous state updates to trigger the routing redirection
+    setAuth({
+      currentUser: firebaseUser,
+      profile: profile || null,
+      role: profile?.role ?? null,
+      permissions: profile?.permissions ?? [],
+      loading: false,
+      authenticated: true, // 🟢 Toggles your redirect listener instantly
+    });
+
+    return firebaseUser;
+  }, [fetchProfileData]);
+
+  const register = useCallback(async (userData) => {
+    const firebaseUser = await authService.register(userData);
+    const profile = await fetchProfileData(firebaseUser.uid);
+
+    setAuth({
+      currentUser: firebaseUser,
+      profile: profile || null,
+      role: profile?.role ?? null,
+      permissions: profile?.permissions ?? [],
+      loading: false,
+      authenticated: true,
+    });
+
+    return firebaseUser;
+  }, [fetchProfileData]);
+
+  const logout = useCallback(async () => {
+    await authService.logout();
+    
+    // Clear out application memory cleanly on logout
+    setAuth({
+      currentUser: null,
+      profile: null,
+      role: null,
+      permissions: [],
+      loading: false,
+      authenticated: false,
+    });
+  }, []);
+
+  // const register = useCallback(async (userData) => await authService.register(userData), []);
+  // const logout = useCallback(async () => await authService.logout(), []);
 
   const value = useMemo(() => ({
     auth,

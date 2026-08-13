@@ -1,18 +1,27 @@
+import { Routes, 
+  Route, 
+  //Navigate 
+  } from "react-router-dom";
 
-
-import { Routes, Route, Navigate } from "react-router-dom";
-import ROUTES from "../constants/routes"; // Verify this import path matches your directory
+import ROUTES from "../constants/routes";
+import ROLES from "../constants/roles";
 
 /* ==========================================
-   Layouts & Structural Guards
+   Layouts
    ========================================== */
 import PublicLayout from "../layouts/PublicLayout";
 import MemberLayout from "../layouts/MemberLayout";
-import PublicRoute from "./PublicRoute";
-import ProtectedRoute from "./ProtectedRoute";
+import AdminLayout from "../layouts/AdminLayout/AdminLayout";
 
 /* ==========================================
-   Public Website Pages
+   Route Guards
+   ========================================== */
+import PublicRoute from "./PublicRoute";
+import ProtectedRoute from "./ProtectedRoute";
+import RoleRoute from "./RoleRoute";
+
+/* ==========================================
+   Public Pages
    ========================================== */
 import Home from "../features/public/pages/Home";
 import About from "../features/public/pages/About";
@@ -20,10 +29,9 @@ import Contact from "../features/public/pages/Contact";
 import Membership from "../features/public/pages/Membership";
 import Events from "../features/public/pages/Events";
 import News from "../features/public/pages/News";
-import MemberApplicationPage from "../features/memberApplication/pages/MemberApplicationPage";
 
 /* ==========================================
-   Authentication Pages (Guarded)
+   Authentication
    ========================================== */
 import Register from "../features/auth/pages/RegisterPage";
 import Login from "../features/auth/pages/LoginPage";
@@ -31,59 +39,157 @@ import VerifyEmailPage from "../features/auth/pages/VerifyEmailPage";
 import ForgotPasswordPage from "../features/auth/pages/ForgotPasswordPage";
 
 /* ==========================================
-   Member Portal Pages (Protected)
+   Member Portal
    ========================================== */
-import Dashboard from "../features/members/pages/Dashboard";
+import MemberDashboard from "../features/members/pages/Dashboard";
+import MemberApplicationPage from "../features/memberApplication/pages/MemberApplicationPage";
 
-function App() {
+/* ==========================================
+   Admin Portal
+   ========================================== */
+import AdminDashboard from "../features/admin/pages/Dashboard";
+import Applications from "../features/admin/pages/Applications";
+import ApplicationReview from "../features/admin/pages/ApplicationReview";
+
+
+function AppRoutes() {
   return (
     <Routes>
-      {/* ==========================================
-          1. PUBLIC MARKETING WEBSITE
-          (Always accessible to everyone)
-          ========================================== */}
-      <Route element={<PublicLayout />}>
-        <Route path={ROUTES.HOME} element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/membership" element={<Membership />} />
-        <Route path="/events" element={<Events />} />
-        <Route path="/news" element={<News />} /> 
-        <Route path="/contact" element={<Contact />} />
-      </Route>
 
       {/* ==========================================
-          2. AUTHENTICATION HUB (Guarded by PublicRoute)
-          (Bounces verified logged-in users away to portal)
+          1. PUBLIC WEBSITE
+          ========================================== */}
+      <Route element={<PublicLayout />}>
+        <Route
+          path={ROUTES.HOME}
+          element={<Home />}
+        />
+
+        <Route
+          path="/about"
+          element={<About />}
+        />
+
+        <Route
+          path="/membership"
+          element={<Membership />}
+        />
+
+        <Route
+          path="/events"
+          element={<Events />}
+        />
+
+        <Route
+          path="/news"
+          element={<News />}
+        />
+
+        <Route
+          path="/contact"
+          element={<Contact />}
+        />
+      </Route>
+
+
+      {/* ==========================================
+          2. AUTHENTICATION
           ========================================== */}
       <Route element={<PublicRoute />}>
-        {/* If your auth pages need the PublicLayout header/footer, nest it here */}
         <Route element={<PublicLayout />}>
-          <Route path={ROUTES.REGISTER} element={<Register />} />
-          <Route path={ROUTES.LOGIN} element={<Login />} />
-          <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPasswordPage />} />
-          <Route path={ROUTES.VERIFY_EMAIL} element={<VerifyEmailPage />} />
+
+          <Route
+            path={ROUTES.REGISTER}
+            element={<Register />}
+          />
+
+          <Route
+            path={ROUTES.LOGIN}
+            element={<Login />}
+          />
+
+          <Route
+            path={ROUTES.FORGOT_PASSWORD}
+            element={<ForgotPasswordPage />}
+          />
+
+          <Route
+            path={ROUTES.VERIFY_EMAIL}
+            element={<VerifyEmailPage />}
+          />
+
         </Route>
       </Route>
 
+
       {/* ==========================================
-          3. MEMBER PORTAL (Protected by ProtectedRoute)
-          (Strict gateway for authenticated users only)
+          3. MEMBER PORTAL
           ========================================== */}
       <Route element={<ProtectedRoute />}>
         <Route element={<MemberLayout />}>
-          <Route path={ROUTES.MEMBER_DASHBOARD} element={<Dashboard />} />
-           <Route path={ROUTES.MEMBER_APPLICATION} element={<MemberApplicationPage />} />
 
-          {/* Future Member Sub-routes go here */}
+          <Route
+            path={ROUTES.MEMBER_DASHBOARD}
+            element={<MemberDashboard />}
+          />
+
+          <Route
+            path={ROUTES.MEMBER_APPLICATION}
+            element={<MemberApplicationPage />}
+          />
+
         </Route>
       </Route>
 
+
       {/* ==========================================
-          4. FALLBACK REDIRECT
+          4. ADMIN PORTAL
           ========================================== */}
-      <Route path="*" element={<Navigate to={ROUTES.HOME} replace />} />
+      <Route element={<ProtectedRoute />}>
+  <Route
+    element={
+      <RoleRoute
+        allowedRoles={[
+          ROLES.SUPER_ADMIN,
+          ROLES.ADMIN,
+        ]}
+      />
+    }
+  >
+    <Route element={<AdminLayout />}>
+      <Route
+        path={ROUTES.ADMIN_DASHBOARD}
+        element={<AdminDashboard />}
+      />
+
+      <Route
+        path={ROUTES.ADMIN_APPLICATIONS}
+        element={<Applications />}
+      />
+
+            <Route
+        path={ROUTES.ADMIN_APPLICATION_REVIEW}
+        element={<ApplicationReview />}
+      />
+
+    </Route>
+  </Route>
+</Route>
+
+      {/* ==========================================
+          5. FALLBACK
+          ========================================== */}
+     <Route
+  path="*"
+  element={
+    <div className="p-5">
+      <h1>404 Route Not Found</h1>
+    </div>
+  }
+/>
+
     </Routes>
   );
 }
 
-export default App;
+export default AppRoutes;

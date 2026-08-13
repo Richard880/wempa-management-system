@@ -1,0 +1,11 @@
+.sidebar {
+  width: 260px;
+  background-color: #1e293b !important;
+}
+.navHover:hover {
+  background-color: #334155;
+}
+.subNavHover:hover {
+  color: #f8fafc !important;
+  background-color: #475569;
+}

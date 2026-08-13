@@ -1,7 +1,7 @@
 const heroData = {
-  badge: "WESTERN KENYA'S LEADING MARITIME ASSOCIATION",
+  badge: "KENYA'S LEADING MARITIME ASSOCIATION",
 
-  title: "Connecting Maritime Professionals Across Lake Victoria",
+  title: "Connecting Maritime Professionals Across Kenya",
 
   description:
     "Promoting professionalism, innovation, collaboration and sustainable maritime development across Western Kenya.",
@@ -12,19 +12,19 @@ const heroData = {
 
   stats: [
     {
-      value: "650+",
+      value: "100+",
       label: "Members",
     },
     {
-      value: "40+",
+      value: "10+",
       label: "Events",
     },
     {
-      value: "25+",
+      value: "15+",
       label: "Partners",
     },
     {
-      value: "15+",
+      value: "5+",
       label: "Years",
     },
   ],

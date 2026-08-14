@@ -26,6 +26,7 @@ const ROUTES = {
   ADMIN_MEMBERS: "/admin/members",
   ADMIN_MEMBER_NEW: "/admin/members/new",
   ADMIN_MEMBER_CATEGORIES: "/admin/members/categories",
+  ADMIN_MEMBER_DETAILS: "/admin/members/:memberId",
 
   ADMIN_APPLICATIONS: "/admin/applications",
   ADMIN_APPLICATION_REVIEW: "/admin/applications/:applicationId",

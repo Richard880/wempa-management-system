@@ -50,6 +50,8 @@ import MemberApplicationPage from "../features/memberApplication/pages/MemberApp
 import AdminDashboard from "../features/admin/pages/Dashboard";
 import Applications from "../features/admin/pages/Applications";
 import ApplicationReview from "../features/admin/pages/ApplicationReview";
+import Members from "../features/admin/pages/Members";
+import MemberDetails from "../features/admin/pages/MemberDetails";
 
 
 function AppRoutes() {
@@ -170,6 +172,16 @@ function AppRoutes() {
             <Route
         path={ROUTES.ADMIN_APPLICATION_REVIEW}
         element={<ApplicationReview />}
+      />
+
+            <Route
+        path={ROUTES.ADMIN_MEMBERS}
+        element={<Members />}
+      />
+
+            <Route
+        path={ROUTES.ADMIN_MEMBER_DETAILS}
+        element={<MemberDetails />}
       />
 
     </Route>

@@ -1,9 +1,186 @@
+/* ==========================================
+   ADMIN LAYOUT
+========================================== */
+
 .layoutContainer {
+  width: 100%;
   height: 100vh;
   overflow: hidden;
 }
+
+.layoutShell {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+
+/* ==========================================
+   SIDEBAR
+========================================== */
+
 .sidebarWrapper {
   width: 260px;
+  flex: 0 0 260px;
+  height: 100vh;
   flex-shrink: 0;
-  z-index: 1030;
+  z-index: 1040;
+
+  overflow: hidden;
+}
+
+
+/* ==========================================
+   MAIN LAYOUT
+========================================== */
+
+.mainLayout {
+  display: flex;
+  flex-direction: column;
+
+  flex: 1;
+  min-width: 0;
+  height: 100vh;
+
+  background: var(--bs-light);
+
+  overflow: hidden;
+}
+
+.header {
+  padding: 0.75rem 1.5rem;
+
+  flex-shrink: 0;
+  z-index: 1020;
+}
+
+
+/* ==========================================
+   MENU BUTTON
+========================================== */
+
+.menuButton {
+  flex-shrink: 0;
+}
+
+
+/* ==========================================
+   MAIN CONTENT
+========================================== */
+
+.mainContent {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+
+  padding: 1.5rem;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+
+/* ==========================================
+   FOOTER
+========================================== */
+
+.footer {
+  flex-shrink: 0;
+  padding: 0.75rem 1.5rem;
+}
+
+
+/* ==========================================
+   MOBILE BACKDROP
+========================================== */
+
+.sidebarBackdrop {
+  display: none;
+}
+
+
+/* ==========================================
+   TABLET AND MOBILE
+========================================== */
+
+@media (max-width: 991.98px) {
+  .sidebarWrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 280px;
+    height: 100vh;
+
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+
+    box-shadow: 0 0 2rem rgba(0, 0, 0, 0.2);
+
+    overflow: hidden;
+  }
+
+  .sidebarOpen {
+    transform: translateX(0);
+  }
+
+  .sidebarBackdrop {
+    display: block;
+
+    position: fixed;
+    inset: 0;
+
+    border: 0;
+    padding: 0;
+
+    background: rgba(0, 0, 0, 0.4);
+
+    z-index: 1035;
+
+    cursor: default;
+  }
+
+  .header {
+    padding: 0.75rem 1rem;
+  }
+
+  .mainContent {
+    padding: 1rem;
+  }
+
+  .footer {
+    padding: 0.75rem 1rem;
+  }
+}
+
+
+/* ==========================================
+   SMALL MOBILE
+========================================== */
+
+@media (max-width: 575.98px) {
+  .sidebarWrapper {
+    width: min(280px, 85vw);
+  }
+
+  .header {
+    padding: 0.65rem 0.75rem;
+  }
+
+  .mainContent {
+    padding: 0.75rem;
+  }
+
+  .footer {
+    padding: 0.75rem;
+  }
+
+  .header :global(.navbar-brand) {
+    font-size: 0.95rem !important;
+  }
+
+  .header :global(.badge) {
+    font-size: 0.7rem;
+  }
 }

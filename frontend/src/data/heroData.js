@@ -4,7 +4,7 @@ const heroData = {
   title: "Connecting Maritime Professionals Across Kenya",
 
   description:
-    "Promoting professionalism, innovation, collaboration and sustainable maritime development across Western Kenya.",
+    "Promoting professionalism, innovation, collaboration and sustainable maritime development across Kenya.",
 
   primaryButton: "Become a Member",
 

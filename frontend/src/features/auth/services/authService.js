@@ -27,6 +27,8 @@ import { auth as fallbackAuth, db as fallbackDb } from "../../../firebase";
 import AuthError from "../utils/AuthError";
 import { getAuthErrorMessage } from "../utils/authErrorMessages";
 import FIREBASE_COLLECTIONS from "../../../constants/firebaseCollections";
+import ROLES from "../../../constants/roles";
+import { getRolePermissions } from "../utils/rolePermissions";
 
 
 
@@ -164,45 +166,6 @@ async login({
 },
 
   
-
-  // async register({ firstName, lastName, email, phoneNumber, password }) {
-  //   const activeAuth = getAuth();
-  //   const activeDb = getDb();
-  //   try {
-  //     const credential = await createUserWithEmailAndPassword(activeAuth, email, password);
-  //     const user = credential.user;
-
-  //     await updateProfile(user, { displayName: `${firstName} ${lastName}` });
-      
-  //     const membershipNumber = typeof generateMembershipNumber === "function" 
-  //       ? await generateMembershipNumber() 
-  //       : "TEMP-NUM";
-
-  //     await setDoc(doc(activeDb, FIREBASE_COLLECTIONS.USERS || "users", user.uid), {
-  //       uid: user.uid,
-  //       membershipNumber,
-  //       firstName,
-  //       lastName,
-  //       displayName: `${firstName} ${lastName}`,
-  //       email,
-  //       phoneNumber,
-  //       role: "member",
-  //       membershipStatus: "pending",
-  //       profileCompleted: false,
-  //       isActive: true,
-  //       emailVerified: false,
-  //       createdAt: serverTimestamp(),
-  //       updatedAt: serverTimestamp(),
-  //       lastLogin: null,
-  //     });
-
-  //     await sendEmailVerification(user);
-  //     return user;
-  //   } catch (error) {
-  //     mapFirebaseError(error);
-  //   }
-  // },
-
   async register({ firstName, lastName, email, phoneNumber, password }) {
   const activeAuth = getAuth();
   const activeDb = getDb();
@@ -231,6 +194,8 @@ console.log("UID:", activeAuth.currentUser?.uid);
 //     console.log("Membership Number:", membershipNumber);
 
 //  console.log("4. Saving Firestore user...");
+     const role = ROLES.MEMBER;
+     const permissions = getRolePermissions(role);
 
 try {
   await setDoc(
@@ -243,7 +208,8 @@ try {
       displayName: `${firstName} ${lastName}`,
       email,
       phoneNumber,
-      role: "member",
+      role,
+      permissions,
       membershipStatus: "pending",
       profileCompleted: false,
       isActive: true,

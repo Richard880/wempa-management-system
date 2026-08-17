@@ -31,6 +31,8 @@ const ROUTES = {
   ADMIN_APPLICATIONS: "/admin/applications",
   ADMIN_APPLICATION_REVIEW: "/admin/applications/:applicationId",
 
+  ADMIN_MANAGEMENT: "/admin/management",
+
   ADMIN_SETTINGS: "/admin/settings",
 
   /* ==========================================

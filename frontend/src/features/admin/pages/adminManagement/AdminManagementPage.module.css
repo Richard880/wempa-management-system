@@ -1,0 +1,250 @@
+.adminManagementPage {
+  width: 100%;
+  padding: 1.5rem;
+}
+
+.content {
+  display: grid;
+  gap: 1.5rem;
+}
+
+/* ================================
+   Header
+================================ */
+
+.header {
+  margin-bottom: 2rem;
+}
+
+.title {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.5rem, 2vw, 2rem);
+  font-weight: 700;
+}
+
+.description {
+  margin: 0;
+  max-width: 700px;
+  line-height: 1.6;
+  color: #6c757d;
+}
+
+/* ================================
+   Alerts
+================================ */
+
+.alert {
+  margin-bottom: 1.5rem;
+}
+
+/* ================================
+   Sections / Cards
+================================ */
+
+.card {
+  min-width: 0;
+  padding: 1.5rem;
+  border: 1px solid #dee2e6;
+  border-radius: 0.75rem;
+  background: #ffffff;
+  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.05);
+}
+
+.sectionHeader {
+  margin-bottom: 1.25rem;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+/* ================================
+   User Search
+================================ */
+
+.searchForm {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-end;
+}
+
+.searchField {
+  flex: 1;
+  min-width: 0;
+}
+
+.searchLabel {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.searchInput {
+  width: 100%;
+}
+
+/* ================================
+   Search Results
+================================ */
+
+.searchResults {
+  margin-top: 1.5rem;
+}
+
+.resultsList {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.userItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+}
+
+.userDetails {
+  min-width: 0;
+}
+
+.userName {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+}
+
+.userEmail,
+.userRole {
+  font-size: 0.9rem;
+  color: #6c757d;
+  overflow-wrap: anywhere;
+}
+
+/* ================================
+   Administrator Table
+================================ */
+
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.adminTable {
+  width: 100%;
+  min-width: 600px;
+  margin: 0;
+}
+
+.actionColumn {
+  width: 1%;
+  white-space: nowrap;
+}
+
+/* ================================
+   Role Action Panel
+================================ */
+
+.roleAction {
+  padding: 1.5rem;
+  border: 1px solid #dee2e6;
+  border-radius: 0.75rem;
+  background: #ffffff;
+  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.05);
+}
+
+.roleActionTitle {
+  margin: 0 0 0.75rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.roleActionDescription {
+  margin-bottom: 1.25rem;
+  line-height: 1.6;
+}
+
+.reasonField {
+  margin-bottom: 1rem;
+}
+
+.reasonLabel {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.reasonTextarea {
+  width: 100%;
+  min-height: 120px;
+  resize: vertical;
+}
+
+.actionButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+/* ================================
+   Mobile
+================================ */
+
+@media (max-width: 767.98px) {
+  .adminManagementPage {
+    padding: 1rem;
+  }
+
+  .card,
+  .roleAction {
+    padding: 1rem;
+    border-radius: 0.5rem;
+  }
+
+  .searchForm {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .searchForm button {
+    width: 100%;
+  }
+
+  .userItem {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .userItem button {
+    width: 100%;
+  }
+
+  .actionButtons {
+    flex-direction: column;
+  }
+
+  .actionButtons button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .description {
+    font-size: 0.95rem;
+  }
+
+  .adminTable {
+    min-width: 520px;
+  }
+}

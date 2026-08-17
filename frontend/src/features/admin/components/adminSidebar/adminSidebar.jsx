@@ -1,23 +1,45 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   NavLink,
   useLocation,
   Link,
 } from "react-router-dom";
 
+import useAuth from "../../../auth/hooks/useAuth";
+
 import { SIDEBAR_STRUCTURE } from "../../shared/utils/adminConfig";
 
 import styles from "./adminSidebar.module.css";
-
 
 export default function AdminSidebar({
   onNavigate,
 }) {
   const location = useLocation();
+  const { auth } = useAuth();
 
-  const [openGroups, setOpenGroups] =
-    useState({});
+  const [openGroups, setOpenGroups] = useState({});
 
+  /* ==========================================
+     Role-Based Navigation
+  ========================================== */
+
+  const sidebarStructure = useMemo(() => {
+    return SIDEBAR_STRUCTURE.filter((item) => {
+      /**
+       * Items without role restrictions are visible
+       * to all users who are authorized to access
+       * the Admin Portal.
+       */
+      if (
+        !Array.isArray(item.allowedRoles) ||
+        item.allowedRoles.length === 0
+      ) {
+        return true;
+      }
+
+      return item.allowedRoles.includes(auth.role);
+    });
+  }, [auth.role]);
 
   /* ==========================================
      Navigation
@@ -29,7 +51,6 @@ export default function AdminSidebar({
     }
   };
 
-
   const toggleGroup = (id) => {
     setOpenGroups((previous) => ({
       ...previous,
@@ -37,6 +58,18 @@ export default function AdminSidebar({
     }));
   };
 
+  /**
+   * Determines whether a grouped navigation item
+   * contains the currently active route.
+   *
+   * Query parameters are ignored for matching because
+   * location.pathname does not include the query string.
+   */
+  const isChildRouteActive = (childPath) => {
+    const childPathname = childPath.split("?")[0];
+
+    return location.pathname === childPathname;
+  };
 
   return (
     <aside
@@ -56,7 +89,6 @@ export default function AdminSidebar({
         </small>
       </div>
 
-
       {/* ==========================================
           NAVIGATION
       ========================================== */}
@@ -65,7 +97,11 @@ export default function AdminSidebar({
         className={`flex-grow-1 overflow-y-auto py-3 px-2 ${styles.navigation}`}
       >
         <ul className="nav nav-pills flex-column gap-1">
-          {SIDEBAR_STRUCTURE.map((item) => {
+          {sidebarStructure.map((item) => {
+            /* ======================================
+               STANDARD LINK
+            ====================================== */
+
             if (item.type === "link") {
               return (
                 <li
@@ -95,17 +131,18 @@ export default function AdminSidebar({
               );
             }
 
+            /* ======================================
+               NAVIGATION GROUP
+            ====================================== */
 
             if (item.type === "group") {
               const isGroupOpen =
-                openGroups[item.id];
+                Boolean(openGroups[item.id]);
 
               const isChildActive =
-                item.children.some(
-                  (child) =>
-                    location.pathname === child.path
+                item.children.some((child) =>
+                  isChildRouteActive(child.path)
                 );
-
 
               return (
                 <li
@@ -141,7 +178,6 @@ export default function AdminSidebar({
                     />
                   </button>
 
-
                   {(isGroupOpen || isChildActive) && (
                     <ul className="nav flex-column ms-3 mt-1 gap-1 border-start border-secondary ps-2">
                       {item.children.map((child) => (
@@ -149,9 +185,7 @@ export default function AdminSidebar({
                           <NavLink
                             to={child.path}
                             onClick={handleNavigate}
-                            className={({
-                              isActive,
-                            }) =>
+                            className={({ isActive }) =>
                               `nav-link py-1 px-2 small rounded ${
                                 isActive
                                   ? "text-white bg-secondary fw-bold"
@@ -173,7 +207,6 @@ export default function AdminSidebar({
           })}
         </ul>
       </nav>
-
 
       {/* ==========================================
           PUBLIC WEBSITE

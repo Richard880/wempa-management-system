@@ -2,6 +2,7 @@ import { Navigate, Outlet } from "react-router-dom";
 
 import useAuth from "../features/auth/hooks/useAuth";
 import ROUTES from "../constants/routes";
+import ROLES from "../constants/roles";
 import PageLoader from "../components/common/PageLoader";
 
 function RoleRoute({ allowedRoles = [] }) {
@@ -15,12 +16,19 @@ function RoleRoute({ allowedRoles = [] }) {
   console.log("Profile:", auth.profile);
   console.log("============================");
 
+  /*
+   * Wait until authentication and the Firestore profile
+   * have finished resolving before making any routing decision.
+   */
   if (auth.loading) {
     return <PageLoader />;
   }
 
+  /*
+   * User is not authenticated.
+   */
   if (!auth.authenticated) {
-    console.log("ROLE ROUTE: User is not authenticated");
+    console.log("ROLE ROUTE: User is not authenticated.");
 
     return (
       <Navigate
@@ -30,9 +38,34 @@ function RoleRoute({ allowedRoles = [] }) {
     );
   }
 
+  /*
+   * User is authenticated but does not have one
+   * of the roles required for this route.
+   */
   if (!allowedRoles.includes(auth.role)) {
-    console.log("ROLE ROUTE: Access denied for role:", auth.role);
+    console.log(
+      "ROLE ROUTE: Access denied for role:",
+      auth.role
+    );
 
+    /*
+     * An ordinary administrator is already inside the
+     * Admin Portal. If they try to access a Super Admin-only
+     * route, return them to the Admin Dashboard.
+     */
+    if (auth.role === ROLES.ADMIN) {
+      return (
+        <Navigate
+          to={ROUTES.ADMIN_DASHBOARD}
+          replace
+        />
+      );
+    }
+
+    /*
+     * Members, guests, and users with invalid/no roles
+     * are returned to the public website.
+     */
     return (
       <Navigate
         to={ROUTES.HOME}
@@ -41,7 +74,7 @@ function RoleRoute({ allowedRoles = [] }) {
     );
   }
 
-  console.log("ROLE ROUTE: Access granted");
+  console.log("ROLE ROUTE: Access granted.");
 
   return <Outlet />;
 }

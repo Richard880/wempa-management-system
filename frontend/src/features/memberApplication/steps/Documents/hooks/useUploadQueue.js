@@ -14,45 +14,85 @@ export default function useUploadQueue() {
 
   /*
   ----------------------------------------
-  Queue Operations
+  Add Jobs
   ----------------------------------------
   */
 
   const enqueue = useCallback((job) => {
-    setQueue((previous) => [
-      ...previous,
-      job,
-    ]);
-  }, []);
-
-  const enqueueMany = useCallback((jobs) => {
-    setQueue((previous) => [
-      ...previous,
-      ...jobs,
-    ]);
-  }, []);
-
-  const dequeue = useCallback(() => {
-    let removedJob = null;
+    if (!job?.id) {
+      return;
+    }
 
     setQueue((previous) => {
-      if (previous.length === 0) {
+      /*
+      Prevent the exact same job from being
+      added to the queue more than once.
+      */
+
+      const alreadyExists = previous.some(
+        (queuedJob) => queuedJob.id === job.id
+      );
+
+      if (alreadyExists) {
         return previous;
       }
 
-      removedJob = previous[0];
-
-      return previous.slice(1);
+      return [
+        ...previous,
+        job,
+      ];
     });
-
-    return removedJob;
   }, []);
 
-  const clearQueue = useCallback(() => {
-    setQueue([]);
+  const enqueueMany = useCallback((jobs = []) => {
+    if (!Array.isArray(jobs) || jobs.length === 0) {
+      return;
+    }
+
+    setQueue((previous) => {
+      const existingJobIds = new Set(
+        previous.map((job) => job.id)
+      );
+
+      const validJobs = jobs.filter(
+        (job) =>
+          job?.id &&
+          !existingJobIds.has(job.id)
+      );
+
+      return [
+        ...previous,
+        ...validJobs,
+      ];
+    });
   }, []);
+
+  /*
+  ----------------------------------------
+  Read Next Job
+  ----------------------------------------
+
+  This DOES NOT remove the job.
+
+  The processor should explicitly remove the
+  completed job after processing finishes.
+  */
+
+  const getNextJob = useCallback(() => {
+    return queue[0] ?? null;
+  }, [queue]);
+
+  /*
+  ----------------------------------------
+  Remove Job By Unique Job ID
+  ----------------------------------------
+  */
 
   const removeJob = useCallback((jobId) => {
+    if (!jobId) {
+      return;
+    }
+
     setQueue((previous) =>
       previous.filter(
         (job) => job.id !== jobId
@@ -62,19 +102,54 @@ export default function useUploadQueue() {
 
   /*
   ----------------------------------------
+  Remove Jobs By Document ID
+  ----------------------------------------
+
+  Used by the member document upload system.
+
+  This removes any queued job associated with
+  the specified document.
+  */
+
+  const removeDocumentJob = useCallback(
+    (documentId) => {
+      if (!documentId) {
+        return;
+      }
+
+      setQueue((previous) =>
+        previous.filter(
+          (job) =>
+            job.documentId !== documentId
+        )
+      );
+    },
+    []
+  );
+
+  /*
+  ----------------------------------------
+  Clear Queue
+  ----------------------------------------
+  */
+
+  const clearQueue = useCallback(() => {
+    setQueue([]);
+  }, []);
+
+  /*
+  ----------------------------------------
   Processing State
   ----------------------------------------
   */
 
-  const startProcessing =
-    useCallback(() => {
-      setProcessing(true);
-    }, []);
+  const startProcessing = useCallback(() => {
+    setProcessing(true);
+  }, []);
 
-  const stopProcessing =
-    useCallback(() => {
-      setProcessing(false);
-    }, []);
+  const stopProcessing = useCallback(() => {
+    setProcessing(false);
+  }, []);
 
   /*
   ----------------------------------------
@@ -89,6 +164,12 @@ export default function useUploadQueue() {
 
   const hasJobs = queueLength > 0;
 
+  /*
+  ----------------------------------------
+  Public API
+  ----------------------------------------
+  */
+
   return {
     queue,
 
@@ -102,9 +183,11 @@ export default function useUploadQueue() {
 
     enqueueMany,
 
-    dequeue,
+    getNextJob,
 
     removeJob,
+
+    removeDocumentJob,
 
     clearQueue,
 

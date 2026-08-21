@@ -16,10 +16,10 @@ const contactInformationSchema = z.object({
   // Fix: Renamed key property from alternativePhone to alternativePhoneNumber to balance fields mapping
   alternativePhoneNumber: optionalPhoneNumber(),
   
-  county: requiredText("County"),
-  subCounty: requiredText("Sub County"),
-  ward: requiredText("Ward"),
-  town: requiredText("Town / City"),
+  // county: requiredText("County"),
+  // subCounty: requiredText("Sub County"),
+  // ward: requiredText("Ward"),
+  // town: requiredText("Town / City"),
   physicalAddress: requiredText("Physical Address", 5),
   postalAddress: optionalText(),
   postalCode: optionalText(10),

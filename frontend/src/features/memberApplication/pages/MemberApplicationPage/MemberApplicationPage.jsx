@@ -12,10 +12,10 @@ import useApplicationForm from "../../hooks/useApplicationForm";
 
 import PersonalInformation from "../../steps/PersonalInformation";
 import ContactInformation from "../../steps/ContactInformation";
-import EmploymentInformation from "../../steps/EmploymentInformation";
-import MaritimeInformation from "../../steps/MaritimeInformation";
-import EmergencyContact from "../../steps/EmergencyContact";
-import NextOfKin from "../../steps/NextOfKin";
+// import EmploymentInformation from "../../steps/EmploymentInformation";
+// import MaritimeInformation from "../../steps/MaritimeInformation";
+// import EmergencyContact from "../../steps/EmergencyContact";
+// import NextOfKin from "../../steps/NextOfKin";
 import Documents from "../../steps/Documents";
 import Review from "../../steps/Review";
 import Declaration from "../../steps/Declaration";
@@ -68,20 +68,20 @@ export default function MemberApplicationPage() {
         return <PersonalInformation {...commonProps} profile={profile} initialData={application.personal || {}} />;
       case 2:
         return <ContactInformation {...commonProps} profile={profile} initialData={application.contact || {}} />;
+      // case 3:
+      //   return <EmploymentInformation {...commonProps} initialData={application.employment || {}} />;
+      // case 4:
+      //   return <MaritimeInformation {...commonProps} initialData={application.maritime || {}} />;
+      // case 5:
+      //   return <EmergencyContact {...commonProps} initialData={application.emergencyContact || {}} />;
+      // case 6:
+      //   return <NextOfKin {...commonProps} initialData={application.nextOfKin || {}} />;
       case 3:
-        return <EmploymentInformation {...commonProps} initialData={application.employment || {}} />;
-      case 4:
-        return <MaritimeInformation {...commonProps} initialData={application.maritime || {}} />;
-      case 5:
-        return <EmergencyContact {...commonProps} initialData={application.emergencyContact || {}} />;
-      case 6:
-        return <NextOfKin {...commonProps} initialData={application.nextOfKin || {}} />;
-      case 7:
         return <Documents {...commonProps} initialData={application.documents || {}} />;
-      case 8:
+      case 4:
         // Adjusted to perfectly match the application payload requirements of the Review component
         return <Review formId={formId} application={application} />;
-      case 9:
+      case 5:
         return <Declaration {...commonProps} initialData={application.declaration || {}} />;
       default:
         return <PersonalInformation {...commonProps} profile={profile} initialData={application.personal || {}} />;

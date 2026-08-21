@@ -33,6 +33,21 @@ const ROUTES = {
 
   ADMIN_MANAGEMENT: "/admin/management",
 
+   /* ==========================================
+     ADMIN EVENTS MANAGEMENT ROUTES
+     ========================================== */
+  ADMIN_EVENTS: "/admin/events",
+  ADMIN_EVENTS_NEW: "/admin/events/new",
+  ADMIN_EVENTS_EDIT: "/admin/events/edit/:eventId",
+
+/* ==========================================
+     ADMIN NEWS MANAGEMENT ROUTES
+     ========================================== */
+  ADMIN_NEWS: "/admin/news",
+ADMIN_NEWS_NEW: "/admin/news/new",
+PUBLIC_NEWS_DETAIL: "/news/:newsId",
+
+
   ADMIN_SETTINGS: "/admin/settings",
 
   /* ==========================================

@@ -51,7 +51,7 @@ export default function Review({ application, formId }) {
           {renderRow("Date of Birth", application?.personal?.dateOfBirth)}
           {renderRow("Nationality", application?.personal?.nationality)}
           {renderRow("ID/Passport Number", application?.personal?.idNumber)}
-          {renderRow("KRA PIN", application?.personal?.kraPin)}
+        {/* //  {renderRow("KRA PIN", application?.personal?.kraPin)} */}
         </div>
       </section>
 
@@ -70,15 +70,15 @@ export default function Review({ application, formId }) {
           {renderRow("Email Address", application?.contact?.email)}
           {renderRow("Phone Number", application?.contact?.phoneNumber)}
           {renderRow("Alternative Phone", application?.contact?.alternativePhoneNumber)}
-          {renderRow("County", application?.contact?.county)}
+          {/* {renderRow("County", application?.contact?.county)}
           {renderRow("Sub-County", application?.contact?.subCounty)}
           {renderRow("Ward", application?.contact?.ward)}
-          {renderRow("Town", application?.contact?.town)}
+          {renderRow("Town", application?.contact?.town)} */}
           {renderRow("Physical Address", application?.contact?.physicalAddress)}
         </div>
       </section>
 
-      {/* 3. Employment Details */}
+      {/* 3. Employment Details
       <section className={styles.reviewSection}>
         <header className={styles.sectionHeader}>
           <div>
@@ -97,7 +97,7 @@ export default function Review({ application, formId }) {
         </div>
       </section>
 
-      {/* 4. Maritime Background */}
+      {/* 4. Maritime Background 
       <section className={styles.reviewSection}>
         <header className={styles.sectionHeader}>
           <div>
@@ -115,7 +115,7 @@ export default function Review({ application, formId }) {
         </div>
       </section>
 
-      {/* 5. Emergency Contact */}
+      5. Emergency Contact 
       <section className={styles.reviewSection}>
         <header className={styles.sectionHeader}>
           <div>
@@ -133,7 +133,7 @@ export default function Review({ application, formId }) {
         </div>
       </section>
 
-      {/* 6. Next of Kin */}
+      {/* 6. Next of Kin 
       <section className={styles.reviewSection}>
         <header className={styles.sectionHeader}>
           <div>
@@ -149,7 +149,7 @@ export default function Review({ application, formId }) {
           {renderRow("Relationship", application?.nextOfKin?.relationship)}
           {renderRow("Phone Number", application?.nextOfKin?.phoneNumber)}
         </div>
-      </section>
+      </section> */}
 
       {/* 7. Supporting Documentation */}
       <section className={styles.reviewSection}>

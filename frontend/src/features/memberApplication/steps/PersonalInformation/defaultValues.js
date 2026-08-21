@@ -6,7 +6,7 @@ const defaultValues = {
   dateOfBirth: "",
   nationality: "",
   idNumber: "",
-  kraPin: "",
+ // kraPin: "",
 };
 
 export default defaultValues;

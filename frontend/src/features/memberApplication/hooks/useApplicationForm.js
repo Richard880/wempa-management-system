@@ -100,7 +100,7 @@ export default function useApplicationForm() {
       await applicationService.submitApplication(userId);
       
       // 3. Clean routing back to application panel
-      navigate("/member-dashboard", { replace: true });
+      navigate("/Dashboard", { replace: true });
     } catch (err) {
       setError(err.message || "Submission execution failed.");
     } finally {

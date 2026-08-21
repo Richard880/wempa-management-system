@@ -58,13 +58,13 @@ const personalInformationFields = [
     required: true,
   },
 
-  {
-    name: "kraPin",
-    label: "KRA PIN",
-    type: "text",
-    placeholder: "Example: A123456789B",
-    required: true,
-  },
+  // {
+  //   name: "kraPin",
+  //   label: "KRA PIN",
+  //   type: "text",
+  //   placeholder: "Example: A123456789B",
+  //   required: true,
+  // },
 ];
 
 export default personalInformationFields;

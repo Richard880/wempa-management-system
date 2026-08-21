@@ -1,4 +1,4 @@
-import COUNTIES from "../../../../constants/counties";
+//import COUNTIES from "../../../../constants/counties";
 
 const contactInformationFields = [
   /*
@@ -45,37 +45,37 @@ const contactInformationFields = [
   ----------------------------------------
   */
 
-  {
-    name: "county",
-    label: "County",
-    type: "select",
-    options: COUNTIES,
-    required: true,
-  },
+  // {
+  //   name: "county",
+  //   label: "County",
+  //   type: "select",
+  //   options: COUNTIES,
+  //   required: true,
+  // },
 
-  {
-    name: "subCounty",
-    label: "Sub County",
-    type: "text",
-    placeholder: "Enter Sub County",
-    required: true,
-  },
+  // {
+  //   name: "subCounty",
+  //   label: "Sub County",
+  //   type: "text",
+  //   placeholder: "Enter Sub County",
+  //   required: true,
+  // },
 
-  {
-    name: "ward",
-    label: "Ward",
-    type: "text",
-    placeholder: "Enter Ward",
-    required: true,
-  },
+  // {
+  //   name: "ward",
+  //   label: "Ward",
+  //   type: "text",
+  //   placeholder: "Enter Ward",
+  //   required: true,
+  // },
 
-  {
-    name: "town",
-    label: "Town / City",
-    type: "text",
-    placeholder: "Enter Town or City",
-    required: true,
-  },
+  // {
+  //   name: "town",
+  //   label: "Town / City",
+  //   type: "text",
+  //   placeholder: "Enter Town or City",
+  //   required: true,
+  // },
 
   {
     name: "physicalAddress",

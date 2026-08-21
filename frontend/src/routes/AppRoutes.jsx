@@ -1,3 +1,5 @@
+// src/routes/AppRoutes.js (or your precise file destination matching the tree)
+
 import {
   Routes,
   Route,
@@ -55,6 +57,20 @@ import Members from "../features/admin/pages/Members";
 import MemberDetails from "../features/admin/pages/MemberDetails";
 import AdminManagementPage from "../features/admin/pages/adminManagement/AdminManagementPage";
 
+/* ==========================================
+   ADD NEW EVENTS MANAGEMENT IMPORTS HERE
+   ========================================== */
+import ManageEventsPage from "../features/admin/pages/events/ManageEventsPage";
+import CreateEventPage from "../features/admin/pages/events/CreateEventPage";
+
+
+/* ==========================================
+   ADD  NEWS MANAGEMENT IMPORTS HERE
+   ========================================== */
+import ManageNewsPage from "../features/admin/pages/news/ManageNewsPage";
+import NewsForm from "../features/admin/pages/news/NewsForm";
+import NewsDetail from "../features/public/pages/NewsDetail";
+
 function AppRoutes() {
   return (
     <Routes>
@@ -62,35 +78,13 @@ function AppRoutes() {
           1. PUBLIC WEBSITE
           ========================================== */}
       <Route element={<PublicLayout />}>
-        <Route
-          path={ROUTES.HOME}
-          element={<Home />}
-        />
-
-        <Route
-          path="/about"
-          element={<About />}
-        />
-
-        <Route
-          path="/membership"
-          element={<Membership />}
-        />
-
-        <Route
-          path="/events"
-          element={<Events />}
-        />
-
-        <Route
-          path="/news"
-          element={<News />}
-        />
-
-        <Route
-          path="/contact"
-          element={<Contact />}
-        />
+        <Route path={ROUTES.HOME} element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/membership" element={<Membership />} />
+        <Route path="/events" element={<Events />} />
+        <Route path="/news" element={<News />} />
+        <Route path={ROUTES.PUBLIC_NEWS_DETAIL} element={<NewsDetail />} />
+        <Route path="/contact" element={<Contact />} />
       </Route>
 
       {/* ==========================================
@@ -98,25 +92,10 @@ function AppRoutes() {
           ========================================== */}
       <Route element={<PublicRoute />}>
         <Route element={<PublicLayout />}>
-          <Route
-            path={ROUTES.REGISTER}
-            element={<Register />}
-          />
-
-          <Route
-            path={ROUTES.LOGIN}
-            element={<Login />}
-          />
-
-          <Route
-            path={ROUTES.FORGOT_PASSWORD}
-            element={<ForgotPasswordPage />}
-          />
-
-          <Route
-            path={ROUTES.VERIFY_EMAIL}
-            element={<VerifyEmailPage />}
-          />
+          <Route path={ROUTES.REGISTER} element={<Register />} />
+          <Route path={ROUTES.LOGIN} element={<Login />} />
+          <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPasswordPage />} />
+          <Route path={ROUTES.VERIFY_EMAIL} element={<VerifyEmailPage />} />
         </Route>
       </Route>
 
@@ -125,23 +104,13 @@ function AppRoutes() {
           ========================================== */}
       <Route element={<ProtectedRoute />}>
         <Route element={<MemberLayout />}>
-          <Route
-            path={ROUTES.MEMBER_DASHBOARD}
-            element={<MemberDashboard />}
-          />
-
-          <Route
-            path={ROUTES.MEMBER_APPLICATION}
-            element={<MemberApplicationPage />}
-          />
+          <Route path={ROUTES.MEMBER_DASHBOARD} element={<MemberDashboard />} />
+          <Route path={ROUTES.MEMBER_APPLICATION} element={<MemberApplicationPage />} />
         </Route>
       </Route>
 
       {/* ==========================================
           4. ADMIN PORTAL
-          
-          Only ADMIN and SUPER_ADMIN users can
-          enter the Admin workspace.
           ========================================== */}
       <Route element={<ProtectedRoute />}>
         <Route
@@ -154,81 +123,60 @@ function AppRoutes() {
             />
           }
         >
-         <Route element={<AdminLayout />}>
-  {/* ==========================================
-      ADMIN + SUPER ADMIN
-      ========================================== */}
+          <Route element={<AdminLayout />}>
+            {/* ==========================================
+                ADMIN + SUPER ADMIN GENERAL MANAGEMENT
+                ========================================== */}
+            <Route path={ROUTES.ADMIN_DASHBOARD} element={<AdminDashboard />} />
+            <Route path={ROUTES.ADMIN_APPLICATIONS} element={<Applications />} />
+            <Route path={ROUTES.ADMIN_APPLICATION_REVIEW} element={<ApplicationReview />} />
 
-  <Route
-    path={ROUTES.ADMIN_DASHBOARD}
-    element={<AdminDashboard />}
-  />
+            {/* ==========================================
+                INSERT EVENTS MANAGEMENT SUB-ROUTES HERE
+                ========================================== */}
+            <Route path={ROUTES.ADMIN_EVENTS} element={<ManageEventsPage />} />
+            <Route path={ROUTES.ADMIN_EVENTS_NEW} element={<CreateEventPage />} />
+            <Route path={ROUTES.ADMIN_EVENTS_EDIT} element={<CreateEventPage />} />
 
-  <Route
-    path={ROUTES.ADMIN_APPLICATIONS}
-    element={<Applications />}
-  />
+            {/* ==========================================
+                MEMBER MANAGEMENT (Requires Permissions)
+                ========================================== */}
+            <Route
+              element={
+                <PermissionRoute
+                  requiredPermissions={[
+                    PERMISSIONS.VIEW_MEMBERS,
+                  ]}
+                />
+              }
+            >
+              <Route path={ROUTES.ADMIN_MEMBERS} element={<Members />} />
+              <Route path={ROUTES.ADMIN_MEMBER_DETAILS} element={<MemberDetails />} />
+            </Route>
 
-  <Route
-    path={ROUTES.ADMIN_APPLICATION_REVIEW}
-    element={<ApplicationReview />}
-  />
+            {/* ==========================================
+                SUPER ADMIN ONLY (Requires Role + Permissions)
+                ========================================== */}
+            <Route element={<RoleRoute allowedRoles={[ROLES.SUPER_ADMIN]} />}>
+              <Route
+                element={
+                  <PermissionRoute
+                    requiredPermissions={[
+                      PERMISSIONS.VIEW_ADMINS,
+                    ]}
+                  />
+                }
+              >
+                <Route path={ROUTES.ADMIN_MANAGEMENT} element={<AdminManagementPage />} />
+              </Route>
 
-  {/* ==========================================
-      MEMBER MANAGEMENT
-      Requires VIEW_MEMBERS permission
-      ========================================== */}
-  <Route
-    element={
-      <PermissionRoute
-        requiredPermissions={[
-          PERMISSIONS.VIEW_MEMBERS,
-        ]}
-      />
-    }
-  >
-    <Route
-      path={ROUTES.ADMIN_MEMBERS}
-      element={<Members />}
-    />
+              // Inside AdminLayout
+              <Route path={ROUTES.ADMIN_NEWS} element={<ManageNewsPage />} />
+              <Route path={ROUTES.ADMIN_NEWS_NEW} element={<NewsForm />} />
 
-    <Route
-      path={ROUTES.ADMIN_MEMBER_DETAILS}
-      element={<MemberDetails />}
-    />
-  </Route>
-
-  {/* ==========================================
-      SUPER ADMIN ONLY
-      Requires:
-      1. SUPER_ADMIN role
-      2. VIEW_ADMINS permission
-      ========================================== */}
-  <Route
-    element={
-      <RoleRoute
-        allowedRoles={[
-          ROLES.SUPER_ADMIN,
-        ]}
-      />
-    }
-  >
-    <Route
-      element={
-        <PermissionRoute
-          requiredPermissions={[
-            PERMISSIONS.VIEW_ADMINS,
-          ]}
-        />
-      }
-    >
-      <Route
-        path={ROUTES.ADMIN_MANAGEMENT}
-        element={<AdminManagementPage />}
-      />
-    </Route>
-  </Route>
-</Route>
+            
+            </Route>
+          </Route>
         </Route>
       </Route>
 

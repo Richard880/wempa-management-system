@@ -5,13 +5,13 @@ const defaultValues = {
 
   alternativePhoneNumber: "",
 
-  county: "",
+  // county: "",
 
-  subCounty: "",
+  // subCounty: "",
 
-  ward: "",
+  // ward: "",
 
-  town: "",
+  // town: "",
 
   physicalAddress: "",
 

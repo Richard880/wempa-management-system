@@ -1,0 +1,228 @@
+.posterUpload {
+  width: 100%;
+  border: 1px solid var(--border-color, #dee2e6);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  background-color: var(--surface-color, #ffffff);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary, #212529);
+}
+
+.description {
+  margin: 0.35rem 0 0;
+  font-size: 0.9rem;
+  color: var(--text-secondary, #6c757d);
+}
+
+.fileInput {
+  display: none;
+}
+
+/* ==========================================
+   UPLOAD AREA
+   ========================================== */
+
+.uploadArea {
+  width: 100%;
+  min-height: 220px;
+  padding: 2rem;
+  border: 2px dashed var(--border-color, #ced4da);
+  border-radius: 0.75rem;
+  background-color: var(--surface-muted, #f8f9fa);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.uploadArea:hover:not(:disabled) {
+  border-color: var(--primary-color, #0d6efd);
+  background-color: rgba(13, 110, 253, 0.04);
+}
+
+.uploadArea:active:not(:disabled) {
+  transform: scale(0.995);
+}
+
+.uploadArea:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.uploadArea i {
+  font-size: 2.5rem;
+  color: var(--primary-color, #0d6efd);
+}
+
+.uploadTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary, #212529);
+}
+
+.uploadText {
+  font-size: 0.85rem;
+  color: var(--text-secondary, #6c757d);
+}
+
+/* ==========================================
+   POSTER PREVIEW
+   ========================================== */
+
+.previewContainer {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+
+  padding: 1rem;
+
+  border: 1px solid var(--border-color, #dee2e6);
+  border-radius: 0.75rem;
+  background-color: var(--surface-muted, #f8f9fa);
+}
+
+.posterPreview {
+  width: 180px;
+  height: 240px;
+
+  display: block;
+
+  object-fit: cover;
+
+  border-radius: 0.5rem;
+  border: 1px solid var(--border-color, #dee2e6);
+
+  background-color: #e9ecef;
+}
+
+.posterDetails {
+  flex: 1;
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.85rem;
+
+  padding-top: 0.25rem;
+}
+
+.posterName {
+  width: 100%;
+
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary, #212529);
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.posterMeta {
+  font-size: 0.85rem;
+  color: var(--text-secondary, #6c757d);
+}
+
+/* ==========================================
+   UPLOAD PROGRESS
+   ========================================== */
+
+.progressWrapper {
+  width: 100%;
+  max-width: 420px;
+}
+
+.progressWrapper :global(.progress) {
+  height: 0.8rem;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progressWrapper :global(.progress-bar) {
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+/* ==========================================
+   ERROR
+   ========================================== */
+
+.error {
+  margin-top: 1rem;
+  padding: 0.875rem 1rem;
+
+  border: 1px solid #f5c2c7;
+  border-radius: 0.5rem;
+
+  background-color: #f8d7da;
+  color: #842029;
+
+  font-size: 0.9rem;
+}
+
+/* ==========================================
+   RESPONSIVE
+   ========================================== */
+
+@media (max-width: 768px) {
+  .posterUpload {
+    padding: 1rem;
+  }
+
+  .header {
+    flex-direction: column;
+  }
+
+  .previewContainer {
+    flex-direction: column;
+  }
+
+  .posterPreview {
+    width: 100%;
+    height: auto;
+    max-height: 420px;
+    object-fit: contain;
+  }
+
+  .posterDetails {
+    width: 100%;
+  }
+
+  .progressWrapper {
+    max-width: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .uploadArea {
+    min-height: 180px;
+    padding: 1.5rem 1rem;
+  }
+
+  .uploadArea i {
+    font-size: 2rem;
+  }
+}

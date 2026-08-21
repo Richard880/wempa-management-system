@@ -5,7 +5,7 @@ import {
   requiredSelect,
   adultDate,
   nationalId,
-  kraPin,
+ // kraPin,
   requiredText,
 } from "../../../../utils/validation";
 
@@ -26,9 +26,9 @@ const personalInformationSchema = z.object({
     100
   ),
 
-  idNumber: nationalId(),
+  idNumber: nationalId()
 
-  kraPin: kraPin(),
+  // kraPin: kraPin(),
 });
 
 export default personalInformationSchema;

@@ -345,20 +345,24 @@ const cancelDocument = useCallback(
   */
 
   useUploadProcessor({
-    queue: uploadQueue.queue,
+  queue: uploadQueue.queue,
 
-    processing: uploadQueue.processing,
+  processing: uploadQueue.processing,
 
-    startProcessing:
-      uploadQueue.startProcessing,
+  startProcessing:
+    uploadQueue.startProcessing,
 
-    stopProcessing:
-      uploadQueue.stopProcessing,
+  stopProcessing:
+    uploadQueue.stopProcessing,
 
-    dequeue: uploadQueue.dequeue,
+  getNextJob:
+    uploadQueue.getNextJob,
 
-    updateDocument,
-  });
+  removeJob:
+    uploadQueue.removeJob,
+
+  updateDocument,
+});
 
   /*
   ----------------------------------------

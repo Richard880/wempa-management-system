@@ -9,26 +9,41 @@ export default function useUploadProcessor({
   processing,
   startProcessing,
   stopProcessing,
-  dequeue,
+  getNextJob,
+  removeJob,
   updateDocument,
 }) {
   /*
   ----------------------------------------
-  Process One Upload
+  Process Next Upload
   ----------------------------------------
   */
 
-  const processNextUpload =
-    useCallback(async () => {
+  const processNextUpload = useCallback(
+    async () => {
+      /*
+      Do not start another upload while one
+      is already being processed.
+      */
+
       if (processing) {
         return;
       }
 
-      const job = dequeue();
+      /*
+      Get the next queued upload without
+      removing it from the queue yet.
+      */
+
+      const job = getNextJob();
 
       if (!job) {
         return;
       }
+
+      /*
+      Mark the queue as processing.
+      */
 
       startProcessing();
 
@@ -53,24 +68,19 @@ export default function useUploadProcessor({
         ----------------------------------------
         */
 
-        const result =
-          await uploadFile({
-            path: job.path,
+        const result = await uploadFile({
+          path: job.path,
 
-            file: job.file,
+          file: job.file,
 
-            metadata: job.metadata,
+          metadata: job.metadata,
 
-            onProgress(progress) {
-              updateDocument(
-                job.documentId,
-                {
-                  uploadProgress:
-                    progress,
-                }
-              );
-            },
-          });
+          onProgress(progress) {
+            updateDocument(job.documentId, {
+              uploadProgress: progress,
+            });
+          },
+        });
 
         /*
         ----------------------------------------
@@ -83,40 +93,73 @@ export default function useUploadProcessor({
 
           uploadProgress: 100,
 
-          downloadURL:
-            result.downloadURL,
+          downloadURL: result.downloadURL,
 
-          storagePath:
-            result.fullPath,
+          storagePath: result.fullPath,
 
-          uploadedAt:
-            Date.now(),
+          uploadedAt: Date.now(),
 
           error: null,
         });
+
+        /*
+        Remove the successfully completed job.
+        */
+
+        removeJob(job.id);
       } catch (error) {
+        /*
+        ----------------------------------------
+        Upload Failed
+        ----------------------------------------
+        */
+
         updateDocument(job.documentId, {
           status: "failed",
+
+          uploadProgress: 0,
 
           error:
             error.message ??
             "Upload failed.",
         });
+
+        /*
+        Remove the failed job from the queue.
+
+        The document state still retains the
+        selected file and error information,
+        allowing retryDocument() to create
+        a fresh upload job.
+        */
+
+        removeJob(job.id);
       } finally {
+        /*
+        Always release the processing lock.
+        */
+
         stopProcessing();
       }
-    }, [
-      dequeue,
+    },
+    [
       processing,
+      getNextJob,
+      removeJob,
       startProcessing,
       stopProcessing,
       updateDocument,
-    ]);
+    ]
+  );
 
   /*
   ----------------------------------------
-  Watch Queue
+  Watch Upload Queue
   ----------------------------------------
+
+  Whenever jobs exist and no upload is
+  currently processing, begin processing
+  the next job.
   */
 
   useEffect(() => {
@@ -129,10 +172,16 @@ export default function useUploadProcessor({
 
     processNextUpload();
   }, [
-    queue,
+    queue.length,
     processing,
     processNextUpload,
   ]);
+
+  /*
+  ----------------------------------------
+  Public API
+  ----------------------------------------
+  */
 
   return {
     processNextUpload,

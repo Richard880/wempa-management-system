@@ -10,7 +10,7 @@ function About() {
     <>
       <PageBanner
         title="About WEMPA"
-        subtitle="Learn about our mission, vision, values and our commitment to advancing maritime professionalism across Western Kenya."
+        subtitle="Learn about our mission, vision, values and our commitment to advancing maritime professionalism across Kenya."
         background={banner}
       />
 

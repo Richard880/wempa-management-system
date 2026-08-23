@@ -4,50 +4,95 @@ import { motion } from "framer-motion";
 
 import HeroContent from "./HeroContent";
 import heroShip from "../../assets/hero/heroShip.jfif";
-import heroData from "../../data/heroData"; // Your original data template fallback
+import heroData from "../../data/heroData"; 
 import ScrollIndicator from "./ScrollIndicator";
 import WaveDivider from "./WaveDivider";
 
-// Import your live events data hook
+// Import your dynamic live data engine hooks
 import { useEvents } from "../../features/events/hooks/useEvents";
+import { useNews } from "../../features/news/hooks/useNews";
 
 import "../../styles/components/hero.css";
 
 function Hero() {
-  const { events, loading } = useEvents();
+  const { events, loading: eventsLoading } = useEvents();
+  const { news, loading: newsLoading } = useNews();
 
-  // Find if there's currently an event marked as featured by the admin
+  const loading = eventsLoading || newsLoading;
+
+  // Isolate active featured entries flagged by administrators
   const featuredEvent = !loading ? events.find((e) => e.isFeatured === true) : null;
+  const featuredArticle = !loading ? news.find((n) => n.isFeatured === true) : null;
 
-  /* 
-   * Construct a dynamic payload that matches your precise data contract.
-   * If a featured event is found, swap text but reuse or adapt button objects.
-   */
-  const activeHeroData = featuredEvent
-    ? {
-        badge: "✨ Featured Highlight",
-        title: featuredEvent.title,
-        description: featuredEvent.description || "Join us for this special WEMPA community event.",
-        
-        // Dynamic primary action button directing users straight to details page
-        primaryButton: {
-          text: "View Event Details",
-          link: "/events",
-        },
-        
-        // Preserve your original template's secondary button (e.g., "Join Us" or "Contact")
-        secondaryButton: heroData.secondaryButton || {
-          text: "Learn More",
-          link: "/about",
-        },
+  let activeHeroData = null;
+  let activeHeroImage = heroShip;
 
-        // Preserve your existing homepage metrics/stats counter elements
-        stats: heroData.stats || [],
-      }
-    : heroData;
+  // 1. Priority One: Live Dynamic Featured Event
+  if (featuredEvent) {
+    activeHeroData = {
+      badge: `🔥 FEATURED EVENT: ${featuredEvent.category || "CONFERENCE"}`,
+      title: featuredEvent.title,
+      description: featuredEvent.description || "Join us for this special WEMPA community initiative.",
+      primaryButton: {
+        text: "Register Now",
+        link: `/register-event/${featuredEvent.id}`,
+      },
+      secondaryButton: {
+        text: "View All Events",
+        link: "/events",
+      },
+      stats: heroData.stats || [],
+    };
+    activeHeroImage = featuredEvent.poster?.posterUrl || heroShip;
+  } 
+  // 2. Priority Two: Live Dynamic Featured News Article
+  else if (featuredArticle) {
+    activeHeroData = {
+      badge: `📰 FEATURED ANNOUNCEMENT: ${featuredArticle.category || "NEWS"}`,
+      title: featuredArticle.title,
+      description: featuredArticle.excerpt || 
+        (featuredArticle.content ? `${featuredArticle.content.substring(0, 160)}...` : "Read full coverage regarding this media brief."),
+      primaryButton: {
+        text: "Read Full Story",
+        link: `/news/${featuredArticle.id}`,
+      },
+      secondaryButton: {
+        text: "Browse News Feed",
+        link: "/news",
+      },
+      stats: heroData.stats || [],
+    };
+    activeHeroImage = featuredArticle.poster?.posterUrl || heroShip;
+  } 
+  // 3. Fallback Solution: Reshapes raw strings safely into structured objects
+  else {
+    activeHeroData = {
+      badge: heroData.badge,
+      title: heroData.title,
+      description: heroData.description,
+      
+      // 🟢 Converts the flat text string parameters into standard component objects
+      primaryButton: {
+        text: typeof heroData.primaryButton === "string" ? heroData.primaryButton : "Become a Member",
+        link: "/register", // Standard portal route link target
+      },
+      secondaryButton: {
+        text: typeof heroData.secondaryButton === "string" ? heroData.secondaryButton : "Learn More",
+        link: "/about",
+      },
+      stats: heroData.stats || [],
+    };
+    activeHeroImage = heroShip;
+  }
 
-  // Use the uploaded poster URL if it exists; otherwise fall back to the static ship image
-  const activeHeroImage = featuredEvent?.poster?.posterUrl || heroShip;
+  if (loading) {
+    return (
+      <section className="hero-section bg-dark text-white-50 d-flex align-items-center justify-content-center" style={{ minHeight: "100vh" }}>
+        <div className="spinner-border text-primary mb-2" role="status" />
+        <span className="ms-2 small">Synchronizing core landing metrics...</span>
+      </section>
+    );
+  }
 
   return (
     <section className="hero-section">
@@ -56,7 +101,7 @@ function Hero() {
       <Container>
         <Row className="align-items-center min-vh-100">
           <Col lg={6}>
-            {/* Feed the fully compatible mapping data object downwards */}
+            {/* Feeds a safely normalized data schema down to children components */}
             <HeroContent data={activeHeroData} />
           </Col>
 
@@ -73,8 +118,9 @@ function Hero() {
             >
               <img 
                 src={activeHeroImage} 
-                alt={featuredEvent ? featuredEvent.title : "Hero Ship"} 
+                alt={featuredEvent ? featuredEvent.title : featuredArticle ? featuredArticle.title : "Hero Ship"} 
                 className="hero-img" 
+                onError={(e) => { e.target.src = heroShip; }}
               />
             </motion.div>
           </Col>

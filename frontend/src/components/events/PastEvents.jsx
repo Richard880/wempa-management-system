@@ -1,3 +1,4 @@
+// src/components/events/PastEvents.jsx
 import { Container, Row, Col, Button, Badge } from "react-bootstrap";
 import {
   FaCalendarAlt,
@@ -8,9 +9,26 @@ import {
 import { motion } from "framer-motion";
 
 import SectionHeading from "../common/SectionHeading";
-import { pastEvents } from "../../data/eventsData";
+
+// 1. Import your dynamic live data stream engine hook
+import { useEvents } from "../../features/events/hooks/useEvents";
 
 function PastEvents() {
+  // 2. Fetch live data records stream directly from Firestore
+  const { events, loading } = useEvents();
+
+  // 3. Return a clean loading placeholder state while fetching database matrix
+  if (loading) return null;
+
+  // 4. Calculate today's string format (YYYY-MM-DD) to compare dates chronologically
+  const todayStr = new Date().toISOString().split("T")[0];
+  
+  // 5. Filter out events where the scheduled date is strictly less than today
+  const historicalItems = events.filter((event) => event.date < todayStr);
+
+  // 6. Gracefully hide the section if there are no historical records in the database
+  if (historicalItems.length === 0) return null;
+
   return (
     <section className="past-events-section">
       <Container>
@@ -21,11 +39,17 @@ function PastEvents() {
         />
 
         <Row className="g-4">
-          {pastEvents.map((event) => (
+          {/* 7. Loop dynamically through your filtered database items array */}
+          {historicalItems.map((event) => (
             <Col lg={4} md={6} key={event.id}>
               <motion.div className="past-event-card" whileHover={{ y: -8 }}>
-                <div className="past-event-image">
-                  <img src={event.image} alt={event.title} />
+                <div className="past-event-image" style={{ height: "240px", overflow: "hidden" }}>
+                  {/* 8. Use real live cloud storage optimization URL or fallback */}
+                  <img 
+                    src={event.poster?.posterUrl || "/events/default-placeholder.jpg"} 
+                    alt={event.title} 
+                    className="w-100 h-100 object-fit-cover"
+                  />
 
                   <Badge bg="secondary">Completed</Badge>
                 </div>
@@ -41,12 +65,13 @@ function PastEvents() {
 
                     <span>
                       <FaMapMarkerAlt />
-                      {event.location}
+                      {event.location || "Kisumu"}
                     </span>
 
                     <span>
                       <FaUsers />
-                      {event.attendees} Participants
+                      {/* 9. Seamlessly map your administrative seats parameter field */}
+                      {event.seats || 0} Participants
                     </span>
                   </div>
 

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FaCheckCircle, FaAnchor, FaWater } from "react-icons/fa";
 
-import aboutImage from "../../assets/gallery/background.png";
+import aboutImage from "../../assets/gallery/background.jpeg";
 
 function AboutSection() {
   return (
@@ -22,15 +22,14 @@ function AboutSection() {
               <span className="section-subtitle">WHO WE ARE</span>
 
               <h2 className="section-title mt-3">
-                Building the Future of Maritime Excellence in Western Kenya
+                Building the Future of Maritime Excellence in Kenya
               </h2>
 
               <p className="section-description mt-4">
                 The Western Kenya Maritime Professionals Association (WEMPA) is
                 a professional organization committed to promoting
                 collaboration, innovation, professionalism and sustainable
-                growth within the maritime industry across the Lake Victoria
-                region.
+                growth within the maritime industry across Kenya.
               </p>
 
               <p className="section-description">
@@ -53,7 +52,7 @@ function AboutSection() {
 
                 <div>
                   <FaCheckCircle className="text-success me-2" />
-                  Serving the Lake Victoria Region
+                  Serving the Kenyan People
                 </div>
               </div>
 
@@ -81,14 +80,14 @@ function AboutSection() {
 
               <div className="about-card card-top">
                 <FaAnchor className="text-warning fs-2 mb-2" />
-                <h3>2010</h3>
+                <h3>2026</h3>
                 <p>Established</p>
               </div>
 
               <div className="about-card card-bottom">
                 <FaWater className="text-primary fs-2 mb-2" />
-                <h3>Lake Victoria</h3>
-                <p>Serving Western Kenya</p>
+                <h3>Kenya</h3>
+                <p>Serving the Kenyan People</p>
               </div>
             </motion.div>
           </Col>

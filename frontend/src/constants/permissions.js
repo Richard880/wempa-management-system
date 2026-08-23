@@ -18,6 +18,9 @@ const PERMISSIONS = {
 
   // Reports
   VIEW_REPORTS: "view_reports",
+
+  //settings
+  MANAGE_SETTINGS: "manage_settings",
 };
 
 export default PERMISSIONS;

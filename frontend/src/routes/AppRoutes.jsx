@@ -62,6 +62,10 @@ import AdminManagementPage from "../features/admin/pages/adminManagement/AdminMa
    ========================================== */
 import ManageEventsPage from "../features/admin/pages/events/ManageEventsPage";
 import CreateEventPage from "../features/admin/pages/events/CreateEventPage";
+import EventRegistrationPage from "../features/public/pages/EventRegistrationPage";
+import EventAttendeesPage from "../features/admin/pages/events/EventAttendeesPage";
+
+
 
 
 /* ==========================================
@@ -82,6 +86,7 @@ function AppRoutes() {
         <Route path="/about" element={<About />} />
         <Route path="/membership" element={<Membership />} />
         <Route path="/events" element={<Events />} />
+        <Route path="/register-event/:eventId" element={<EventRegistrationPage />} />
         <Route path="/news" element={<News />} />
         <Route path={ROUTES.PUBLIC_NEWS_DETAIL} element={<NewsDetail />} />
         <Route path="/contact" element={<Contact />} />
@@ -137,6 +142,8 @@ function AppRoutes() {
             <Route path={ROUTES.ADMIN_EVENTS} element={<ManageEventsPage />} />
             <Route path={ROUTES.ADMIN_EVENTS_NEW} element={<CreateEventPage />} />
             <Route path={ROUTES.ADMIN_EVENTS_EDIT} element={<CreateEventPage />} />
+            <Route path="/admin/events/attendees/:eventId" element={<EventAttendeesPage />} />
+
 
             {/* ==========================================
                 MEMBER MANAGEMENT (Requires Permissions)
@@ -170,7 +177,7 @@ function AppRoutes() {
                 <Route path={ROUTES.ADMIN_MANAGEMENT} element={<AdminManagementPage />} />
               </Route>
 
-              // Inside AdminLayout
+              {/* // Inside AdminLayout */}
               <Route path={ROUTES.ADMIN_NEWS} element={<ManageNewsPage />} />
               <Route path={ROUTES.ADMIN_NEWS_NEW} element={<NewsForm />} />
 

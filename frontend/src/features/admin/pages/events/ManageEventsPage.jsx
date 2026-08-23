@@ -59,7 +59,8 @@ export default function ManageEventsPage() {
                 <th scope="col">Date & Time</th>
                 <th scope="col">Status</th>
                 <th scope="col">Featured</th>
-                <th scope="col" className="text-end pe-3" style={{ width: "120px" }}>Actions</th>
+                {/* 🟢 Expanded width slightly to cleanly accommodate both action buttons */}
+                <th scope="col" className="text-end pe-3" style={{ width: "220px" }}>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -115,11 +116,21 @@ export default function ManageEventsPage() {
                       )}
                     </td>
                     <td className="text-end pe-3">
-                      <Link to={`/admin/events/edit/${event.id}`}>
-                        <Button variant="outline-primary" type="button" className="btn-sm py-1">
-                          <i className="bi bi-pencil" /> Edit
-                        </Button>
-                      </Link>
+                      {/* 🟢 Actions Button Group wrapper block */}
+                      <div className="d-flex justify-content-end gap-2">
+                        {/* 🟢 Added Attendee Roster Navigation Button Link */}
+                        <Link to={`/admin/events/attendees/${event.id}`}>
+                          <Button variant="outline-warning" type="button" className="btn-sm py-1 d-inline-flex align-items-center gap-1">
+                            <i className="bi bi-people" /> Attendees
+                          </Button>
+                        </Link>
+                        
+                        <Link to={`/admin/events/edit/${event.id}`}>
+                          <Button variant="outline-primary" type="button" className="btn-sm py-1 d-inline-flex align-items-center gap-1">
+                            <i className="bi bi-pencil" /> Edit
+                          </Button>
+                        </Link>
+                      </div>
                     </td>
                   </tr>
                 );

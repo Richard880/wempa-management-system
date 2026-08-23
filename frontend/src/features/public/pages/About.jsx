@@ -3,7 +3,7 @@ import AboutSection from "../../../components/home/AboutSection";
 import CoreValues from "../../../components/home/CoreValues";
 import WhyJoin from "../../../components/home/WhyJoin";
 
-import banner from "../../../assets/banners/about-banner.png";
+import banner from "../../../assets/banners/about-banner.jpeg";
 
 function About() {
   return (

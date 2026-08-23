@@ -13,12 +13,15 @@ export default function CreateEventPage() {
   const isEditMode = Boolean(urlEventId);
 
   const [formData, setFormData] = useState({
-    title: "",
-    date: "",
-    time: "",
-    description: "",
-    isFeatured: false,
-  });
+  title: "",
+  category: "Workshop", // Matches static options: Workshop, Conference, Seminar
+  date: "",
+  time: "",
+  location: "Kisumu",   // Added location field
+  seats: 100,           // Added seating constraint numbers
+  description: "",
+  isFeatured: false,
+});
 
   const [posterPayload, setPosterPayload] = useState(null);
   const [loading, setLoading] = useState(isEditMode);
@@ -107,6 +110,49 @@ export default function CreateEventPage() {
               disabled={submitting}
             />
           </div>
+
+
+<div className="row g-3 mb-3">
+  <div className="col-md-6">
+    <label className="form-label text-white-50 small fw-bold">Event Category</label>
+    <select
+      name="category"
+      value={formData.category}
+      onChange={handleInputChange}
+      className="form-control bg-transparent text-white border-secondary"
+      required
+    >
+      <option value="Workshop" className="bg-dark">Workshop</option>
+      <option value="Conference" className="bg-dark">Conference</option>
+      <option value="Seminar" className="bg-dark">Seminar</option>
+    </select>
+  </div>
+  
+  <div className="col-md-6">
+    <label className="form-label text-white-50 small fw-bold">Event Location</label>
+    <input
+      type="text"
+      name="location"
+      value={formData.location}
+      onChange={handleInputChange}
+      className="form-control bg-transparent text-white border-secondary"
+      required
+    />
+  </div>
+</div>
+
+<div className="form-group mb-3">
+  <label className="form-label text-white-50 small fw-bold">Total Available Seats</label>
+  <input
+    type="number"
+    name="seats"
+    value={formData.seats}
+    onChange={handleInputChange}
+    className="form-control bg-transparent text-white border-secondary"
+    required
+  />
+</div>
+
 
           <div className="row g-3">
             <div className="col-md-6">

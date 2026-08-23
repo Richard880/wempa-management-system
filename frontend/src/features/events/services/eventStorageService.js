@@ -6,11 +6,13 @@ import {
   setDoc, 
   getDocs, 
   query, 
-  orderBy 
+  orderBy,
+  where // 🟢 1. Added missing where import
 } from "firebase/firestore";
 
 const db = getFirestore();
 const EVENTS_COLLECTION = "events";
+const REGISTRATIONS_COLLECTION = "registrations"; // 🟢 2. Declared missing collection string variable
 
 export const eventStorageService = {
   /**
@@ -44,5 +46,25 @@ export const eventStorageService = {
     });
     
     return events;
+  },
+
+  /**
+   * Pulls registrations filtered by eventId
+   */
+  // src/features/events/services/eventStorageService.js
+
+async getEventRegistrations(eventId) {
+  try {
+    const q = query(
+      collection(db, REGISTRATIONS_COLLECTION),
+      where("eventId", "==", eventId) // 🟢 Removed the .orderBy() to bypass index requirements
+    );
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(doc => doc.data());
+  } catch (err) {
+    console.error(`Failed to fetch attendees for event ${eventId}:`, err);
+    throw err;
   }
-};
+}
+
+}; // 🟢 3. Cleaned up trailing brackets syntax error here

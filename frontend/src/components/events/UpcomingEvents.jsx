@@ -1,3 +1,4 @@
+// src/components/events/UpcomingEvents.jsx
 import { Container, Row, Col, Button, Badge } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import {
@@ -9,9 +10,41 @@ import {
 import { motion } from "framer-motion";
 
 import SectionHeading from "../common/SectionHeading";
-import { upcomingEvents } from "../../data/eventsData";
+
+// 1. Import your dynamic live data stream engine hook
+import { useEvents } from "../../features/events/hooks/useEvents";
 
 function UpcomingEvents() {
+  // 2. Fetch live data records stream directly from Firestore
+  const { events, loading, error } = useEvents();
+
+  if (loading) {
+    return (
+      <div className="text-center py-5 text-muted">
+        <div className="spinner-border spinner-border-sm text-primary me-2" role="status" />
+        <span>Loading live schedule...</span>
+      </div>
+    );
+  }
+
+  if (error) return <div className="alert alert-danger mx-3">{error}</div>;
+
+  // 3. Calculate today's string format (YYYY-MM-DD) to filter chronologically
+  const todayStr = new Date().toISOString().split("T")[0];
+
+  // 4. Isolate events scheduled for today or in the future
+  const upcomingItems = events.filter((event) => event.date >= todayStr);
+
+  // 5. Render a clean placeholder if no future events exist in the database
+  if (upcomingItems.length === 0) {
+    return (
+      <div className="text-center py-5 my-4 border rounded bg-light text-muted">
+        <FaCalendarAlt className="display-6 mb-2 d-block mx-auto text-secondary" />
+        <p className="mb-0 fw-medium">No upcoming events are currently scheduled.</p>
+      </div>
+    );
+  }
+
   return (
     <section className="upcoming-events-section">
       <Container>
@@ -22,13 +55,19 @@ function UpcomingEvents() {
         />
 
         <Row className="g-4">
-          {upcomingEvents.map((event) => (
+          {/* 6. Loop dynamically through your filtered database items array */}
+          {upcomingItems.map((event) => (
             <Col lg={4} md={6} key={event.id}>
               <motion.div className="event-card" whileHover={{ y: -10 }}>
-                <div className="event-image">
-                  <img src={event.image} alt={event.title} />
+                <div className="event-image" style={{ height: "240px", overflow: "hidden" }}>
+                  {/* 7. Use real live cloud storage optimization URL or fallback */}
+                  <img 
+                    src={event.poster?.posterUrl || "/events/default-placeholder.jpg"} 
+                    alt={event.title} 
+                    className="w-100 h-100 object-fit-cover"
+                  />
 
-                  <Badge className="event-category">{event.category}</Badge>
+                  <Badge className="event-category">{event.category || "General"}</Badge>
                 </div>
 
                 <div className="event-content">
@@ -40,24 +79,27 @@ function UpcomingEvents() {
 
                     <span>
                       <FaMapMarkerAlt />
-                      {event.location}
+                      {event.location || "Kisumu"}
                     </span>
 
                     <span>
                       <FaUsers />
-                      {event.seats} Seats
+                      {event.seats || 0} Seats
                     </span>
                   </div>
 
                   <h4>{event.title}</h4>
 
                   <div className="event-footer">
-                    <strong>{event.price}</strong>
+                    {/* 8. Fallback to free if no custom billing price parameter is present */}
+                    <strong>{event.price || "Free"}</strong>
 
-                    <Button as={Link} to="/register" size="sm">
-                      Register
-                      <FaArrowRight className="ms-2" />
-                    </Button>
+            
+                  <Button as={Link} to={`/register-event/${event.id}`} size="sm">
+                    Register
+                    <FaArrowRight className="ms-2" />
+                  </Button>
+
                   </div>
                 </div>
               </motion.div>

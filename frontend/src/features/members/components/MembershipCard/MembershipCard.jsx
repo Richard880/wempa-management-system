@@ -1,12 +1,9 @@
-// 	🏼 1. SWAP OUT THE WIZARD HOOK IMPORT FOR THE APPLICATION FORM HOOK
 import useApplicationForm from "../../../memberApplication/hooks/useApplicationForm"; 
 import styles from "./MembershipCard.module.css";
 
 export default function MembershipCard() {
-  // 	🏼 2. FETCH THE LIVE USER DATA DIRECTLY FROM YOUR STORE SYSTEM
   const { profile, application, loading } = useApplicationForm();
   
-  // 	🏼 3. ADD A CLEAN LOADING HANDLER IN CASE FIRESTORE IS STILL FETCHING
   if (loading) {
     return (
       <div className="text-center py-5 text-muted">
@@ -16,14 +13,14 @@ export default function MembershipCard() {
     );
   }
 
-  // Safe baseline variables extraction setup
   const firstName = profile?.firstName || application?.personal?.firstName || "Member";
   const lastName = profile?.lastName || application?.personal?.lastName || "";
   const fullName = `${firstName} ${lastName}`.trim();
-  const userId = profile?.id || "—";
+  
+  // 	🏼 UPDATED: Pull official sequential Membership Number instead of the backend tracking string
+  const membershipNumber = application?.membershipNumber || profile?.membershipNumber || "PENDING";
   const memberType = application?.personal?.membershipType || "Regular Member";
 
-  // Calculate Dates: Registration Date vs 1-Year Expiry Deadline
   const registrationTimestamp = application?.submittedAt || application?.updatedAt;
   
   const formatDateString = (rawDate) => {
@@ -73,8 +70,9 @@ export default function MembershipCard() {
             </div>
             
             <div className={styles.metaGroup}>
-              <label>MEMBER ID</label>
-              <strong className={styles.idValue}>{userId.toUpperCase()}</strong>
+              {/* 	🏼 UPDATED FIELD TEXT LABEL */}
+              <label>MEMBERSHIP NO.</label>
+              <strong className={styles.idValue}>{membershipNumber}</strong>
             </div>
           </div>
         </div>

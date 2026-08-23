@@ -2,16 +2,13 @@ import PropTypes from "prop-types";
 import styles from "./ProfileSummary.module.css"; 
 
 export default function ProfileSummary({ profile, application, progress, isLocked }) {
-  // Helper to cleanly extract names with fallback options
   const firstName = profile?.firstName || application?.personal?.firstName || "Member";
   const lastName = profile?.lastName || application?.personal?.lastName || "";
   const email = profile?.email || application?.contact?.email || "—";
   
-  // 	🏼 1. FIXED: Pull the real document ID directly from the authenticated "users" profile document matrix
-  const userIdFromUsersCollection = profile?.id || profile?.uid || "—";
+  // 	🏼 UPDATED: Swap raw technical ID strings with official Membership Number lookup tracking parameters
+  const membershipNumber = application?.membershipNumber || profile?.membershipNumber || "Pending";
   const memberType = application?.personal?.membershipType || "Applicant";
-
-  // 	🏼 2. DYNAMIC STATUS MAPPING: Check the status coming from Firestore
   const status = application?.applicationStatus || "draft";
 
   const renderStatusBadge = () => {
@@ -37,12 +34,10 @@ export default function ProfileSummary({ profile, application, progress, isLocke
       </div>
 
       <div className={styles.detailsList}>
-        {/* Displays the verified ID pulled straight from the users collection doc */}
+        {/* 	🏼 UPDATED ELEMENT WRAPPERS */}
         <div className={styles.detailRow}>
-          <span>User ID:</span>
-          <strong className={styles.idText}>
-            {userIdFromUsersCollection !== "—" ? `${userIdFromUsersCollection.slice(0, 8)}...` : "—"}
-          </strong>
+          <span>Membership No:</span>
+          <strong className={styles.idText}>{membershipNumber}</strong>
         </div>
 
         <div className={styles.detailRow}>

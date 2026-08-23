@@ -32,6 +32,8 @@ import Contact from "../features/public/pages/Contact";
 import Membership from "../features/public/pages/Membership";
 import Events from "../features/public/pages/Events";
 import News from "../features/public/pages/News";
+import ProfilePage from "../features/profile/pages/ProfilePage";
+
 
 /* ==========================================
    Authentication Pages
@@ -90,6 +92,8 @@ function AppRoutes() {
         <Route path="/news" element={<News />} />
         <Route path={ROUTES.PUBLIC_NEWS_DETAIL} element={<NewsDetail />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path={ROUTES.MEMBER_PROFILE} element={<ProfilePage />} />
+
       </Route>
 
       {/* ==========================================
@@ -110,8 +114,10 @@ function AppRoutes() {
       <Route element={<ProtectedRoute />}>
         <Route element={<MemberLayout />}>
           <Route path={ROUTES.MEMBER_DASHBOARD} element={<MemberDashboard />} />
-          <Route path={ROUTES.MEMBER_APPLICATION} element={<MemberApplicationPage />} />
+          
         </Route>
+
+        <Route path={ROUTES.MEMBER_APPLICATION} element={<MemberApplicationPage />} />
       </Route>
 
       {/* ==========================================

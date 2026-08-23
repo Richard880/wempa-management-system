@@ -1,18 +1,32 @@
-
+import { Link } from "react-router-dom";
 import styles from "./WizardSidebar.module.css";
 import useWizard from "../WizardProvider/useWizard";
+import { useAuth } from "../../../features/auth/hooks/useAuth"; // 1. Ensure useAuth is imported
+import ROUTES from "../../../constants/routes"; 
 
 export default function WizardSidebar() {
   const context = useWizard();
+  const { auth } = useAuth(); // 2. Extract the auth state payload
   
-  // Defensive check: if context is missing, don't crash
   if (!context) return null;
 
   const { state, actions } = context;
   const { steps, currentStep, completedSteps, progress } = state;
 
+  // 3. Dynamically route back based on whether they are an Admin or a Member
+  const isUserAdmin = auth?.currentUser?.role === "admin"; 
+  const dashboardTarget = isUserAdmin ? ROUTES.ADMIN_DASHBOARD : ROUTES.MEMBER_DASHBOARD;
+
   return (
     <aside className={styles.sidebar}>
+      <div className={styles.topNavigation}>
+        {/* 	🏼 4. UPDATED TO TARGET VARIABLE PATH ROUTE */}
+        <Link to={dashboardTarget} className={styles.backButton}>
+          <i className="bi bi-arrow-left" aria-hidden="true" />
+          <span>Back to Dashboard</span>
+        </Link>
+      </div>
+
       <div className={styles.header}>
         <h2 className={styles.title}>Registration Progress</h2>
         <span className={styles.percent}>{progress}%</span>
@@ -34,11 +48,10 @@ export default function WizardSidebar() {
               ]
                 .filter(Boolean)
                 .join(" ")}
-              // Safe call to the action
               onClick={() => actions?.goToStep?.(step.id)}
             >
               <span className={styles.indicator}>
-                {isCompleted ? "✓" : step.id}
+                {isCompleted ? <span className={styles.popCheck}>✓</span> : step.id}
               </span>
 
               <div className={styles.details}>

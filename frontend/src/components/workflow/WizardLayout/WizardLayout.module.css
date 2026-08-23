@@ -1,14 +1,18 @@
 .layout {
   display: grid;
   grid-template-columns: 320px minmax(0, 1fr);
-  gap: 2rem;
-
   width: 100%;
-  align-items: start;
+  height: 100vh;
+  
+  /* 	🏼 UPDATE THIS LINE: Use auto overflow instead of hidden */
+  overflow: auto; 
+  background-color: #f4f7f9;
 }
 
 @media (max-width: 992px) {
   .layout {
     grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(0, 1fr);
+    height: auto; /* Allow natural page collapses on small screens */
   }
 }

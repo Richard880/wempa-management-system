@@ -19,7 +19,7 @@ export default function PersonalInformation({ profile, initialData, formId }) {
       dateOfBirth: initialData?.dateOfBirth ?? profile?.dateOfBirth ?? "",
       nationality: initialData?.nationality ?? profile?.nationality ?? "",
       idNumber: initialData?.idNumber ?? profile?.idNumber ?? "",
-      kraPin: initialData?.kraPin ?? profile?.kraPin ?? "",
+     // kraPin: initialData?.kraPin ?? profile?.kraPin ?? "",
     };
   }, [initialData, profile]);
 

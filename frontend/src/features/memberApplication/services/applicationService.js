@@ -49,7 +49,11 @@ const applicationService = {
       throw new Error("User profile not found.");
     }
 
-    const profile = userSnapshot.data();
+    // 	🏼 1. FIXED: Inject the real document ID string directly from the 'users' snapshot layer
+    const profile = {
+      id: userSnapshot.id,
+      ...userSnapshot.data()
+    };
 
     if (!memberSnapshot.exists()) {
       const applicationData = createDefaultApplication();
@@ -59,12 +63,20 @@ const applicationService = {
         updatedAt: serverTimestamp(),
       });
 
-      return { profile, application: applicationData };
+      // Include ID in default generation for data consistency hooks
+      return { 
+        profile, 
+        application: { id: memberSnapshot.id, ...applicationData } 
+      };
     }
 
     return {
       profile,
-      application: memberSnapshot.data(),
+      // 	🏼 2. FIXED: Inject the member document ID string as well for safety
+      application: {
+        id: memberSnapshot.id,
+        ...memberSnapshot.data()
+      },
     };
   },
 

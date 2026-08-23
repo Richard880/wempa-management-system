@@ -1,0 +1,92 @@
+/* QuickActions.module.css */
+
+.container {
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03);
+}
+
+.title {
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 1.25rem;
+  font-size: 1.1rem;
+  text-align: left;
+}
+
+.actionGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.actionButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  color: #1e293b;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-align: left;
+  cursor: pointer;
+}
+
+.actionButton:hover {
+  background: #ffffff;
+  border-color: #003366;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 15px -3px rgba(0, 51, 102, 0.1);
+}
+
+.iconWrapper {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  border-radius: 10px;
+  color: #003366;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.actionButton:hover .iconWrapper {
+  background: #003366;
+  color: #ffffff;
+}
+
+.textGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.btnLabel {
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.btnDesc {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.arrowIcon {
+  margin-left: auto;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.3s ease;
+  color: #003366;
+}
+
+.actionButton:hover .arrowIcon {
+  opacity: 1;
+  transform: translateX(0);
+}

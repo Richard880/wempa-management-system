@@ -1,20 +1,20 @@
-import { useAuth } from "../../../auth/hooks/useAuth"; // Adjust path if your hook is in a different features subfolder
+// src/features/dashboard/pages/Dashboard.jsx
+import { useAuth } from "../../../auth/hooks/useAuth"; 
 import useApplicationForm from "../../../memberApplication/hooks/useApplicationForm"; 
 import Spinner from "../../../../components/ui/Spinner"; 
-import Button from "../../../../components/ui/Button"; // Imports your consistent UI Button component
+import Button from "../../../../components/ui/Button"; 
 
-import DashboardStats from "../../components/DashboardStats";
+import DashboardStats from "../../components/DashboardStats/DashboardStats";
 import ProfileSummary from "../../components/ProfileSummary";
-import MembershipCard from "../../components/MembershipCard";
-import QuickActions from "../../components/QuickActions";
-import RecentActivity from "../../components/RecentActivity";
+import MembershipCard from "../../components/MembershipCard/MembershipCard";
+import QuickActions from "../../components/QuickActions/QuickActions";
+import RecentActivity from "../../components/RecentActivity/RecentActivity";
 import NotificationPanel from "../../components/NotificationPanel";
 
 import styles from "./Dashboard.module.css"; 
 
 export default function Dashboard() {
-  const { logout } = useAuth(); // 1. Pull the logout function from your auth context
-  
+  const { logout } = useAuth();
   const { 
     profile, 
     application, 
@@ -24,12 +24,9 @@ export default function Dashboard() {
     error 
   } = useApplicationForm();
 
-  // 2. Handle the logout operation cleanly
   const handleLogout = async () => {
     try {
       await logout();
-      // No manual redirect needed here! Your AuthContext and route guards 
-      // will see authenticated: false and instantly kick the user to the login screen.
     } catch (err) {
       console.error("Failed to safely sign out:", err);
     }
@@ -54,32 +51,41 @@ export default function Dashboard() {
 
   return (
     <main className={styles.mainContainer}>
-      {/* Dashboard Section Header */}
+      {/* HEADER CARD: THEME SYNCED WITH SIDEBAR */}
       <header className={styles.dashboardHeader}>
-        <div>
-          <h1 className={styles.title}>Member Dashboard</h1>
-          <p className={styles.subtitle}>
-            Welcome back to the WEMPA portal, {profile?.firstName || "Member"}. Track your profile, activities, and status.
-          </p>
+        <div className="d-flex align-items-center gap-4">
+          <div className="d-none d-md-flex align-items-center justify-content-center bg-white bg-opacity-10 rounded-circle" 
+               style={{ width: "64px", height: "64px", border: "1px solid rgba(255,255,255,0.1)" }}>
+            <i className="bi bi-person-workspace text-warning fs-2"></i>
+          </div>
+          
+          <div className="text-start">
+            <h1 className={styles.title}>
+              Welcome back, {profile?.firstName || "Member"}
+            </h1>
+            <p className={styles.subtitle}>
+              <i className="bi bi-shield-check text-success me-2"></i>
+              WEMPA Workspace: Professional Maritime Dashboard
+            </p>
+          </div>
         </div>
         
-        {/* 3. LOGOUT ACTION BUTTON COMPONENT */}
         <div className={styles.headerActions}>
           <Button 
             variant="outline" 
             onClick={handleLogout}
             className={styles.logoutButton}
           >
-            <i className="fas fa-sign-out-alt me-2"></i>
-            Sign Out
+            <i className="bi bi-box-arrow-right me-2"></i>
+            Secure Sign Out
           </Button>
         </div>
       </header>
 
-      {/* Grid Layout Container */}
+      {/* MAIN GRID CONTAINER */}
       <div className={styles.dashboardGrid}>
         
-        {/* ROW 1: TOP PROFILE SUMMARY & CARD OVERVIEW */}
+        {/* ROW 1: PROFILE & MEMBERSHIP CARD */}
         <div className={styles.rowFullWidth}>
           <ProfileSummary 
             profile={profile} 
@@ -94,24 +100,27 @@ export default function Dashboard() {
           />
         </div>
 
-        {/* ROW 2: CORE ANALYTIC METRICS STATS */}
-        <div className={styles.rowFullWidth}>
-          <DashboardStats 
+        {/* ROW 2: QUICK ACTIONS (2/3) & RECENT ACTIVITY (1/3) */}
+        <div className={styles.actionRow}>
+          <div className={styles.quickActionsColumn}>
+            <QuickActions isLocked={isLocked} progress={progress} />
+          </div>
+          
+          <div className={styles.activityColumn}>
+            <RecentActivity />
+          </div>
+        </div>
+
+        {/* ROW 3: STATS & NOTIFICATIONS */}
+        <div className={styles.mainColumn}>
+           <DashboardStats 
             application={application} 
             progress={progress} 
             isLocked={isLocked} 
           />
         </div>
 
-        {/* COLUMN GROUPS: PRIMARY WORKSPACE VS ACTION SIDEBAR */}
-        {/* LEFT COMPONENT COLUMN (Primary Tracking Data Timeline Elements) */}
-        <div className={styles.mainColumn}>
-          <RecentActivity application={application} isLocked={isLocked} />
-        </div>
-
-        {/* RIGHT COMPONENT COLUMN (Action Panels & Secondary Widgets) */}
         <div className={styles.sidebarColumn}>
-          <QuickActions isLocked={isLocked} progress={progress} />
           <NotificationPanel application={application} isLocked={isLocked} />
         </div>
 

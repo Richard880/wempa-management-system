@@ -93,7 +93,7 @@ export default function useApplicationForm() {
         uid: userId,
         section: "declaration",
         data: sanitizedFinalData,
-        currentStep: 9 // Lock stepping values
+        currentStep: 5 // Lock stepping values
       });
 
       // 2. Trigger formal submission properties

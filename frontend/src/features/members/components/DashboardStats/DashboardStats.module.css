@@ -1,0 +1,80 @@
+/* DashboardStats.module.css */
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.statCard {
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03);
+}
+
+.statCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 20px -5px rgba(0, 51, 102, 0.1);
+  border-color: #003366;
+}
+
+.iconWrapper {
+  width: 54px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+/* Dynamic color variants for status icons */
+.blueIcon { background: rgba(0, 51, 102, 0.1); color: #003366; }
+.greenIcon { background: rgba(22, 163, 74, 0.1); color: #16a34a; }
+.orangeIcon { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+.purpleIcon { background: rgba(124, 58, 237, 0.1); color: #7c3aed; }
+
+.content {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.value {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.progressBarContainer {
+  margin-top: 0.5rem;
+  width: 100%;
+  height: 4px;
+  background: #f1f5f9;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progressBar {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 1s ease-in-out;
+}

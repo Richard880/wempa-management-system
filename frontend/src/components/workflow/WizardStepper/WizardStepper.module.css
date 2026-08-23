@@ -1,69 +1,105 @@
+/* WizardStepper.module.css */
+
 .stepper {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  overflow-x: auto;
+  align-items: flex-start;
+  position: relative;
   padding: 1rem 0;
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
+/* 🟢 The Progress Line */
+.stepper::before {
+  content: "";
+  position: absolute;
+  top: 20px; /* Aligns with the middle of the circle */
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #e2e8f0;
+  z-index: 1;
 }
 
 .step {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: .5rem;
-
-  background: transparent;
+  flex: 1;
+  background: none;
   border: none;
+  padding: 0;
   cursor: pointer;
-
-  min-width: 110px;
-
-  transition: all .25s ease;
+  z-index: 2; /* Sits above the line */
+  transition: all 0.3s ease;
+  position: relative;
 }
 
 .circle {
-  width: 42px;
-  height: 42px;
-
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-
-  border: 2px solid #cfd8dc;
-
+  background: #fff;
+  border: 2px solid #e2e8f0;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  font-weight: 600;
-
-  background: white;
-
-  transition: all .25s ease;
+  font-weight: 700;
+  color: #64748b;
+  margin-bottom: 0.5rem;
+  transition: all 0.3s ease;
 }
 
-.label {
-  font-size: .82rem;
+.title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
   text-align: center;
-  color: #6c757d;
+  max-width: 100px;
 }
 
+/* 🟢 Active State */
 .active .circle {
-  background: #0d6efd;
-  color: white;
-  border-color: #0d6efd;
+  border-color: #003366;
+  color: #003366;
+  box-shadow: 0 0 0 4px rgba(0, 51, 102, 0.1);
+  transform: scale(1.1);
 }
 
+.active .title {
+  color: #003366;
+}
+
+/* 🟢 Completed State */
 .completed .circle {
-  background: #198754;
-  border-color: #198754;
-  color: white;
+  background: #003366;
+  border-color: #003366;
+  color: #ffffff;
 }
 
-.active .label {
-  color: #0d6efd;
-  font-weight: 600;
+.completed .title {
+  color: #1e293b;
 }
 
-.completed .label {
-  color: #198754;
+.step:disabled {
+  cursor: not-allowed;
+}
+
+/* Hide line on mobile and stack vertically if needed */
+@media (max-width: 600px) {
+  .stepper {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  .stepper::before {
+    display: none;
+  }
+  .step {
+    flex-direction: row;
+    gap: 1rem;
+  }
 }

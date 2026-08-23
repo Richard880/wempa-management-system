@@ -1,0 +1,217 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+/* 💳 PHYSICAL CARD FRAME SPECIFICATIONS (CR80 Standard Ratio dimensions) */
+.idCard {
+  width: 450px;
+  height: 270px;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1.25rem;
+  padding: 1.5rem;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.3), 0 10px 10px -5px rgba(15, 23, 42, 0.2);
+}
+
+/* Decorative Background Abstract Vector Lines */
+.wavesBg {
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.06) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  z-index: 2;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #ffffff;
+}
+
+.brand :global(.bi-compass-fill) {
+  font-size: 2.25rem;
+  color: #38bdf8; /* Ocean Cyan Accent */
+}
+
+.brandText h1 {
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+
+.brandText h2 {
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: #94a3b8;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.badge {
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  color: #38bdf8;
+  padding: 0.25rem 0.65rem;
+  border-radius: 0.5rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.cardBody {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-top: 0.5rem;
+  z-index: 2;
+}
+
+.avatar {
+  width: 70px;
+  height: 70px;
+  background: #1e293b;
+  border: 2px solid #334155;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 2rem;
+  font-weight: 700;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+}
+
+.metaGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.metaGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.metaGroup label {
+  font-size: 0.55rem;
+  font-weight: 600;
+  color: #64748b;
+  letter-spacing: 0.08em;
+  margin: 0;
+}
+
+.metaGroup strong {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #f8fafc;
+  line-height: 1.2;
+}
+
+.idValue {
+  font-family: monospace;
+  color: #cbd5e1 !important;
+  font-size: 0.85rem !important;
+}
+
+.cardFooter {
+  display: flex;
+  gap: 2.5rem;
+  border-top: 1px solid #1e293b;
+  padding-top: 0.75rem;
+  z-index: 2;
+}
+
+.dateBlock {
+  display: flex;
+  flex-direction: column;
+}
+
+.dateBlock label {
+  font-size: 0.5rem;
+  font-weight: 600;
+  color: #64748b;
+  letter-spacing: 0.05em;
+}
+
+.dateBlock span {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #e2e8f0;
+}
+
+.watermark {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: #10b981; /* Verified Seafoam Green text label */
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+/* 🖨️ ACTION BUTTON TRIGGER HANDLING BACKGROUNDS */
+.downloadBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #0284c7;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 6px -1px rgba(2, 132, 199, 0.3);
+}
+
+.downloadBtn:hover {
+  background-color: #0369a1;
+  transform: translateY(-1px);
+}
+
+/* 🖨️ PRINT MEDIA STYLESHEET HOOK: Hides everything except the precise card boundary rectangle */
+@media print {
+  body * {
+    visibility: hidden; /* Hide sidebar, layout, links and footer headers entirely */
+  }
+  #physical-membership-card, #physical-membership-card * {
+    visibility: visible;
+  }
+  #physical-membership-card {
+    position: absolute;
+    left: 0;
+    top: 0;
+    box-shadow: none;
+    border: none;
+    -webkit-print-color-adjust: exact; /* Force browser canvas graphics renderer engines to retain dark color layers */
+    print-color-adjust: exact;
+  }
+}

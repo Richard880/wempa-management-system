@@ -1,41 +1,49 @@
 // src/features/dashboard/components/layout/UserLayout.jsx
+import { useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
-import Sidebar from "../components/layout/Sidebar";
+import Sidebar from "../components/layout/Sidebar/Sidebar";
+import ROUTES from "../constants/routes";
 
-function UserLayout() {
+export default function UserLayout() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const location = useLocation();
+  const isApplicationWizard = location.pathname.includes(ROUTES.MEMBER_APPLICATION);
 
-  // 1. 🟢 CONDITIONAL GUARD: Detect if the user is processing their wizard application form
-  const isApplicationWizard = location.pathname.includes("/membership/apply");
+  const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
-  return (
-    <div className="d-flex bg-light w-100 min-vh-100 overflow-hidden">
+ // src/features/dashboard/components/layout/UserLayout.jsx
+// src/features/dashboard/components/layout/UserLayout.jsx
+
+return (
+  <div className="d-flex bg-light w-100 vh-100 m-0 p-0 overflow-hidden">
+    {!isApplicationWizard && (
+      <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+    )}
+
+    {/* 🟢 Step 1: Force zero padding on the main wrapper */}
+    <main className="flex-grow-1 d-flex flex-column h-100" style={{ overflow: "hidden", padding: "0" }}>
       
-      {/* 2. Render general layout sidebar only when outside the intensive application form wizard */}
-      {!isApplicationWizard && <Sidebar />}
+      {/* Mobile Header: Now has 0px of space above it */}
+      {!isApplicationWizard && (
+        <header className="d-lg-none bg-white border-bottom p-3 d-flex justify-content-between align-items-center shadow-sm" style={{ zIndex: 10 }}>
+          <h5 className="mb-0 fw-bold text-primary">WEMPA</h5>
+          <button className="btn btn-light border" onClick={toggleSidebar}>
+            <i className={`bi ${isSidebarOpen ? 'bi-x-lg' : 'bi-list'} fs-4`}></i>
+          </button>
+        </header>
+      )}
 
-      <main
-        className="flex-grow-1 d-flex flex-column"
-        style={{
-          minHeight: "100vh",
-          background: "#f8fafc", // Premium off-white clean corporate workspace backdrop color accent
-          padding: isApplicationWizard ? "0px" : "35px", // Wizard handles its own spacing padding boundaries
-          transition: "all 0.3s ease",
-          width: "100%",
-          overflowY: "auto"
+      {/* 🟢 Step 2: Apply the 20px padding ONLY to the scrolling content container */}
+      <div 
+        className="flex-grow-1" 
+        style={{ 
+          overflowY: "auto", 
+          padding: isApplicationWizard ? "0" : "1.25rem" // This adds breathing room for the cards, not the header
         }}
       >
-        {/* Wrap main content area with standard container grid if not using full-bleed wizard blocks */}
-        {isApplicationWizard ? (
-          <Outlet />
-        ) : (
-          <div className="container-fluid p-0 animate-fade-in" style={{ maxWidth: "1400px" }}>
-            <Outlet />
-          </div>
-        )}
-      </main>
-    </div>
-  );
+        <Outlet />
+      </div>
+    </main>
+  </div>
+);
 }
-
-export default UserLayout;

@@ -1,82 +1,165 @@
 /* Dashboard.module.css */
 
+/* 1. CONTAINER & INTERNAL SCROLLING */
 .mainContainer {
-  padding: 2rem;
+  height: 100vh; 
+  overflow-y: auto; 
+  /* Zero top padding allows the header to hit the ceiling */
+  padding: 0 1.5rem 1.5rem 1.5rem; 
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  maxWidth: 1400px;
-  margin: 0 auto;
+  max-width: 100%; /* Changed from 1400px to 100% to ensure flush sides */
+  margin: 0;
   font-family: system-ui, -apple-system, sans-serif;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.1) transparent;
 }
 
+.mainContainer::-webkit-scrollbar {
+  width: 6px;
+}
+.mainContainer::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+}
+
+/* 2. THEME-SYNCED HEADER (FLUSH FIX) */
 .dashboardHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background: linear-gradient(135deg, #002244 0%, #003366 100%);
+  
+  /* 🟢 FLUSH TO TOP FIX: 
+     Negative horizontal margins pull it to the screen edges. 
+     Border radius removed from the top to hit the window ceiling perfectly. */
+  margin: 0 -1.5rem 0.5rem -1.5rem; 
+  padding: 2.5rem 3.5rem; 
+  border-radius: 0 0 20px 20px; 
+  
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 25px -3px rgba(0, 34, 68, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dashboardHeader::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+  pointer-events: none;
 }
 
 .title {
   margin: 0;
   font-size: 2rem;
-  font-weight: 700;
-  color: var(--bs-body-color, #1e293b);
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.5px;
 }
 
 .subtitle {
   margin: 0.5rem 0 0;
-  color: var(--bs-secondary-color, #64748b);
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.7);
 }
 
-/* Grid Matrix Layout */
+.logoutButton {
+  background: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+  padding: 0.75rem 1.5rem !important;
+  transition: all 0.3s ease !important;
+}
+
+.logoutButton:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+  transform: translateY(-2px);
+}
+
+/* 3. GRID SYSTEM */
 .dashboardGrid {
   display: grid;
-  gap: 1.5rem;
+  gap: 1.75rem;
   grid-template-columns: repeat(12, 1fr);
+  padding-bottom: 2rem;
+}
+
+.actionRow {
+  grid-column: span 12;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 1.75rem;
+  align-items: start;
+}
+
+.quickActionsColumn {
+  grid-column: span 8;
+}
+
+.activityColumn {
+  grid-column: span 4;
 }
 
 .rowFullWidth {
   grid-column: span 12;
   display: grid;
-  gap: 1.5rem;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
 
 .mainColumn {
   grid-column: span 8;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
 }
 
 .sidebarColumn {
   grid-column: span 4;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
 }
 
+/* 4. GLOBAL COMPONENT ENHANCEMENTS */
+.dashboardGrid :global(.card) {
+  border: 1px solid rgba(226, 232, 240, 0.8) !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03) !important;
+  border-radius: 16px !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.dashboardGrid :global(.card):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* 5. STATES & RESPONSIVENESS */
 .loaderContainer {
-  min-height: 400px;
+  height: 80vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.errorAlert {
-  background-color: #fef2f2;
-  border: 1px solid #fee2e2;
-  color: #991b1b;
-  padding: 1rem;
-  border-radius: 8px;
-  margin: 2rem auto;
-  max-width: 600px;
-}
-
-/* Responsive Overrides (Bypasses window.innerWidth bugs) */
-@media (max-width: 1024px) {
+@media (max-width: 1140px) {
+  .quickActionsColumn,
+  .activityColumn,
   .mainColumn,
   .sidebarColumn {
     grid-column: span 12;
+  }
+  
+  .actionRow {
+    grid-template-columns: 1fr;
+  }
+  
+  .dashboardHeader {
+    /* Reduce horizontal padding slightly on smaller screens */
+    margin: 0 -1rem 0.5rem -1rem;
+    padding: 2rem;
   }
 }

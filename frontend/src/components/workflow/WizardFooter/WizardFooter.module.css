@@ -6,12 +6,18 @@
   align-items: center;
   gap: 1.5rem;
   padding: 1.25rem 2rem;
-  border-top: 1px solid var(--color-border);
-  background: var(--color-surface);
+  border-top: 1px solid #1e293b; /* Subtle dark border separator */
   
   /* Prevent footer content shifting on tiny displays */
   width: 100%;
   box-sizing: border-box;
+
+  /* Sticky layout positioning constraints */
+  position: sticky;
+  bottom: 0;
+  z-index: 100;                 /* Anchor layer safely over scrolling forms */
+  margin-top: auto;             /* Snap hard to bottom when forms are short */
+  background-color: #0f172a;    /* Matching Maritime Midnight Navy background */
 }
 
 .left,
@@ -27,7 +33,7 @@
   text-align: center;
 }
 
-/* Typography & Sub-component Styling Hooks */
+/* Typography & Progress text colors */
 .progressInfo {
   display: flex;
   flex-direction: column;
@@ -38,44 +44,50 @@
 .stepText {
   font-size: 0.875rem;
   font-weight: 600;
-  color: var(--color-text-muted, #64748b);
+  color: #94a3b8; /* Slate text color */
 }
 
 .syncText {
   font-size: 0.75rem;
-  color: var(--color-primary, #3b82f6);
+  color: #38bdf8; /* Radiant Ocean Sky Blue indicator */
   font-weight: 500;
 }
 
-/* Responsive Overrides for Tablets and Mobile devices */
+/* 📱 RESPONSIVE OVERRIDES FOR TABLETS AND MOBILE DEVICES */
 @media (max-width: 768px) {
   .footer {
-    flex-direction: column-reverse;
+    flex-direction: column-reverse; /* Stacks button actions vertically; Back button on bottom */
     align-items: stretch;
-    gap: 1.25rem;
-    padding: 1.25rem 1rem; /* Margins compressed safely for narrow screens */
+    gap: 1rem;
+    padding: 1.25rem 1rem; /* Compressed margins to maximize small screens */
   }
 
   .left,
   .center,
   .right {
     width: 100%;
-    justify-content: center; /* Centers action controls perfectly on stack */
+    justify-content: center;
   }
 
-  /* Target buttons precisely regardless of deep React UI wrappers */
+  .center {
+    order: 3; /* Push progress text meta values safely to the top or base stack */
+    margin: 0.25rem 0;
+  }
+
+  /* Target action buttons seamlessly across inner UI wrappers */
   .left :global(button),
   .center :global(button),
   .right :global(button),
   .left button,
   .center button,
   .right button {
-    width: 100%;
+    width: 100%;           /* Buttons stretch full-width for easier thumb taps */
     justify-content: center;
-    padding: 0.75rem 1rem; /* Enhanced mobile tap targets */
+    padding: 0.85rem 1.2rem; /* Enhanced target dimensions for mobile touch screens */
+    font-size: 1rem;       /* Highly legible form layout text handles */
   }
   
   .progressInfo {
-    margin-bottom: 0.25rem;
+    margin-bottom: 0;
   }
 }

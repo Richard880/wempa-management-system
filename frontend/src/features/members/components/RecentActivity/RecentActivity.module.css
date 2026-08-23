@@ -1,0 +1,109 @@
+/* RecentActivity.module.css */
+
+.activityCard {
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.header h5 {
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+/* 🟢 THE TIMELINE TRACK */
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 0.75rem;
+  top: 5px;
+  bottom: 5px;
+  width: 2px;
+  background: #e2e8f0;
+}
+
+.activityItem {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+/* Timeline Dot */
+.activityItem::after {
+  content: "";
+  position: absolute;
+  left: -1.65rem;
+  top: 0.5rem;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #fff;
+  border: 3px solid #003366; /* Matches your brand blue */
+  z-index: 1;
+}
+
+.activityTitle {
+  font-weight: 600;
+  color: #1e293b;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.activityTime {
+  font-size: 0.8rem;
+  color: #94a3b8;
+}
+
+/* 🟢 THE PREMIUM ACTION BUTTON */
+.viewAllButton {
+  width: 100%;
+  margin-top: 1rem;
+  background: #f8fafc !important;
+  border: 1px solid #e2e8f0 !important;
+  color: #475569 !important;
+  border-radius: 12px !important;
+  padding: 0.75rem !important;
+  font-weight: 700 !important;
+  font-size: 0.875rem !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.viewAllButton:hover {
+  background: #003366 !important; /* Transitions to brand blue */
+  color: #ffffff !important;
+  border-color: #003366 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 51, 102, 0.2);
+}
+
+.viewAllButton i {
+  transition: transform 0.3s ease;
+}
+
+.viewAllButton:hover i {
+  transform: translateX(4px);
+}

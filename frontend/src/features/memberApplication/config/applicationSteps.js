@@ -3,13 +3,13 @@ export const APPLICATION_STEPS = [
     id: 1,
     key: "personal",
     title: "Personal Information",
-    weight: 10,
+    weight: 20,
   },
   {
     id: 2,
     key: "contact",
     title: "Contact Information",
-    weight: 10,
+    weight: 20,
   },
   // {
   //   id: 3,
@@ -45,13 +45,13 @@ export const APPLICATION_STEPS = [
     id: 4,
     key: "review",
     title: "Review Application",
-    weight: 10,
+    weight: 20,
   },
   {
     id: 5,
     key: "declaration",
     title: "Declaration & Submit",
-    weight: 10,
+    weight: 20,
   },
 ];
 

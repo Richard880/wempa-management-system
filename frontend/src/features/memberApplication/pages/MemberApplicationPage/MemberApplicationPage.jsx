@@ -27,6 +27,8 @@ const STEPS = Array.isArray(APPLICATION_STEPS_CONFIG)
   ? APPLICATION_STEPS_CONFIG 
   : (APPLICATION_STEPS_CONFIG?.APPLICATION_STEPS || []);
 
+// src/features/members/pages/MemberApplicationPage/MemberApplicationPage.jsx
+
 export default function MemberApplicationPage() {
   const {
     loading,
@@ -42,7 +44,6 @@ export default function MemberApplicationPage() {
     submitApplication,
   } = useApplicationForm();
 
-  // Stable ID for connecting the footer button to the active form in the body
   const formId = `step-form-${currentStep}`;
 
   if (loading || !application) {
@@ -53,14 +54,7 @@ export default function MemberApplicationPage() {
     );
   }
 
-  /**
-   * Orchestrates step rendering.
-   * Steps 1-7: Standard data entry.
-   * Step 8 (Review): Editable summary that saves changes to Firestore before moving to Step 9.
-   * Step 9 (Declaration): Final checkbox stage that locks the data.
-   */
   const renderStepComponent = () => {
-    // Props passed to ensure all forms are connected to the WizardFooter trigger
     const commonProps = { formId, isLocked: application.isLocked };
 
     switch (currentStep) {
@@ -68,18 +62,9 @@ export default function MemberApplicationPage() {
         return <PersonalInformation {...commonProps} profile={profile} initialData={application.personal || {}} />;
       case 2:
         return <ContactInformation {...commonProps} profile={profile} initialData={application.contact || {}} />;
-      // case 3:
-      //   return <EmploymentInformation {...commonProps} initialData={application.employment || {}} />;
-      // case 4:
-      //   return <MaritimeInformation {...commonProps} initialData={application.maritime || {}} />;
-      // case 5:
-      //   return <EmergencyContact {...commonProps} initialData={application.emergencyContact || {}} />;
-      // case 6:
-      //   return <NextOfKin {...commonProps} initialData={application.nextOfKin || {}} />;
       case 3:
         return <Documents {...commonProps} initialData={application.documents || {}} />;
       case 4:
-        // Adjusted to perfectly match the application payload requirements of the Review component
         return <Review formId={formId} application={application} />;
       case 5:
         return <Declaration {...commonProps} initialData={application.declaration || {}} />;
@@ -88,26 +73,24 @@ export default function MemberApplicationPage() {
     }
   };
 
-  /**
-   * Remote Form Trigger System:
-   * Programmatically triggers validation and submission of the active child step form.
-   */
   const handleRemoteSave = () => {
     if (application.isLocked) return;
 
     const activeForm = document.getElementById(formId);
     if (activeForm) {
-      // requestSubmit() is the production standard for remote triggers as it runs HTML5 validation
       if (typeof activeForm.requestSubmit === 'function') {
         activeForm.requestSubmit();
       } else {
-        // Fallback execution branch for legacy browsers
         activeForm.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
       }
-    } else if (currentStep === 8) {
+    } else if (currentStep === 4) { // 🟢 Updated to match Review step
       nextStep();
     }
   };
+
+  // ... keep all imports and top functions exactly the same ...
+
+ // ... keeping all your imports exactly the same ...
 
   return (
     <div className={styles.page}>
@@ -125,14 +108,21 @@ export default function MemberApplicationPage() {
           <WizardSidebar />
           <div className={styles.content}>
             <WizardHeader />
-            <WizardBody>
-              {renderStepComponent()}
-            </WizardBody>
+            
+            <div className={styles.scrollContainer}>
+              {/* 	🏼 WRAPPED THE FORMS IN THE MAXIMUM READABILITY LAYER */}
+              <div className={styles.formMaxWrapper}>
+                <WizardBody>
+                  {renderStepComponent()}
+                </WizardBody>
+              </div>
+            </div>
+            
             <WizardFooter 
               loading={saving} 
               onSaveDraft={handleRemoteSave}
-              isLastStep={currentStep === 9}
-              disabled={application.isLocked} // Disables navigation controls when locked down
+              isLastStep={currentStep === 5} 
+              disabled={application.isLocked} 
             />
           </div>
         </WizardLayout>
@@ -140,3 +130,8 @@ export default function MemberApplicationPage() {
     </div>
   );
 }
+
+
+
+
+

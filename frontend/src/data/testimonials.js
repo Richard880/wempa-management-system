@@ -9,7 +9,7 @@ const testimonials = [
   },
   {
     id: 2,
-    name: "Eng. Grace Achieng",
+    name: "Eng. Farida Abdulwasir",
     role: "Marine Engineer",
     message:
       "The workshops and networking events have been invaluable for my professional growth.",

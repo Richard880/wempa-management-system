@@ -1,0 +1,330 @@
+/* src/styles/components/hero.css */
+
+.hero-section-premium {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 700px;
+  max-height: 900px; /* Restricts excessive stretching on wide monitors */
+  overflow: hidden;
+  background-color: #0b1320;
+  display: flex;
+  align-items: center; /* 🟢 FIX: Centers the core content vertically in the window */
+  box-sizing: border-box;
+}
+
+.loading-state-hero {
+  justify-content: center;
+  flex-direction: column;
+  background: #f4f7f9;
+}
+
+/* 🌊 ENVIRONMENTAL CANVAS BACKGROUND SPECIFICATIONS */
+.hero-backdrop-pane {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.hero-backdrop-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+}
+
+/* Multi-Layer Lighting Gradient matching image layout graphic texture shades */
+.hero-atmosphere-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(244, 247, 249, 0.95) 0%, rgba(244, 247, 249, 0.8) 40%, rgba(244, 247, 249, 0.1) 100%);
+}
+
+/* CONTAINER HOOK OVERLAY PARAMETERS */
+.hero-interactive-container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 🟢 FIX: Removes top gaps and balances container distribution */
+  z-index: 5;
+  padding-top: 1rem; /* 🟢 FIX: Reduced from 4rem to pull content up */
+  padding-bottom: 7rem; /* Leaves exact room for floating bottom plates */
+  box-sizing: border-box;
+}
+
+.hero-core-content-align {
+  width: 100%;
+  margin-top: auto;
+  margin-bottom: auto; /* 🟢 FIX: Centers text perfectly between top bar and dashboard */
+}
+
+.hero-left-text-track {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+/* TYPOGRAPHY OVERLAY TRACKS FROM PICTURE */
+.premium-orange-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #e65c00;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 1rem;
+}
+
+.premium-headline-title {
+  font-size: 3.25rem; /* Slightly compressed for readability framework */
+  font-weight: 900;
+  color: #0f172a;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.25rem;
+  max-width: 580px;
+}
+
+.premium-description-subtitle {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #475569;
+  max-width: 480px;
+  margin-bottom: 2rem;
+}
+
+/* 🎯 CORAL ORANGE ACTION CLUSTERS CONTROLS */
+.premium-action-cluster {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.btn-premium-orange {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background-color: #ff7a00;
+  color: #ffffff !important;
+  text-decoration: none;
+  padding: 0.85rem 1.75rem;
+  border-radius: 0.75rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  box-shadow: 0 10px 20px rgba(255, 122, 0, 0.25);
+  transition: all 0.2s ease;
+}
+
+.btn-premium-orange:hover {
+  background-color: #e66e00;
+  transform: translateY(-2px);
+}
+
+.btn-premium-blur {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background-color: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  color: #334155 !important;
+  text-decoration: none;
+  padding: 0.85rem 1.75rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.btn-premium-blur:hover {
+  background-color: #ffffff;
+  transform: translateY(-2px);
+}
+
+/* 📊 BOTTOM METRICS PANEL DECK MESH */
+.hero-bottom-dashboard-grid {
+  position: absolute;
+  bottom: 2.5rem; /* Locked to the lower padding track margin baseline */
+  left: var(--bs-gutter-x, 12px);
+  right: var(--bs-gutter-x, 12px);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 2rem;
+}
+
+.metrics-loop-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.translucent-metric-plate {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  padding: 0.75rem 1.15rem;
+  border-radius: 1rem;
+  min-width: 210px;
+}
+
+.metric-icon-bubble {
+  width: 40px;
+  height: 40px;
+  background-color: #0369a1;
+  color: #ffffff;
+  border-radius: 0.65rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.metric-plate-text h3 {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+}
+
+.metric-plate-text p {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #64748b;
+  margin: 0;
+}
+
+/* ⭐ RIGHT SIDE CORNER EXPOSURE TRUST CARD */
+.floating-rating-showcase-plate {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  padding: 0.75rem 1.25rem;
+  border-radius: 1.25rem;
+}
+
+.rating-stars-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: #0f172a;
+  font-weight: 900;
+  font-size: 1.35rem;
+}
+
+.rating-stars-badge i {
+  color: #0f172a; /* Matched to deep dark font tint color */
+}
+
+.rating-subtext h4 {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #334155;
+  margin: 0;
+}
+
+.rating-subtext p {
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: #64748b;
+  margin: 0;
+}
+
+/* 👥 SIDE FLOATING STAT BLOCK CAPTURED FROM PICTURE BOX */
+.floating-team-metric-card {
+  position: absolute;
+  right: 0;
+  top: 35%; /* Centered cleaner along the visual grid track line */
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  padding: 1.25rem;
+  border-radius: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 180px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+}
+
+.floating-team-metric-card i {
+  font-size: 1.35rem;
+  color: #475569;
+}
+
+.team-metric-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.team-metric-text span {
+  font-size: 0.7rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.team-metric-text strong {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0.1rem 0;
+}
+
+/* 📱 RESPONSIVE SYSTEM RE-ALIGNMENT BREAKPOINTS */
+@media (max-width: 992px) {
+  .hero-section-premium {
+    height: auto;
+    min-height: auto;
+    max-height: none;
+    padding: 7rem 0 3rem 0;
+  }
+  
+  .hero-interactive-container {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .hero-atmosphere-gradient {
+    background: linear-gradient(180deg, rgba(244, 247, 249, 0.96) 0%, rgba(244, 247, 249, 0.88) 100%);
+  }
+
+  .premium-headline-title {
+    font-size: 2.25rem;
+  }
+
+  .hero-bottom-dashboard-grid {
+    position: static;
+    margin-top: 2.5rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 0;
+  }
+
+  .metrics-loop-row {
+    flex-direction: column;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  .floating-team-metric-card {
+    position: static;
+    width: 100%;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+  }
+}

@@ -1,6 +1,6 @@
  import Hero from "../../../components/hero/Hero";
 import AboutSection from "../../../components/home/AboutSection";
- import Statistics from "../../../components/home/Statistics";
+//  import Statistics from "../../../components/home/Statistics";
  import CoreValues from "../../../components/home/CoreValues";
 import WhyJoin from "../../../components/home/WhyJoin";
 import Services from "../../../components/home/Services";
@@ -14,7 +14,7 @@ function Home() {
     <>
        <Hero />
     <AboutSection />
-       <Statistics />
+       {/* <Statistics /> */}
    <CoreValues />
        <WhyJoin />
       <Services />

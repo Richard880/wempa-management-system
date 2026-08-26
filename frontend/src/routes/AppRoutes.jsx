@@ -14,6 +14,7 @@ import ROLES from "../constants/roles";
 import PublicLayout from "../layouts/PublicLayout";
 import MemberLayout from "../layouts/MemberLayout";
 import AdminLayout from "../layouts/AdminLayout/AdminLayout";
+import AuthLayout from "../layouts/AuthLayout"; 
 
 /* ==========================================
    Route Guards
@@ -100,13 +101,13 @@ function AppRoutes() {
           2. AUTHENTICATION
           ========================================== */}
       <Route element={<PublicRoute />}>
-        <Route element={<PublicLayout />}>
+       <Route element={<AuthLayout />}> 
           <Route path={ROUTES.REGISTER} element={<Register />} />
           <Route path={ROUTES.LOGIN} element={<Login />} />
           <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPasswordPage />} />
           <Route path={ROUTES.VERIFY_EMAIL} element={<VerifyEmailPage />} />
         </Route>
-      </Route>
+      </Route> 
 
       {/* ==========================================
           3. MEMBER PORTAL

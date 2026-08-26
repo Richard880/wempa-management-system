@@ -12,11 +12,11 @@ const heroData = {
 
   stats: [
     {
-      value: "100+",
+      value: "1000+",
       label: "Members",
     },
     {
-      value: "10+",
+      value: "100+",
       label: "Events",
     },
     {

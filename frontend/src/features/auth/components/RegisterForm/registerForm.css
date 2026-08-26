@@ -1,66 +1,171 @@
-.register-card {
-  max-width: 650px;
+/* 🗺️ WIDESCREEN REGISTRATION TWIN COLUMN PLATFORM MESH */
+.maritime-auth-grid-reg {
   width: 100%;
-  margin: 0 auto;
+  max-width: 1000px;
+  height: 90vh; 
+  min-height: 600px;
+  background: #ffffff;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: 1.5rem;
+  box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.35);
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  overflow: hidden; 
+  box-sizing: border-box;
+  position: relative;
 }
 
-.register-form {
+/* 🔵 LEFT COL: LOCKED STATIONARY MARITIME BLUE CANVASES */
+.auth-hero-side-reg {
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+  padding: 3.5rem 2.5rem;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
-.form-section {
+/* 🌀 DECORATIVE CIRCLES (The "Card Design" Look) */
+.circle-shape-reg {
+  position: absolute;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.07) 0%, rgba(255, 255, 255, 0) 100%);
+  pointer-events: none;
+}
+
+.top-bubble-reg { width: 340px; height: 340px; top: -10%; left: -25%; background: rgba(29, 78, 216, 0.5); }
+.center-bubble-reg { width: 200px; height: 200px; bottom: 5%; right: -8%; background: #1e40af; box-shadow: -10px 10px 30px rgba(0,0,0,0.15); }
+.bottom-bubble-reg { width: 240px; height: 240px; bottom: -15%; left: -10%; background: rgba(30, 64, 175, 0.6); }
+
+/* 🛡️ LOGO FRAME & PULSE */
+.hero-logo-frame-reg {
+  width: 76px;
+  height: 76px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+  position: relative;
+  padding: 0.5rem;
+  box-sizing: border-box;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+}
+
+.hero-logo-image-reg { max-width: 100%; max-height: 100%; object-fit: contain; }
+.logo-ring-pulse-reg { position: absolute; inset: -5px; border-radius: 50%; border: 2px solid rgba(255, 255, 255, 0.12); }
+
+/* 📝 HERO TYPOGRAPHY */
+.maritime-title-reg { font-size: 2.25rem; font-weight: 800; color: #ffffff; margin: 0; letter-spacing: 0.05em; line-height: 1; }
+.maritime-headline-reg { font-size: 0.9rem; font-weight: 700; color: rgba(255, 255, 255, 0.8); text-transform: uppercase; letter-spacing: 0.1em; margin: 0.5rem 0 1rem 0; }
+.maritime-subtitle-reg { font-size: 0.825rem; color: rgba(248, 250, 252, 0.7); line-height: 1.5; margin: 0; max-width: 280px; }
+
+/* 🏠 BACK TO HOME LINK */
+.back-to-home-wrapper-reg {
+  position: absolute;
+  top: 1.5rem;
+  left: 2rem;
+  z-index: 20;
+}
+
+.back-home-link-reg {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(255, 255, 255, 0.65);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.back-home-link-reg:hover {
+  color: #38bdf8;
+  transform: translateX(-3px);
+}
+
+/* ✍️ RIGHT COL: SCROLLABLE INPUT SIDE */
+.auth-input-side-reg {
+  padding: 3.5rem 3.5rem;
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  background: #ffffff;
+  box-sizing: border-box;
+  height: 100%;
+  overflow-y: auto; 
+  -webkit-overflow-scrolling: touch; 
 }
 
-.form-section-title {
-  margin: 0;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--color-border);
-  font-size: var(--font-size-md);
-  font-weight: 600;
-  color: var(--color-text);
+/* 🎨 CUSTOM SCROLLBAR (Professional Look) */
+.auth-input-side-reg::-webkit-scrollbar { width: 6px; }
+.auth-input-side-reg::-webkit-scrollbar-track { background: #f1f5f9; }
+.auth-input-side-reg::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+.auth-input-side-reg::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+/* 🏁 FORM ELEMENTS */
+.input-side-header-reg { margin-bottom: 2rem; }
+.welcome-text-reg { font-size: 1.75rem; font-weight: 800; color: #0f172a; margin: 0 0 0.25rem 0; letter-spacing: -0.01em; }
+.welcome-subtext-reg { font-size: 0.85rem; color: #64748b; margin: 0; }
+
+.register-form-ws { display: flex; flex-direction: column; gap: 1.75rem; }
+.form-section-ws { display: flex; flex-direction: column; gap: 0.85rem; }
+
+.form-section-title-ws {
+  margin: 0 0 0.25rem 0;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px dashed #e2e8f0;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #94a3b8;
 }
 
-.form-row {
+.form-row-ws {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
 }
 
-.register-button {
+.register-button-ws {
+  background: #1e3a8a !important; 
+  color: white !important;
+  border: none !important;
+  height: 48px !important;
+  font-size: 0.95rem !important;
+  font-weight: 600 !important;
+  border-radius: 0.5rem !important;
+  cursor: pointer;
   width: 100%;
+  box-shadow: 0 4px 12px rgba(30, 58, 138, 0.15);
 }
 
-.register-footer {
+.register-footer-ws {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 0.4rem;
-  font-size: var(--font-size-sm);
-  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  color: #64748b;
 }
 
-.login-link {
-  color: var(--color-primary);
-  text-decoration: none;
-  font-weight: 500;
-}
+.login-link-ws { color: #1d4ed8; text-decoration: none; font-weight: 600; }
 
-.login-link:hover {
-  text-decoration: underline;
-}
-
-@media (max-width: 768px) {
-  .form-row {
+/* 📱 MOBILE RESPONSIVE */
+@media (max-width: 840px) {
+  .maritime-auth-grid-reg {
     grid-template-columns: 1fr;
+    height: auto;
+    max-height: none;
+    border: none;
+    border-radius: 0;
   }
-
-  .register-footer {
-    flex-direction: column;
-    gap: 0.25rem;
-  }
+  .auth-hero-side-reg { padding: 4rem 1.5rem 2rem; align-items: center; text-align: center; }
+  .auth-input-side-reg { padding: 2rem 1.5rem 3rem 1.5rem; overflow-y: visible; height: auto; }
+  .back-to-home-wrapper-reg { position: absolute; top: 1rem; left: 1rem; }
+  .form-row-ws { grid-template-columns: 1fr; }
 }

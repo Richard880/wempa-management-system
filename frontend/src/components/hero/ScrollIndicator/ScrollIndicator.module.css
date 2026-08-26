@@ -1,0 +1,82 @@
+/* ScrollIndicator.module.css */
+
+.scrollIndicator {
+  position: absolute;
+  bottom: 1.25rem; /* Safely anchored floating directly over the base bar */
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 15;
+  padding: 0.5rem;
+  transition: opacity 0.3s ease;
+}
+
+.scrollIndicator:hover .scrollText {
+  color: #0f172a; /* Highlights sharply on focus track mouse-overs */
+}
+
+.scrollIndicator:hover .mouseFrame {
+  border-color: #0f172a;
+}
+
+/* 🖱️ CREATING THE NATIVE IMAGE COMPUTER MOUSE COMPONENT ASSET FRAME */
+.mouseFrame {
+  width: 22px;
+  height: 36px;
+  border: 2px solid #64748b; /* Sleek steel slate tracking borders from your image layout */
+  border-radius: 12px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+/* Moving inner click wheel node indicator */
+.mouseWheel {
+  width: 4px;
+  height: 8px;
+  background-color: #64748b;
+  border-radius: 2px;
+  position: absolute;
+  top: 6px;
+  
+  /* Looping dynamic translation slide track path assignment */
+  animation: wheelScroll 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes wheelScroll {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.scrollText {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #64748b;
+  transition: color 0.2s ease;
+}
+
+/* 📱 COLLAPSE BEHAVIOR: Hide indicator on micro screens to eliminate overlapping layout clutter */
+@media (max-width: 992px) {
+  .scrollIndicator {
+    display: none;
+  }
+}

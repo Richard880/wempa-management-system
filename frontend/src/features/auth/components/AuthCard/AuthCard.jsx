@@ -7,23 +7,26 @@ function AuthCard({
   children,
   className = "",
 }) {
+  // 	🏼 IF NO HEADER DETAILS EXIST, RENDER PASSTHROUGH TO PREVENT STYLE OVERRIDES
+  if (!title && !subtitle) {
+    return <div className={className}>{children}</div>;
+  }
+
   return (
     <div className={`${styles.card} ${className}`}>
-      {(title || subtitle) && (
-        <div className={styles.header}>
-          {title && (
-            <h1 className={styles.title}>
-              {title}
-            </h1>
-          )}
+      <div className={styles.header}>
+        {title && (
+          <h1 className={styles.title}>
+            {title}
+          </h1>
+        )}
 
-          {subtitle && (
-            <p className={styles.subtitle}>
-              {subtitle}
-            </p>
-          )}
-        </div>
-      )}
+        {subtitle && (
+          <p className={styles.subtitle}>
+            {subtitle}
+          </p>
+        )}
+      </div>
 
       <div className={styles.body}>
         {children}

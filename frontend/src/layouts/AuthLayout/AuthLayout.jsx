@@ -4,30 +4,15 @@ import "./authLayout.css";
 function AuthLayout() {
   return (
     <div className="auth-layout">
-
-      <div className="auth-overlay"></div>
-
-      <div className="auth-container">
-
-        <div className="auth-brand">
-
-          {/* Temporary logo */}
-          <div className="logo-circle">
-            W
-          </div>
-
-          <h1>WEMPA</h1>
-
-          <p>
-            Western Maritime Employers & Professionals Association
-          </p>
-
-        </div>
-
-        <Outlet />
-
+      {/* Dynamic Maritime Sea Wave Overlay Background Elements */}
+      <div className="auth-overlay">
+        <div className="wave-layer-1" />
+        <div className="wave-layer-2" />
       </div>
 
+      <div className="auth-viewport-wrapper">
+        <Outlet />
+      </div>
     </div>
   );
 }

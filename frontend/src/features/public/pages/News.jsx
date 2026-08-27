@@ -5,7 +5,7 @@ import LatestNewsGrid from "../../news/components/LatestNewsGrid";
 import NewsCategories from "../../news/components/NewsCategories";
 import NewsletterCTA from "../../news/components/NewsletterCTA";
 
-import banner from "../../../assets/banners/about-banner.png";
+import banner from "../../../assets/banners/event-banner.jpeg";
 
 function News() {
   return (

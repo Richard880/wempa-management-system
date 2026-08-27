@@ -5,7 +5,7 @@ import ContactInfo from "../../../components/contact/ContactInfo";
 import GoogleMap from "../../../components/contact/GoogleMap";
 import ContactFAQ from "../../../components/contact/ContactFAQ";
 
-import banner from "../../../assets/banners/about-banner.png";
+import banner from "../../../assets/banners/contact-banner.jpeg";
 
 function Contact() {
   return (

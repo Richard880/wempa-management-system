@@ -32,7 +32,7 @@ export default function Declaration({ initialData, formId }) {
     defaultValues: defaultValues, 
     values: stableValues,         
     section: "declaration",
-    currentStep: 9, 
+    currentStep: 5, 
   });
 
   const onSubmit = async (data) => {

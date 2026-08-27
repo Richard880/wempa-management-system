@@ -142,34 +142,28 @@ Edit Section Button
 Review Status Badge
 --------------------------------------------------
 */
-
+/* base class applied to the span element */
 .reviewStatusBadge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  min-width: 90px;
-
   padding: 0.35rem 0.75rem;
-
-  border-radius: 999px;
-
-  font-size: 0.75rem;
-
+  font-size: 0.8rem;
   font-weight: 600;
-
-  text-transform: capitalize;
+  border-radius: 4px;
 }
 
-/*
---------------------------------------------------
-Pending
---------------------------------------------------
-*/
+/* Color codes tied directly to backend status flags */
+.uploaded, .success, .verified {
+  background-color: #dcfce7 !important;
+  color: #15803d !important;
+}
 
-.pending {
-  background: #f8f9fa;
-  color: #6c757d;
+.pending, .queued, .uploading {
+  background-color: #f1f5f9 !important;
+  color: #475569 !important;
+}
+
+.failed {
+  background-color: #fee2e2 !important;
+  color: #b91c1c !important;
 }
 
 /*
@@ -183,77 +177,8 @@ Selected
   color: #055160;
 }
 
-/*
---------------------------------------------------
-Queued
---------------------------------------------------
-*/
 
-.queued {
-  background: #fff3cd;
-  color: #664d03;
-}
 
-/*
---------------------------------------------------
-Uploading
---------------------------------------------------
-*/
-
-.uploading {
-  background: #cfe2ff;
-  color: #084298;
-}
-
-/*
---------------------------------------------------
-Uploaded
---------------------------------------------------
-*/
-
-.uploaded {
-  background: #d1e7dd;
-  color: #0f5132;
-}
-
-/*
---------------------------------------------------
-Verified
---------------------------------------------------
-*/
-
-.verified {
-  background: #198754;
-  color: #ffffff;
-}
-
-/*
---------------------------------------------------
-Failed
---------------------------------------------------
-*/
-
-.failed {
-  background: #f8d7da;
-  color: #842029;
-}
-
-/*
---------------------------------------------------
-Cancelled
---------------------------------------------------
-*/
-
-.cancelled {
-  background: #e2e3e5;
-  color: #41464b;
-}
-
-/*
---------------------------------------------------
-Review Documents
---------------------------------------------------
-*/
 
 .reviewDocuments {
   display: flex;

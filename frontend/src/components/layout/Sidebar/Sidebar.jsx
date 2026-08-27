@@ -1,18 +1,45 @@
 // src/features/dashboard/components/layout/Sidebar.jsx
 import { Link, useLocation } from "react-router-dom";
 import ROUTES from "../../../constants/routes";
-import styles from "./Sidebar.module.css"; // We are moving styles here
+import styles from "./Sidebar.module.css"; 
+
+// 1. IMPORT YOUR AUTH HOOK
+import useAuth from "../../../features/auth/hooks/useAuth"; // Ensured matching hook signature matching your AdminSidebar
 
 export default function Sidebar({ isOpen, toggleSidebar }) {
   const location = useLocation();
+  
+  // 👇 2. EXTRACT AUTH WITH THE EXACT SAME LAYOUT SIGNATURE AS YOUR ADMIN SIDEBAR
+  const { auth } = useAuth();
+  
+  // Extract role directly from auth.role, matching your working administration logic
+  const userRole = auth?.role || "";
+  const isAdminOrSuperAdmin = ["admin", "super_admin"].includes(userRole.toLowerCase());
 
   const isActive = (path) => location.pathname === path 
     ? styles.activeLink 
     : styles.inactiveLink;
 
+  // 3. DEFINE BASE USER NAV LINKS
+  const navLinks = [
+    { path: ROUTES.MEMBER_DASHBOARD, icon: "bi-speedometer2", label: "Dashboard" },
+    { path: ROUTES.MEMBER_APPLICATION, icon: "bi-card-checklist", label: "Membership" },
+    { path: ROUTES.MEMBER_PROFILE, icon: "bi-person-badge", label: "Profile" },
+    { path: "/payments", icon: "bi-credit-card-2-front", label: "Payments" },
+  ];
+
+  // 👇 4. INJECT ADMIN PORTAL LINK IF EXPLICIT MATCH DETECTED
+  if (isAdminOrSuperAdmin) {
+    navLinks.push({
+      path: ROUTES.ADMIN_DASHBOARD, // Redirects straight to the root administration route bundle entry point
+      icon: "bi-shield-lock-fill text-warning", 
+      label: "Admin Portal",
+    });
+  }
+
   return (
     <>
-      {/* 🟢 Mobile Overlay: Closes sidebar when clicking outside on mobile */}
+      {/* Mobile Overlay: Closes sidebar when clicking outside on mobile */}
       <div 
         className={`${styles.overlay} ${isOpen ? styles.overlayVisible : ""}`} 
         onClick={toggleSidebar} 
@@ -41,12 +68,7 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
 
         {/* Navigation Links */}
         <nav className="nav flex-column gap-2 flex-grow-1">
-          {[
-            { path: ROUTES.MEMBER_DASHBOARD, icon: "bi-speedometer2", label: "Dashboard" },
-            { path: ROUTES.MEMBER_APPLICATION, icon: "bi-card-checklist", label: "Membership" },
-            { path: ROUTES.MEMBER_PROFILE, icon: "bi-person-badge", label: "Profile" },
-            { path: "/payments", icon: "bi-credit-card-2-front", label: "Payments" },
-          ].map((link) => (
+          {navLinks.map((link) => (
             <Link 
               key={link.path}
               to={link.path} 

@@ -6,9 +6,21 @@ import documentsSchema from "./documentsSchema";
 import defaultValues from "./defaultValues";
 import useDocumentUpload from "./hooks/useDocumentUpload";
 import styles from "./Documents.module.css";
-import WizardFooter from "../../../../components/workflow/WizardFooter"; // Verified absolute relative asset link
+import WizardFooter from "../../../../components/workflow/WizardFooter"; 
+import useWizard from "../../../../components/workflow/WizardProvider/useWizard"; 
+
+// 1. IMPORT YOUR AUTH HOOK DIRECTLY INTO THIS FILE
+import { useAuth } from "../../../auth/hooks/useAuth"; 
 
 export default function Documents({ initialData, formId }) {
+  const { state } = useWizard();
+  const dynamicStepIndex = state?.currentStep || 3; 
+
+  // 2. EXTRACT THE LIVE USER OBJECT DIRECTLY FROM AUTH
+  const { auth } = useAuth();
+  const directUser = auth?.currentUser;
+  const currentUserId = directUser?.uid;
+
   // Stabilize initialData input parsing baseline using useMemo
   const stableValues = useMemo(() => {
     return {
@@ -21,10 +33,10 @@ export default function Documents({ initialData, formId }) {
     setValue,
     handleSubmit,
     formState: { errors },
-    application, // Exposes { saveStepData, isSaving } from your unified hook layer
+    application, 
   } = useApplicationFormStep({
     section: "documents",
-    currentStep: 7, // Keeps current operational order sync locked
+    currentStep: dynamicStepIndex, 
     schema: documentsSchema,
     defaultValues: defaultValues,
     values: stableValues,
@@ -32,6 +44,7 @@ export default function Documents({ initialData, formId }) {
 
   const documentValues = watch("documents") || {};
 
+  // 👇 MOVE HOOK HERE: Initialize hook first so its methods are defined throughout the entire file scope
   const {
     documents,
     resetDocuments,
@@ -41,8 +54,23 @@ export default function Documents({ initialData, formId }) {
     retryDocument,
     cancelDocument,
     processing,
-  } = useDocumentUpload(stableValues.documents);
+  } = useDocumentUpload(stableValues.documents, currentUserId);
 
+  // 👇 LOADING GUARD: Safely blocks rendering elements below if user is not loaded yet
+  if (!currentUserId) {
+    return (
+      <div className={styles.loadingContainer}>
+        <i className="fas fa-spinner fa-spin me-2"></i> 
+        Verifying secure user session...
+      </div>
+    );
+  }
+
+  /*
+  ----------------------------------------
+  Safe State Mapping Engine (Infinite Loop Prevention)
+  ----------------------------------------
+  */
   useEffect(() => {
     if (initialData?.documents) {
       resetDocuments(initialData.documents);
@@ -53,21 +81,22 @@ export default function Documents({ initialData, formId }) {
     if (!documents) return;
     
     const persisted = {};
-    let hasChanges = false;
+    let hasStructuralChanges = false;
 
     documents.forEach((docItem) => {
       const existing = documentValues[docItem.id];
+
       if (
         !existing ||
         existing.status !== docItem.status ||
         existing.downloadURL !== docItem.downloadURL
       ) {
-        hasChanges = true;
+        hasStructuralChanges = true;
       }
 
       persisted[docItem.id] = {
         status: docItem.status,
-        fileName: docItem.fileName,
+        fileName: docItem.fileName || "",
         downloadURL: docItem.downloadURL || "",
         storagePath: docItem.storagePath || "",
         verified: docItem.verified ?? false,
@@ -75,19 +104,46 @@ export default function Documents({ initialData, formId }) {
       };
     });
 
-    if (hasChanges && Object.keys(persisted).length > 0) {
-      setValue("documents", persisted, { shouldDirty: true, shouldValidate: true });
+    if (hasStructuralChanges && Object.keys(persisted).length > 0) {
+      setValue("documents", persisted, { 
+        shouldDirty: true, 
+        shouldValidate: true 
+      });
     }
-  }, [documents, setValue, documentValues]);
+  }, [documents, setValue]); 
 
-  const onSubmit = async (data) => {
+  /*
+  ----------------------------------------
+  Hardened Step Data Submission
+  ----------------------------------------
+  */
+   const onSubmit = async (data) => {
     try {
-      console.log("Saving Document data to Firestore:", data);
+      console.log("Preparing form data payload for Firestore save...", data);
+
+      const sanitizedDocumentsPayload = {};
       
-      // Clean processing boundary: Serializes uploaded file paths, saves metadata to Firestore, and pushes wizard forward
-      const success = await application.saveStepData(data);
+      documents.forEach((doc) => {
+        sanitizedDocumentsPayload[doc.id] = {
+          status: doc.status || "pending",
+          fileName: doc.fileName || doc.file?.name || "",
+          downloadURL: doc.downloadURL || "",
+          storagePath: doc.storagePath || "",
+          verified: doc.verified ?? false,
+          uploadedAt: doc.uploadedAt || null,
+        };
+      });
+
+      const finalSubmissionPayload = {
+        ...data,
+        documents: sanitizedDocumentsPayload, 
+      };
+
+      console.log("Committing clean document tree to Firestore:", finalSubmissionPayload);
+      
+      const success = await application.saveStepData(finalSubmissionPayload);
       if (success) {
-        console.log("Documents Step Successfully Saved to Firestore.");
+        console.log("Documents Step Successfully Synchronized to Cloud.");
       }
     } catch (err) {
       console.error("Failed to execute documents form submission:", err);
@@ -114,11 +170,7 @@ export default function Documents({ initialData, formId }) {
         errors={errors?.documents}
       />
 
-      {/* 
-        CRITICAL: Render footer inside the form so type="submit" 
-        automatically executes handleSubmit(onSubmit) natively.
-      */}
-      <WizardFooter loading={application.isSaving || processing} />
+      <WizardFooter loading={application?.isSaving || processing} />
     </form>
   );
 }

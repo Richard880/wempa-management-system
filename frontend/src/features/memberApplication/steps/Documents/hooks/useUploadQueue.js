@@ -9,8 +9,7 @@ export default function useUploadQueue() {
 
   const [queue, setQueue] = useState([]);
 
-  const [processing, setProcessing] =
-    useState(false);
+  const [processing, setProcessing] = useState(false);
 
   /*
   ----------------------------------------
@@ -37,10 +36,7 @@ export default function useUploadQueue() {
         return previous;
       }
 
-      return [
-        ...previous,
-        job,
-      ];
+      return [...previous, job];
     });
   }, []);
 
@@ -50,42 +46,48 @@ export default function useUploadQueue() {
     }
 
     setQueue((previous) => {
-      const existingJobIds = new Set(
-        previous.map((job) => job.id)
-      );
+      const existingJobIds = new Set(previous.map((job) => job.id));
 
       const validJobs = jobs.filter(
-        (job) =>
-          job?.id &&
-          !existingJobIds.has(job.id)
+        (job) => job?.id && !existingJobIds.has(job.id)
       );
 
-      return [
-        ...previous,
-        ...validJobs,
-      ];
+      return [...previous, ...validJobs];
     });
   }, []);
 
   /*
   ----------------------------------------
-  Read Next Job
+  Read & Dequeue Next Job
   ----------------------------------------
-
-  This DOES NOT remove the job.
-
-  The processor should explicitly remove the
-  completed job after processing finishes.
+  CRITICAL FIX: Atomically extract the job and remove it from the
+  pending state array immediately. This guarantees that your background
+  processor useEffect never catches the same job twice in a fast loop.
   */
 
+     /*
+  ----------------------------------------
+  Read Next Job (Synchronous View)
+  ----------------------------------------
+  */
   const getNextJob = useCallback(() => {
     return queue[0] ?? null;
   }, [queue]);
 
   /*
   ----------------------------------------
+  Dequeue Next Job (Atomic Shift)
+  ----------------------------------------
+  */
+  const dequeue = useCallback(() => {
+    setQueue((previous) => previous.slice(1));
+  }, []);
+
+  /*
+  ----------------------------------------
   Remove Job By Unique Job ID
   ----------------------------------------
+  Kept for legacy fallbacks or manual interventions.
   */
 
   const removeJob = useCallback((jobId) => {
@@ -93,39 +95,26 @@ export default function useUploadQueue() {
       return;
     }
 
-    setQueue((previous) =>
-      previous.filter(
-        (job) => job.id !== jobId
-      )
-    );
+    setQueue((previous) => previous.filter((job) => job.id !== jobId));
   }, []);
 
   /*
   ----------------------------------------
   Remove Jobs By Document ID
   ----------------------------------------
-
-  Used by the member document upload system.
-
-  This removes any queued job associated with
-  the specified document.
+  Used by the member document upload system to pull files from the queue
+  before they begin processing.
   */
 
-  const removeDocumentJob = useCallback(
-    (documentId) => {
-      if (!documentId) {
-        return;
-      }
+  const removeDocumentJob = useCallback((documentId) => {
+    if (!documentId) {
+      return;
+    }
 
-      setQueue((previous) =>
-        previous.filter(
-          (job) =>
-            job.documentId !== documentId
-        )
-      );
-    },
-    []
-  );
+    setQueue((previous) =>
+      previous.filter((job) => job.documentId !== documentId)
+    );
+  }, []);
 
   /*
   ----------------------------------------
@@ -157,10 +146,7 @@ export default function useUploadQueue() {
   ----------------------------------------
   */
 
-  const queueLength = useMemo(
-    () => queue.length,
-    [queue]
-  );
+  const queueLength = useMemo(() => queue.length, [queue]);
 
   const hasJobs = queueLength > 0;
 
@@ -170,29 +156,23 @@ export default function useUploadQueue() {
   ----------------------------------------
   */
 
-  return {
+
+    return {
     queue,
-
     processing,
-
     queueLength,
-
     hasJobs,
-
     enqueue,
-
     enqueueMany,
-
     getNextJob,
-
+    dequeue, // <-- Add this here
     removeJob,
-
     removeDocumentJob,
-
     clearQueue,
-
     startProcessing,
-
     stopProcessing,
   };
+
+
+  
 }

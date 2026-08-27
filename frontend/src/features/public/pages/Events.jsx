@@ -5,7 +5,7 @@ import EventCalendar from "../../../components/events/EventCalendar";
 import PastEvents from "../../../components/events/PastEvents";
 import EventsCTA from "../../../components/events/EventsCTA";
 
-import banner from "../../../assets/banners/about-banner.png";
+import banner from "../../../assets/banners/event-banner.jpeg";
 
 function Events() {
   return (

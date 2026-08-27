@@ -42,6 +42,89 @@
   background: linear-gradient(90deg, rgba(244, 247, 249, 0.95) 0%, rgba(244, 247, 249, 0.8) 40%, rgba(244, 247, 249, 0.1) 100%);
 }
 
+/* Slider Pagination Track Placement */
+.hero-slider-pagination-track {
+  position: absolute;
+  left: 50px;
+  top: 45%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 10;
+}
+
+.hero-slider-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.35);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+
+.hero-slider-dot:hover {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.hero-slider-dot-active {
+  background: #f59e0b !important; /* Premium orange highlight matching theme tokens */
+  height: 26px;
+  border-radius: 6px;
+}
+
+/* Fluid Keyframe Image Animations */
+.slider-fade-animation {
+  animation: backgroundCrossFade 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.slider-text-fade {
+  animation: contentTextSlideUp 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes backgroundCrossFade {
+  from {
+    opacity: 0.4;
+    transform: scale(1.04);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes contentTextSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Enforce defensive row limits on mobile devices if raw string falls back */
+.premium-description-subtitle {
+  max-width: 600px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Adjust text track on mobile responsive blocks so pagination elements do not block headers */
+@media (max-width: 991px) {
+  .hero-slider-pagination-track {
+    left: auto;
+    right: 20px;
+    top: 30%;
+    flex-direction: column;
+  }
+}
+
 /* CONTAINER HOOK OVERLAY PARAMETERS */
 .hero-interactive-container {
   position: relative;

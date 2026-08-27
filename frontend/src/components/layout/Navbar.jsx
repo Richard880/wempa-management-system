@@ -24,7 +24,8 @@ function Navigation() {
 
   useEffect(() => {
     function handleScroll() {
-      setScrolled(window.scrollY > 50);
+      // FIX: Triggers transition at 20px for immediate feedback
+      setScrolled(window.scrollY > 20); 
     }
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -62,11 +63,30 @@ function Navigation() {
 
   const closeMenu = () => setExpanded(false);
 
-  const handleLogout = async () => {
-    closeMenu();
-    await signOut(auth);
-    navigate(ROUTES.HOME);
+    const handleLogout = async () => {
+    try {
+      closeMenu();
+      
+      // 👇 FIX 1: Cut off the local React state flags instantly BEFORE executing the signout async call.
+      // This immediately revokes privileges locally, blocking the UI from triggering a re-route.
+      setUser(null);
+      setIsAdminUser(false);
+      
+      // 👇 FIX 2: Force the code to strictly AWAIT the Firebase server token wipe confirmation
+      await signOut(auth);
+      
+      console.log("Firebase session terminated successfully. Redirecting to home baseline...");
+      
+      // 👇 FIX 3: Route smoothly once the authentication session is guaranteed to be blank
+      navigate(ROUTES.HOME, { replace: true });
+      
+    } catch (err) {
+      console.error("Critical error encountered during logout session closure:", err);
+      // Fallback redirection safety net
+      navigate(ROUTES.HOME, { replace: true });
+    }
   };
+
 
   // Extract word initial tokens for fallback profile avatars representation
   const initials = user?.displayName
@@ -98,6 +118,7 @@ function Navigation() {
       fixed="top"
       expanded={expanded}
       onToggle={setExpanded}
+      // Uses correct local standard bindings to inject your layout classes seamlessly
       className={`wempa-navbar ${scrolled ? "navbar-scrolled" : ""}`}
     >
       <Container>

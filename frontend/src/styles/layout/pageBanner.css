@@ -1,79 +1,94 @@
 /* ==========================================
-   PAGE BANNER
+   PAGE BANNER (Refined White-Aesthetic Layout)
 ========================================== */
 
-.page-banner{
-
-    min-height:420px;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    text-align:center;
-
-    background-size:cover;
-
-    background-position:center;
-
-    background-repeat:no-repeat;
-
-    color:white;
-
+.page-banner {
+  min-height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  
+  /* 👇 FIX 1: Enforce defensive separation stacking order */
+  position: relative;
+  z-index: 2;
+  clear: both;
+  width: 100%;
 }
 
-.page-banner-content{
-
-    max-width:900px;
-
-    margin:auto;
-
+.page-banner-content {
+  max-width: 820px; /* Snugger max-width creates a more premium, editorial text layout */
+  margin: auto;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: bannerFadeUp 0.8s cubic-bezier(0.215, 0.610, 0.355, 1) forwards;
 }
 
-.page-banner-content h1{
-
-    font-size:4rem;
-
-    font-weight:800;
-
-    margin-bottom:25px;
-
-    color:white;
-
+.page-banner-content h1 {
+  font-size: 3.8rem; /* Slightly balanced down to maximize modern typography proportions */
+  font-weight: 800;
+  letter-spacing: -0.03em; /* Clean, tighter tracking for premium display headers */
+  line-height: 1.15;
+  margin-bottom: 20px;
+  
+  /* 🌟 COLOR SWITCH: Strong contrast dark slate text color */
+  color: #0f172a; 
+  
+  /* Subtle, soft light shadow fallback to help readability over chaotic image segments */
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.4); 
 }
 
-.page-banner-content p{
-
-    font-size:1.2rem;
-
-    line-height:1.9;
-
-    color:rgba(255,255,255,.92);
-
+.page-banner-content p {
+  font-size: 1.25rem;
+  font-weight: 500; /* Medium thickness keeps text crisp on bright light layers */
+  line-height: 1.75;
+  margin-bottom: 0;
+  
+  /* 🌟 COLOR SWITCH: Muted dark charcoal text color */
+  color: #334155; 
 }
 
-@media(max-width:768px){
-
-.page-banner{
-
-min-height:320px;
-
-padding:100px 20px 60px;
-
+/* ==========================================
+   🎭 PREMIUM ANIMATION FLUID SHIFTS
+   ========================================== */
+@keyframes bannerFadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.page-banner-content h1{
-
-font-size:2.6rem;
-
+/* ==========================================
+   📱 MOBILE & TABLET RESPONSIVE ENGINE
+   ========================================== */
+@media (max-width: 991px) {
+  .page-banner {
+    min-height: 360px;
+    padding: 140px 24px 60px; /* Extra top room to compensate for stacked mobile menus */
+  }
+  
+  .page-banner-content h1 {
+    font-size: 2.8rem;
+  }
 }
 
-.page-banner-content p{
+@media (max-width: 768px) {
+  .page-banner {
+    min-height: 300px;
+    padding: 120px 16px 50px;
+  }
 
-font-size:1rem;
+  .page-banner-content h1 {
+    font-size: 2.2rem;
+    letter-spacing: -0.02em;
+    margin-bottom: 15px;
+  }
 
-}
-
+  .page-banner-content p {
+    font-size: 1.05rem;
+    line-height: 1.6;
+  }
 }

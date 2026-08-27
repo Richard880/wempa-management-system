@@ -5,18 +5,19 @@ import "../../styles/layout/pageBanner.css";
 
 function PageBanner({ title, subtitle, background }) {
   return (
-    <section
-      className="page-banner"
-      style={{
-        backgroundImage: `
-        linear-gradient(
-        rgba(0,40,80,.70),
-        rgba(0,40,80,.70)
-        ),
-        url(${background})
-        `,
-      }}
-    >
+   <section
+  className="page-banner"
+  style={{
+    backgroundImage: `
+      linear-gradient(
+        rgba(255, 255, 255, 0.85) 0%, 
+        rgba(255, 255, 255, 0.40) 100%
+      ),
+      url(${background})
+    `,
+  }}
+>
+
       <Container>
         <motion.div
           className="page-banner-content"

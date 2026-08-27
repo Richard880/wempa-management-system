@@ -1,4 +1,3 @@
-// src/components/workflow/WizardFooter/WizardFooter.jsx
 import PropTypes from "prop-types";
 import Button from "../../ui/Button";
 import useWizard from "../WizardProvider/useWizard";
@@ -12,9 +11,16 @@ function WizardFooter({ onSaveDraft, loading = false, disabled = false }) {
   const { isFirstStep, isLastStep, currentStep, steps } = state;
   const { previousStep } = actions;
 
-  const handlePrimaryAction = () => {
-    // 🟢 Triggers the 'handleRemoteSave' in MemberApplicationPage.jsx
+  /*
+  ----------------------------------------
+  Primary Navigation Interceptor
+  ----------------------------------------
+  If onSaveDraft is passed directly, intercept execution manually.
+  Otherwise, let the native form "submit" event cascade naturally.
+  */
+  const handlePrimaryAction = (e) => {
     if (typeof onSaveDraft === "function") {
+      e.preventDefault(); // Stop native submit only if handling saving via explicit overrides
       onSaveDraft();
     }
   };
@@ -26,7 +32,6 @@ function WizardFooter({ onSaveDraft, loading = false, disabled = false }) {
           variant="secondary"
           type="button"
           onClick={previousStep}
-          // 🟢 Disable if it's the first step, currently loading, or if the form is locked
           disabled={isFirstStep || loading || disabled}
         >
           <i className="fas fa-chevron-left me-2"></i> Previous
@@ -35,7 +40,6 @@ function WizardFooter({ onSaveDraft, loading = false, disabled = false }) {
 
       <div className={styles.center}>
         <div className={styles.progressInfo}>
-          {/* 🟢 This will now correctly show "Step X of 5" */}
           <span className={styles.stepText}>
             Step {currentStep} of {steps.length}
           </span>
@@ -49,9 +53,15 @@ function WizardFooter({ onSaveDraft, loading = false, disabled = false }) {
 
       <div className={styles.right}>
         <Button
-          // 🟢 Success color only on the final Declaration step (Step 5)
           variant={isLastStep ? "success" : "primary"}
-          type="button"
+          
+          /* 
+          CRITICAL FIX: Change from "button" to "submit".
+          This allows the button to natively fire HTML onSubmit listeners
+          on forms like Documents.jsx.
+          */
+          type="submit" 
+          
           onClick={handlePrimaryAction}
           disabled={loading || disabled}
         >
@@ -72,9 +82,9 @@ function WizardFooter({ onSaveDraft, loading = false, disabled = false }) {
 }
 
 WizardFooter.propTypes = {
-  onSaveDraft: PropTypes.func.isRequired,
+  onSaveDraft: PropTypes.func, // FIX: Changed from .isRequired to optional to support native form submit panels
   loading: PropTypes.bool,
-  disabled: PropTypes.bool, // 🟢 Added to handle locked applications
+  disabled: PropTypes.bool,
 };
 
 export default WizardFooter;

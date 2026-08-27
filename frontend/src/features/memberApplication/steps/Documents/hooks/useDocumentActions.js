@@ -24,7 +24,7 @@ export default function useDocumentActions({
 
   /*
   ----------------------------------------
-  Select File
+  Select File (State Integrity Fix)
   ----------------------------------------
   */
 
@@ -36,22 +36,27 @@ export default function useDocumentActions({
         return;
       }
 
+      // Run local size and type constraints validation checks
       validateDocument(document, file);
 
+      // Free up browser hardware memory from old cached blob references
       revokePreview(document.previewUrl);
 
       const preview = createPreview(file);
 
+      /*
+      CRITICAL FIX: Merge the preview parameters safely. 
+      Do NOT inject structural system status words like 'selected' or 'uploading: false' 
+      here, as they will override the active background task processor threads.
+      */
       updateDocument(documentId, {
-        ...preview,
-
-        status: "selected",
-
-        uploadProgress: 0,
-
-        uploading: false,
-
-        error: null,
+        file,
+        fileName: preview.fileName,
+        fileSize: preview.fileSize,
+        fileType: preview.fileType,
+        isImage: preview.isImage,
+        previewUrl: preview.previewUrl,
+        error: null
       });
     },
     [findDocument, updateDocument]
@@ -94,7 +99,7 @@ export default function useDocumentActions({
 
         uploadedAt: null,
 
-        status: "pending",
+        status: "pending", // Reverts cleanly to baseline default
 
         error: null,
       });
@@ -117,70 +122,11 @@ export default function useDocumentActions({
     [removeFile, selectFile]
   );
 
-  /*
-  ----------------------------------------
-  Upload Placeholder
-  ----------------------------------------
-  */
-
-  const uploadFile = useCallback(
-    async (documentId) => {
-      /*
-      Firebase Storage integration
-      comes next.
-      */
-
-      console.log(
-        "Uploading:",
-        documentId
-      );
-    },
-    []
-  );
-
-  /*
-  ----------------------------------------
-  Retry Upload Placeholder
-  ----------------------------------------
-  */
-
-  const retryUpload = useCallback(
-    async (documentId) => {
-      console.log(
-        "Retry upload:",
-        documentId
-      );
-    },
-    []
-  );
-
-  /*
-  ----------------------------------------
-  Cancel Upload Placeholder
-  ----------------------------------------
-  */
-
-  const cancelUpload = useCallback(
-    (documentId) => {
-      console.log(
-        "Cancel upload:",
-        documentId
-      );
-    },
-    []
-  );
-
   return {
     selectFile,
 
     removeFile,
 
     replaceFile,
-
-    uploadFile,
-
-    retryUpload,
-
-    cancelUpload,
   };
 }

@@ -15,19 +15,28 @@ function DocumentUploadCard({
   onCancel,
 }) {
   const {
-  
     title,
     description,
     required,
     status = "pending",
     file,
     previewUrl,
+    downloadURL, // CRITICAL FIX: Extract the permanent Firestore / Firebase Cloud Storage address
+    fileName,    // CRITICAL FIX: Extract the original file string to identify PDFs vs Images
     acceptedTypes,
     uploadProgress = 0,
   } = document;
 
   const fileInputRef = useRef(null);
-  const hasDocument = Boolean(file) || Boolean(previewUrl);
+
+  /* 
+  ----------------------------------------
+  Comprehensive Asset Verification Hook
+  ----------------------------------------
+  Determines if a document asset exists in local browser memory (file / previewUrl)
+  OR if it has already been committed to remote cloud storage buckets (downloadURL).
+  */
+  const hasDocument = Boolean(file) || Boolean(previewUrl) || Boolean(downloadURL);
 
   const handleChooseClick = () => {
     if (fileInputRef.current) {
@@ -36,9 +45,7 @@ function DocumentUploadCard({
   };
 
   const handleFileChange = (event) => {
-    // FIX: Added [0] to correctly capture the first selected file
     const selectedFile = event.target.files?.[0];
-    
     if (!selectedFile) return;
 
     if (hasDocument) {
@@ -47,7 +54,6 @@ function DocumentUploadCard({
       onUpload?.(selectedFile);
     }
 
-    // Reset the input value so the same file can be re-selected if needed
     event.target.value = ""; 
   };
 
@@ -64,7 +70,13 @@ function DocumentUploadCard({
         <DocumentStatusBadge status={status} />
       </header>
 
-      <DocumentPreview file={file} previewUrl={previewUrl} />
+      {/* CRITICAL FIX: Feed downloadURL and fileName down to the rendering interface engine */}
+      <DocumentPreview 
+        file={file} 
+        previewUrl={previewUrl} 
+        downloadURL={downloadURL} 
+        fileName={fileName}
+      />
 
       <UploadProgress uploading={status === "uploading"} progress={uploadProgress} />
 
@@ -121,6 +133,8 @@ DocumentUploadCard.propTypes = {
     status: PropTypes.string,
     file: PropTypes.any,
     previewUrl: PropTypes.string,
+    downloadURL: PropTypes.string, // Documented validation maps
+    fileName: PropTypes.string,    // Documented validation maps
     acceptedTypes: PropTypes.string,
     uploadProgress: PropTypes.number,
   }).isRequired,

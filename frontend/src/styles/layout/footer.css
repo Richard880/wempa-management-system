@@ -1,204 +1,169 @@
-/* ==========================
-   FOOTER
-========================== */
+/* ==========================================
+   FOOTER LAYER (Isolated & High-Contrast Style)
+========================================== */
 
-.footer{
-
-    background:var(--primary);
-
-    color:#fff;
-
-    padding:80px 0 25px;
+.footer {
+  /* 🌟 ISOLATION LOCK: Forces the container to bypass global body overrides */
+  background: var(--primary, #0b132b) !important;
+  color: #ffffff !important; 
+  padding: 90px 0 30px;
+  position: relative;
+  z-index: 5;
 }
 
-/* Logo */
-
-.footer-logo{
-
-    width:120px;
-
-    margin-bottom:20px;
+/* Force headings inside footer to accept the structural contrast color */
+.footer h1, .footer h2, .footer h3, .footer h4, .footer h5, .footer h6 {
+  color: var(--accent, #f59e0b) !important;
+  font-weight: 700;
+  margin-bottom: 22px;
+  letter-spacing: -0.01em;
 }
 
-/* Description */
-
-.footer-description{
-
-    color:rgba(255,255,255,.82);
-
-    line-height:1.8;
-
-    margin-bottom:30px;
+/* Logo Adjustment */
+.footer-logo {
+  width: 120px;
+  margin-bottom: 20px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
 }
 
-/* Titles */
-
-.footer h5{
-
-    color:var(--accent);
-
-    margin-bottom:20px;
-
-    font-weight:700;
+/* Base text elements fallback override */
+.footer p, 
+.footer span,
+.footer div {
+  color: rgba(255, 255, 255, 0.85) !important; /* Premium crisp text opacity */
 }
 
-/* Lists */
-
-.footer ul{
-
-    list-style:none;
-
-    padding:0;
-
-    margin:0;
+/* Description Text Block */
+.footer-description {
+  line-height: 1.8;
+  margin-bottom: 30px;
+  font-size: 0.98rem;
 }
 
-.footer ul li{
-
-    margin-bottom:12px;
+/* Navigation Lists Layout */
+.footer ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-.footer ul li a{
-
-    color:rgba(255,255,255,.82);
-
-    text-decoration:none;
-
-    transition:.3s;
+.footer ul li {
+  margin-bottom: 14px;
 }
 
-.footer ul li a:hover{
-
-    color:white;
-
-    padding-left:6px;
+.footer ul li a {
+  /* 🌟 FORCE CONTRAST: Ensure navigation items stand out clearly */
+  color: rgba(255, 255, 255, 0.80) !important;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-/* Contact */
-
-.footer-contact p{
-
-    display:flex;
-
-    align-items:flex-start;
-
-    gap:12px;
-
-    margin-bottom:16px;
-
-    color:rgba(255,255,255,.82);
+.footer ul li a:hover {
+  color: var(--accent, #f59e0b) !important; /* Changes text color to gold on hover */
+  transform: translateX(5px); /* Premium, modern sliding displacement animation */
 }
 
-.footer-contact svg{
-
-    color:var(--accent);
-
-    margin-top:3px;
+/* Contact Info Display Matrix */
+.footer-contact p {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 18px;
 }
 
-/* Social */
-
-.footer-social{
-
-    display:flex;
-
-    gap:14px;
+.footer-contact svg {
+  color: var(--accent, #f59e0b) !important;
+  margin-top: 4px;
+  flex-shrink: 0;
 }
 
-.footer-social a{
-
-    width:42px;
-
-    height:42px;
-
-    border-radius:50%;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    background:rgba(255,255,255,.08);
-
-    color:white;
-
-    transition:.3s;
+/* Social Media Interactive Icons */
+.footer-social {
+  display: flex;
+  gap: 14px;
+  margin-top: 15px;
 }
 
-.footer-social a:hover{
-
-    background:var(--accent);
-
-    color:var(--primary);
-
-    transform:translateY(-4px);
+.footer-social a {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.07) !important;
+  color: #ffffff !important;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Divider */
-
-.footer-divider{
-
-    height:1px;
-
-    background:rgba(255,255,255,.15);
-
-    margin:50px 0 25px;
+.footer-social a:hover {
+  background: var(--accent, #f59e0b) !important;
+  color: var(--primary, #0b132b) !important;
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3); /* Adds matching subtle gold glow */
 }
 
-/* Bottom */
-
-.footer-bottom{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    gap:20px;
-
-    flex-wrap:wrap;
+.footer-social a svg,
+.footer-social a i {
+  color: inherit !important; /* Ensure icons follow container hover mechanics natively */
 }
 
-.footer-bottom p{
-
-    margin:0;
-
-    color:rgba(255,255,255,.75);
+/* Section Boundary Divider Line */
+.footer-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.12) !important;
+  margin: 55px 0 30px;
 }
 
-.footer-bottom strong{
-
-    color:var(--accent);
+/* Bottom Copy Panel Row */
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
-/* Mobile */
-
-@media(max-width:768px){
-
-.footer{
-
-text-align:center;
-
+.footer-bottom p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.65) !important;
 }
 
-.footer-social{
-
-justify-content:center;
-
+.footer-bottom strong,
+.footer-bottom a {
+  color: var(--accent, #f59e0b) !important;
+  text-decoration: none;
 }
 
-.footer-contact p{
+/* ==========================================
+   📱 ADAPTIVE MOBILE BREAKPOINTS
+   ========================================== */
+@media (max-width: 768px) {
+  .footer {
+    text-align: center;
+    padding: 60px 0 30px;
+  }
 
-justify-content:center;
+  .footer h5 {
+    margin-top: 30px;
+    margin-bottom: 15px;
+  }
 
-}
+  .footer-social {
+    justify-content: center;
+    margin-bottom: 20px;
+  }
 
-.footer-bottom{
+  .footer-contact p {
+    justify-content: center;
+    align-items: center;
+  }
 
-flex-direction:column;
-
-}
-
+  .footer-bottom {
+    flex-direction: column;
+    gap: 12px;
+  }
 }

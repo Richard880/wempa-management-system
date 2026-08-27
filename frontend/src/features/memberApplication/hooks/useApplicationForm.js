@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../auth/hooks/useAuth";
 import applicationService from "../services/applicationService";
+import ROUTES from "../../../constants/routes";
 
 export default function useApplicationForm() {
   const { auth } = useAuth();
@@ -18,15 +19,17 @@ export default function useApplicationForm() {
   const fetchApplication = useCallback(async (showLoader = false) => {
     if (!userId) {
       setLoading(false);
-      return;
+      return null; // Return value to support tracking resolution threads
     }
     try {
       if (showLoader) setLoading(true);
       const result = await applicationService.getApplication(userId);
       setProfile(result?.profile || null);
       setApplication(result?.application || null);
+      return result?.application || null; // Hand back fresh data values
     } catch (err) {
       setError(err.message || "Failed to fetch application data.");
+      return null;
     } finally {
       if (showLoader) setLoading(false);
     }
@@ -38,12 +41,11 @@ export default function useApplicationForm() {
 
   /**
    * SAVES and then NAVIGATES
-   * This ensures data is safely in Firestore before updating frontend UI states.
+   * Hardened to guarantee state synchronization before resolving step changes.
    */
   const saveSection = useCallback(async (section, data, targetStep = null) => {
     if (!userId) return false;
     
-    // Safety check: Prevent saving empty variables or raw un-serialized event payloads
     const sanitizedData = data && typeof data === 'object' ? { ...data } : {};
     
     setSaving(true);
@@ -51,6 +53,7 @@ export default function useApplicationForm() {
       const currentStep = application?.currentStep || 1;
       const nextStepId = targetStep || currentStep + 1;
 
+      // 1. Commit layout variables completely to Firestore collections
       await applicationService.saveSection({
         uid: userId,
         section,
@@ -58,6 +61,8 @@ export default function useApplicationForm() {
         currentStep: nextStepId
       });
       
+      // 2. CRITICAL FIX: Explicitly await the asynchronous data download 
+      // so your data is locally available before the UI switches pages.
       await fetchApplication(false);
       return true;
     } catch (err) {
@@ -72,6 +77,7 @@ export default function useApplicationForm() {
     if (!userId) return;
     try {
       await applicationService.updateCurrentStep(userId, stepId);
+      // CRITICAL FIX: Wait for state confirmation parameters to land
       await fetchApplication(false);
     } catch (err) {
       setError(err.message || "Failed to alter application steps.");
@@ -88,19 +94,15 @@ export default function useApplicationForm() {
     
     setSaving(true);
     try {
-      // 1. Save the final declaration data completely
       await applicationService.saveSection({
         uid: userId,
         section: "declaration",
         data: sanitizedFinalData,
-        currentStep: 5 // Lock stepping values
+        currentStep: 5 
       });
 
-      // 2. Trigger formal submission properties
       await applicationService.submitApplication(userId);
-      
-      // 3. Clean routing back to application panel
-      navigate("/Dashboard", { replace: true });
+      navigate(ROUTES.MEMBER_DASHBOARD, { replace: true });
     } catch (err) {
       setError(err.message || "Submission execution failed.");
     } finally {
@@ -108,8 +110,10 @@ export default function useApplicationForm() {
     }
   }, [userId, navigate]);
 
-  return {
+     return {
     application,
+    // FIX: Drill past the accidental double nested map structure safely
+    documents: application?.documents?.documents || application?.documents || {},
     profile,
     loading,
     saving,
@@ -125,4 +129,5 @@ export default function useApplicationForm() {
     previousStep: () => goToStep(Math.max((application?.currentStep || 1) - 1, 1)),
     refresh: fetchApplication
   };
+
 }

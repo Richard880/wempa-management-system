@@ -6,7 +6,7 @@ import MembershipFees from "../../../components/membership/MembershipFees";
 import MembershipFAQ from "../../../components/membership/MembershipFAQ";
 import MembershipCTA from "../../../components/membership/MembershipCTA";
 
-import banner from "../../../assets/banners/membership-banner.png";
+import banner from "../../../assets/banners/membership-banner.jpeg";
 
 function Membership() {
   return (

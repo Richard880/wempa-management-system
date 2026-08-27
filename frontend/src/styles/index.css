@@ -46,3 +46,18 @@ body::-webkit-scrollbar {
   width: 0 !important;
   height: 0 !important;
 }
+
+/* ====================================================================
+   🔒 PUBLIC LAYOUT STRUCTURAL FIX: OVERRIDE INHERITED MARGINS
+   ==================================================================== */
+main {
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+.hero-section-premium,
+.page-banner {
+  margin-top: 0 !important;
+  position: relative !important;
+  z-index: 1;
+}

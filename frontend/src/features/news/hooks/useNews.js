@@ -1,4 +1,3 @@
-// src/features/news/hooks/useNews.js
 import { useState, useEffect, useCallback } from "react";
 import { newsStorageService } from "../services/newsStorageService";
 
@@ -11,13 +10,12 @@ export function useNews() {
       setLoading(true);
       const data = await newsStorageService.getAllNews();
       
-      // 🟢 Enhancement: Parse and inject a formatted display date for each news item cleanly
       const parsedData = (data || []).map(item => {
         const rawDate = item.updatedAt || item.date || new Date().toISOString();
         return {
           ...item,
-          // Formats automatically to "15 July 2026" layout styles safely
-          date: new Date(rawDate).toLocaleDateString("en-GB", {
+          // 🟢 FIX: Save to displayDate so item.date remains a clean ISO/timestamp string for inputs
+          displayDate: new Date(rawDate).toLocaleDateString("en-GB", {
             day: "numeric",
             month: "long",
             year: "numeric"
@@ -42,7 +40,8 @@ export function useNews() {
         const rawDate = match.updatedAt || match.date || new Date().toISOString();
         return {
           ...match,
-          date: new Date(rawDate).toLocaleDateString("en-GB", {
+          // 🟢 FIX: Keep data pure here as well
+          displayDate: new Date(rawDate).toLocaleDateString("en-GB", {
             day: "numeric",
             month: "long",
             year: "numeric"

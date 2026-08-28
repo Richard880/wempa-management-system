@@ -1,9 +1,5 @@
 import { useRef } from "react";
-
-import Button from "../../../../components/ui/Button";
-
 import useEventPosterUpload from "../../hooks/useEventPosterUpload";
-
 import styles from "./EventPosterUpload.module.css";
 
 function EventPosterUpload({
@@ -28,259 +24,154 @@ function EventPosterUpload({
     onChange,
   });
 
-  /* ==========================================
-     Open File Picker
-     ========================================== */
-
   const handleChoosePoster = () => {
-    if (disabled || uploading) {
-      return;
-    }
-
+    if (disabled || uploading) return;
     fileInputRef.current?.click();
   };
 
-  /* ==========================================
-     Handle File Selection
-     ========================================== */
-
   const handleFileChange = (event) => {
     const file = event.target.files?.[0];
-
-    if (!file) {
-      return;
-    }
+    if (!file) return;
 
     try {
-      /*
-       * Select the poster, create a local preview,
-       * and immediately queue the Firebase upload.
-       */
       selectAndUploadPoster(file);
     } catch (uploadError) {
-      console.error(
-        "Unable to select event poster:",
-        uploadError
-      );
+      console.error("Unable to select event poster:", uploadError);
     } finally {
-      /*
-       * Allow the same file to be selected again.
-       */
       event.target.value = "";
     }
   };
 
-  /* ==========================================
-     Remove Poster
-     ========================================== */
-
   const handleRemovePoster = async () => {
-    if (disabled || uploading) {
-      return;
-    }
-
+    if (disabled || uploading) return;
     try {
       await removePoster();
     } catch (removeError) {
-      console.error(
-        "Unable to remove event poster:",
-        removeError
-      );
+      console.error("Unable to remove event poster:", removeError);
     }
   };
 
-  const isDisabled =
-    disabled || uploading;
+  const isDisabled = disabled || uploading;
 
   return (
-    <section className={styles.posterUpload}>
-      {/* ==========================================
-          HEADER
-          ========================================== */}
-
-      <div className={styles.header}>
+    <div className={styles.posterUpload}>
+      {/* HEADER SECTION */}
+      <div className="d-flex justify-content-between align-items-start mb-3">
         <div>
-          <h3 className={styles.title}>
-            Event Poster
-          </h3>
-
-          <p className={styles.description}>
-            Upload an image to represent this event.
-          </p>
+          <h5 className="text-white fw-bold mb-1">Cover Image / Poster</h5>
+          <p className="text-white-50 small mb-0"> Recommended: 1200x600px (JPG, PNG or WebP)</p>
         </div>
 
-       {(poster?.previewUrl || poster?.downloadURL || poster?.file) && (
-  <Button
-    type="button"
-    variant="outline-danger"
-    onClick={handleRemovePoster}
-    disabled={isDisabled}
-  >
-    Remove
-  </Button>
-)}
+        {hasPoster && (
+          <button
+            type="button"
+            className="btn btn-sm btn-outline-danger fw-bold px-3"
+            onClick={handleRemovePoster}
+            disabled={isDisabled}
+          >
+            <i className="bi bi-trash3 me-1" /> Remove
+          </button>
+        )}
       </div>
-
-      {/* ==========================================
-          HIDDEN FILE INPUT
-          ========================================== */}
 
       <input
         ref={fileInputRef}
         type="file"
         accept="image/jpeg,image/png,image/webp"
         onChange={handleFileChange}
-        className={styles.fileInput}
+        className="d-none"
         disabled={isDisabled}
       />
 
-      {/* ==========================================
-          EMPTY STATE
-          ========================================== */}
-
-      {!hasPoster && (
+      {/* UPLOAD AREA / DROPZONE STYLE */}
+      {!hasPoster ? (
         <button
           type="button"
-          className={styles.uploadArea}
+          className={`${styles.uploadArea} btn w-100 border-dashed py-5 d-flex flex-column align-items-center justify-content-center`}
           onClick={handleChoosePoster}
           disabled={isDisabled}
         >
-          <i
-            className="bi bi-image"
-            aria-hidden="true"
-          />
-
-          <span className={styles.uploadTitle}>
-            Choose Poster Image
-          </span>
-
-          <span className={styles.uploadText}>
-            JPEG, PNG or WebP image
-          </span>
+          <i className="bi bi-cloud-arrow-up display-4 text-primary mb-2" />
+          <span className="fw-bold text-white">Click to upload poster</span>
+          <span className="text-white-50 small">Maximum file size: 5MB</span>
         </button>
-      )}
-
-      {/* ==========================================
-          POSTER PREVIEW
-          ========================================== */}
-
-      {hasPoster && (
-        <div className={styles.previewContainer}>
-          <img
-            src={
-              poster.previewUrl ||
-              poster.downloadURL
-            }
-            alt="Event poster preview"
-            className={styles.posterPreview}
-          />
-
-          <div className={styles.posterDetails}>
-            <div className={styles.posterName}>
-              {poster.fileName ||
-                "Event poster"}
+      ) : (
+        <div className={`${styles.previewContainer} card bg-black bg-opacity-50 border-secondary overflow-hidden`}>
+          <div className="row g-0 align-items-center">
+            <div className="col-md-4 position-relative">
+              <img
+                src={poster.previewUrl || poster.downloadURL}
+                alt="Event preview"
+                className={styles.posterPreview}
+                style={{ width: '100%', height: '160px', objectFit: 'cover' }}
+              />
+              {uploading && (
+                <div className="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center bg-dark bg-opacity-75">
+                   <div className="spinner-border text-primary" role="status" />
+                </div>
+              )}
             </div>
+            
+            <div className="col-md-8 p-3">
+              <div className="d-flex flex-column h-100">
+                <div className="mb-2">
+                  <div className="text-white fw-semibold text-truncate small">{poster.fileName || "Event_Poster.jpg"}</div>
+                  {poster.fileSize > 0 && (
+                    <div className="text-white-50 x-small">
+                      {(poster.fileSize / 1024 / 1024).toFixed(2)} MB
+                    </div>
+                  )}
+                </div>
 
-            {poster.fileSize > 0 && (
-              <div className={styles.posterMeta}>
-                {(poster.fileSize / 1024 / 1024).toFixed(2)} MB
-              </div>
-            )}
-
-            {/* ==========================================
-                UPLOAD PROGRESS
-                ========================================== */}
-
-            {(poster.status === "queued" ||
-              uploading) && (
-              <div
-                className={styles.progressWrapper}
-                aria-label={`Upload progress ${uploadProgress}%`}
-              >
-                <div
-                  className="progress"
-                  role="progressbar"
-                  aria-valuenow={uploadProgress}
-                  aria-valuemin="0"
-                  aria-valuemax="100"
-                >
-                  <div
-                    className="progress-bar"
-                    style={{
-                      width: `${uploadProgress}%`,
-                    }}
-                  >
-                    {poster.status === "queued"
-                      ? "Preparing upload..."
-                      : `${uploadProgress}%`}
+                {/* PROGRESS BAR */}
+                {(poster.status === "queued" || uploading) && (
+                  <div className="mb-3">
+                    <div className="d-flex justify-content-between x-small text-primary mb-1">
+                       <span>{poster.status === "queued" ? "Waiting..." : "Uploading"}</span>
+                       <span>{uploadProgress}%</span>
+                    </div>
+                    <div className="progress" style={{ height: '6px' }}>
+                      <div
+                        className="progress-bar progress-bar-striped progress-bar-animated"
+                        role="progressbar"
+                        style={{ width: `${uploadProgress}%` }}
+                      />
+                    </div>
                   </div>
+                )}
+
+                {/* STATUS BADGES */}
+                <div className="mt-auto d-flex align-items-center gap-2">
+                  {poster.status === "uploaded" && (
+                    <span className="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 py-2 px-3">
+                      <i className="bi bi-check-circle-fill me-1" /> Finalized
+                    </span>
+                  )}
+
+                  {!uploading && (
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-link text-primary text-decoration-none p-0"
+                      onClick={handleChoosePoster}
+                    >
+                      Change Image
+                    </button>
+                  )}
                 </div>
               </div>
-            )}
-
-            {/* ==========================================
-                UPLOAD SUCCESS
-                ========================================== */}
-
-            {poster.status === "uploaded" && (
-              <div
-                className={styles.uploadSuccess}
-              >
-                <i
-                  className="bi bi-check-circle-fill"
-                  aria-hidden="true"
-                />
-
-                Poster uploaded successfully
-              </div>
-            )}
-
-            {/* ==========================================
-                UPLOAD FAILED
-                ========================================== */}
-
-            {poster.status === "failed" && (
-              <div
-                className={styles.uploadFailed}
-                role="alert"
-              >
-                Upload failed. Please choose the
-                poster again and retry.
-              </div>
-            )}
-
-            {/* ==========================================
-                REPLACE POSTER
-                ========================================== */}
-
-            {!uploading &&
-              poster.status !== "queued" && (
-                <Button
-                  type="button"
-                  variant="outline-primary"
-                  onClick={handleChoosePoster}
-                  disabled={isDisabled}
-                >
-                  Replace Poster
-                </Button>
-              )}
+            </div>
           </div>
         </div>
       )}
 
-      {/* ==========================================
-          ERROR
-          ========================================== */}
-
+      {/* ERROR FEEDBACK */}
       {error && (
-        <div
-          className={styles.error}
-          role="alert"
-        >
+        <div className="alert alert-danger mt-3 py-2 small d-flex align-items-center">
+          <i className="bi bi-exclamation-triangle-fill me-2" />
           {error}
         </div>
       )}
-    </section>
+    </div>
   );
 }
 

@@ -2,7 +2,7 @@
 
 import { Link } from "react-router-dom";
 import { useEvents } from "../../../events/hooks/useEvents";
-import Button from "../../../../components/ui/Button";
+import ROUTES from "../../../../constants/routes"; // 🟢 Added for route consistency
 
 export default function ManageEventsPage() {
   const { events, loading, error } = useEvents();
@@ -35,17 +35,15 @@ export default function ManageEventsPage() {
             Monitor, edit, or configure visibility parameters for upcoming and past events.
           </p>
         </div>
-        <Link to="/admin/events/new">
-          <Button variant="primary" type="button">
-            <i className="bi bi-plus-lg me-2" />
-            Create Event
-          </Button>
+        {/* 🟢 Updated "Create" button styling to match News */}
+        <Link to={ROUTES.ADMIN_EVENTS_NEW} className="btn btn-primary fw-bold py-2">
+          <i className="bi bi-plus-lg me-2" /> Create Event
         </Link>
       </div>
 
       {events.length === 0 ? (
         <div className="card bg-dark border-secondary p-5 text-center text-white-50">
-          <i className="bi bi-calendar-x display-4 mb-3" />
+          <i className="bi bi-calendar-x display-4 mb-3 d-block" />
           <h5>No events found</h5>
           <p className="small">Get started by creating your first system event.</p>
         </div>
@@ -59,7 +57,6 @@ export default function ManageEventsPage() {
                 <th scope="col">Date & Time</th>
                 <th scope="col">Status</th>
                 <th scope="col">Featured</th>
-                {/* 🟢 Expanded width slightly to cleanly accommodate both action buttons */}
                 <th scope="col" className="text-end pe-3" style={{ width: "220px" }}>Actions</th>
               </tr>
             </thead>
@@ -116,19 +113,21 @@ export default function ManageEventsPage() {
                       )}
                     </td>
                     <td className="text-end pe-3">
-                      {/* 🟢 Actions Button Group wrapper block */}
                       <div className="d-flex justify-content-end gap-2">
-                        {/* 🟢 Added Attendee Roster Navigation Button Link */}
-                        <Link to={`/admin/events/attendees/${event.id}`}>
-                          <Button variant="outline-warning" type="button" className="btn-sm py-1 d-inline-flex align-items-center gap-1">
-                            <i className="bi bi-people" /> Attendees
-                          </Button>
+                        {/* 🟢 Standardized Attendees button styling */}
+                        <Link 
+                          to={`/admin/events/attendees/${event.id}`} 
+                          className="btn btn-outline-warning btn-sm py-1 px-3 d-inline-flex align-items-center gap-1"
+                        >
+                          <i className="bi bi-people" /> Attendees
                         </Link>
                         
-                        <Link to={`/admin/events/edit/${event.id}`}>
-                          <Button variant="outline-primary" type="button" className="btn-sm py-1 d-inline-flex align-items-center gap-1">
-                            <i className="bi bi-pencil" /> Edit
-                          </Button>
+                        {/* 🟢 Updated Edit button to use ROUTES constant and clean styling */}
+                        <Link 
+                          to={ROUTES.ADMIN_EVENTS_EDIT.replace(":eventId", event.id)} 
+                          className="btn btn-outline-primary btn-sm py-1 px-3 d-inline-flex align-items-center gap-1"
+                        >
+                          <i className="bi bi-pencil" /> Edit
                         </Link>
                       </div>
                     </td>

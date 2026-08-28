@@ -168,9 +168,41 @@ export default function NewsForm({ initialId = null, onSaveSuccess = null }) {
         <EventPosterUpload eventId={newsId} value={posterData} onChange={setPosterData} disabled={submitting} />
       </div>
       
-      <button type="submit" className="btn btn-primary mt-2 py-2 fw-bold" disabled={submitting}>
-        {submitting ? "Processing Content Synchronization..." : isEditMode ? "Update Article" : "Publish News"}
-      </button>
+      {/* Action Button Row Grouping */}
+<div className="d-flex align-items-center gap-2 mt-3">
+  <button 
+    type="submit" 
+    className="btn btn-primary py-2 px-4 fw-bold" 
+    disabled={submitting}
+  >
+    {submitting ? (
+      <>
+        <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+        Processing Content...
+      </>
+    ) : isEditMode ? (
+      "Update Article"
+    ) : (
+      "Publish News"
+    )}
+  </button>
+
+  <button
+    type="button"
+    className="btn btn-outline-secondary py-2 px-4 text-white fw-bold"
+    disabled={submitting}
+    onClick={() => {
+      if (onSaveSuccess) {
+        onSaveSuccess(); // Dynamically falls back to your main admin table via navigate
+      } else {
+        window.history.back(); // Native safe fallback if no callback is supplied
+      }
+    }}
+  >
+    Cancel
+  </button>
+</div>
+
     </form>
   );
 }

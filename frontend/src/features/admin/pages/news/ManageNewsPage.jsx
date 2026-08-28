@@ -101,9 +101,16 @@ export default function ManageNewsPage() {
                     {renderDate(item.createdAt || item.updatedAt)}
                   </td>
                   <td className="text-end pe-3">
-                    <Link to={`/admin/news/edit/${item.id}`} className="btn btn-outline-primary btn-sm py-1 px-3">
+                   
+                  <td className="text-end pe-3">
+                    <Link 
+                      to={ROUTES.ADMIN_NEWS_EDIT.replace(":newsId", item.id)} 
+                      className="btn btn-outline-primary btn-sm py-1 px-3"
+                    >
                       <i className="bi bi-pencil me-1" /> Edit
                     </Link>
+                  </td>
+
                   </td>
                 </tr>
               ))}

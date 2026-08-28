@@ -77,6 +77,12 @@ import EventAttendeesPage from "../features/admin/pages/events/EventAttendeesPag
 import ManageNewsPage from "../features/admin/pages/news/ManageNewsPage";
 import NewsForm from "../features/admin/pages/news/NewsForm";
 import NewsDetail from "../features/public/pages/NewsDetail";
+import CreateNewsPage from "../features/admin/pages/news/CreateNewsPage";
+import EditNewsPage from "../features/admin/pages/news/EditNewsPage";
+
+
+
+
 
 function AppRoutes() {
   return (
@@ -150,7 +156,8 @@ function AppRoutes() {
             <Route path={ROUTES.ADMIN_EVENTS_NEW} element={<CreateEventPage />} />
             <Route path={ROUTES.ADMIN_EVENTS_EDIT} element={<CreateEventPage />} />
             <Route path="/admin/events/attendees/:eventId" element={<EventAttendeesPage />} />
-
+            <Route path={ROUTES.ADMIN_NEWS_NEW} element={<CreateNewsPage />} />
+            <Route path={ROUTES.ADMIN_NEWS_EDIT} element={<EditNewsPage />} />
 
             {/* ==========================================
                 MEMBER MANAGEMENT (Requires Permissions)

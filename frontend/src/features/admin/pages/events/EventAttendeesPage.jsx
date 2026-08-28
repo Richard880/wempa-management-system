@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { eventStorageService } from "../../../events/services/eventStorageService";
-import { FaUser, FaEnvelope, FaPhone, FaBuilding, FaArrowLeft, FaFileCsv } from "react-icons/fa";
+import ROUTES from "../../../../constants/routes"; // 🟢 Added for route consistency
 
 export default function EventAttendeesPage() {
   const { eventId } = useParams();
@@ -14,11 +14,9 @@ export default function EventAttendeesPage() {
     async function loadAttendees() {
       try {
         setLoading(true);
-        // Fetch matching registration documents from Firestore
         const records = await eventStorageService.getEventRegistrations(eventId);
         setAttendees(records);
         
-        // Dynamic title resolution check
         if (records.length > 0) {
           setEventTitle(records[0].eventTitle || "Selected Event");
         } else {
@@ -35,7 +33,6 @@ export default function EventAttendeesPage() {
     loadAttendees();
   }, [eventId]);
 
-  // Client-side CSV generator utility
   const exportToCSV = () => {
     if (attendees.length === 0) return;
     const headers = ["Full Name", "Email", "Phone", "Organization", "Registration Date\n"];
@@ -53,18 +50,30 @@ export default function EventAttendeesPage() {
     document.body.removeChild(link);
   };
 
-  if (loading) return <div className="p-5 text-center text-white">Compiling attendee lists...</div>;
+  if (loading) {
+    return (
+      <div className="p-5 text-center text-white">
+        <div className="spinner-border text-primary" role="status" />
+        <p className="mt-3 text-white-50">Compiling attendee lists...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="container-fluid p-4 text-white">
       {/* Header Panel */}
       <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
         <div>
-          <Link to="/admin/events" className="btn btn-sm btn-outline-secondary mb-2 text-white-50">
-            <FaArrowLeft className="me-1" /> Back to Events
-          </Link>
+          {/* 🟢 Updated to match News/Events standard back button styling */}
+          <Link 
+  to={ROUTES.ADMIN_EVENTS} 
+  className="btn btn-link text-primary p-0 mb-2 text-decoration-none d-inline-flex align-items-center"
+>
+  <i className="bi bi-arrow-left me-1" /> Back to Events
+</Link>
+
           <h2 className="text-primary fw-bold mb-1">Event Attendee Roster</h2>
-          <p className="text-white-50 mb-0 small">{eventTitle}</p>
+          <p className="text-white-50 mb-0 small">Project Briefing: <span className="text-white">{eventTitle}</span></p>
         </div>
 
         <div className="d-flex align-items-center gap-3">
@@ -73,59 +82,58 @@ export default function EventAttendeesPage() {
             <strong className="fs-4 text-warning">{attendees.length}</strong>
           </div>
           {attendees.length > 0 && (
-            <button onClick={exportToCSV} className="btn btn-outline-success h-100 d-flex align-items-center gap-2">
-              <FaFileCsv /> Export CSV
+            <button onClick={exportToCSV} className="btn btn-primary fw-bold py-2 px-3 d-flex align-items-center gap-2 h-100">
+              <i className="bi bi-file-earmark-spreadsheet" /> Export CSV
             </button>
           )}
         </div>
       </div>
 
       {/* Roster Data Grid Sheet */}
-      <div className="card bg-dark border-secondary overflow-hidden">
+      <div className="table-responsive card bg-dark border-secondary overflow-hidden">
         {attendees.length === 0 ? (
-          <div className="text-center py-5 text-muted">
-            <FaUser className="display-4 d-block mx-auto mb-3 text-secondary" />
-            <p className="fs-5 mb-0">No personnel have registered for this event yet.</p>
+          <div className="text-center py-5 text-white-50">
+            <i className="bi bi-people display-4 d-block mb-3 opacity-25" />
+            <h5 className="text-white">No attendees found</h5>
+            <p className="small">Personnel who register for this event will appear in this roster.</p>
           </div>
         ) : (
-          <div className="table-responsive">
-            <table className="table table-dark table-hover mb-0 align-middle">
-              <thead>
-                <tr className="border-bottom border-secondary text-white-50">
-                  <th className="ps-4">Full Name</th>
-                  <th>Email</th>
-                  <th>Phone Number</th>
-                  <th>Organization</th>
-                  <th className="pe-4 text-end">Registration Date</th>
+          <table className="table table-dark table-hover mb-0 align-middle">
+            <thead>
+              <tr className="border-bottom border-secondary text-white-50">
+                <th scope="col" className="ps-4">Full Name</th>
+                <th scope="col">Email Address</th>
+                <th scope="col">Phone Number</th>
+                <th scope="col">Organization</th>
+                <th scope="col" className="pe-4 text-end">Registration Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {attendees.map((person) => (
+                <tr key={person.id} className="border-bottom border-secondary">
+                  <td className="ps-4 fw-semibold text-white">
+                    <i className="bi bi-person-circle text-primary me-2 opacity-50" /> {person.fullName}
+                  </td>
+                  <td>
+                    <i className="bi bi-envelope text-white-50 me-2" /> {person.email}
+                  </td>
+                  <td>
+                    <i className="bi bi-phone text-white-50 me-2" /> {person.phone}
+                  </td>
+                  <td>
+                    <i className="bi bi-building text-white-50 me-2" /> {person.organization || <span className="text-muted small">N/A</span>}
+                  </td>
+                  <td className="pe-4 text-end text-white-50 small">
+                    {new Date(person.registeredAt).toLocaleDateString("en-GB", {
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric"
+                    })}
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {attendees.map((person) => (
-                  <tr key={person.id} className="border-bottom border-secondary">
-                    <td className="ps-4 fw-semibold text-white">
-                      <FaUser className="text-primary me-2 opacity-50" /> {person.fullName}
-                    </td>
-                    <td>
-                      <FaEnvelope className="text-white-50 me-2" /> {person.email}
-                    </td>
-                    <td>
-                      <FaPhone className="text-white-50 me-2" /> {person.phone}
-                    </td>
-                    <td>
-                      <FaBuilding className="text-white-50 me-2" /> {person.organization || <span className="text-muted small">N/A</span>}
-                    </td>
-                    <td className="pe-4 text-end text-white-50 small">
-                      {new Date(person.registeredAt).toLocaleDateString(undefined, {
-                        year: "numeric",
-                        month: "short",
-                        day: "numeric"
-                      })}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+              ))}
+            </tbody>
+          </table>
         )}
       </div>
     </div>

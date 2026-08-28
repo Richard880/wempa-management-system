@@ -2,19 +2,19 @@
   padding: 1.5rem;
   max-width: 900px;
 }
-
 .settingsCard {
-  background: #ffffff;
+  background: var(--bs-body-bg); /* Automatically drops down to dark gray in dark mode */
   border-radius: 8px;
-  border: 1px solid #e3e6f0;
-  box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.05);
+  border: 1px solid var(--bs-border-color); /* Automatically transitions border coloring tokens */
+  box-shadow: 0 0.15rem 1.75rem 0 rgba(0, 0, 0, 0.05);
 }
 
 .cardHeaderCustom {
-  background-color: #f8f9fc;
-  border-bottom: 1px solid #e3e6f0;
+  background-color: var(--bs-tertiary-bg); /* Aligns cleanly with Bootstrap layout contexts */
+  border-bottom: 1px solid var(--bs-border-color);
   padding: 1rem 1.5rem;
 }
+
 
 .navTabsCustom {
   border-bottom: 2px solid #e3e6f0;

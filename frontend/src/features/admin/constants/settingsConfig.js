@@ -8,7 +8,8 @@ export const generalSettingsSchema = z.object({
   fiscalYearStart: z.string().min(1, 'Fiscal year start month is required'),
   timezone: z.string().min(1, 'System timezone is required'),
   currency: z.string().min(1, 'Default currency is required'),
-  maintenanceMode: z.boolean().default(false)
+  maintenanceMode: z.boolean().default(false),
+  defaultTheme: z.enum(['light', 'dark']).default('light') // Added theme validation rule
 });
 
 export const DEFAULT_GENERAL_SETTINGS = {
@@ -19,5 +20,6 @@ export const DEFAULT_GENERAL_SETTINGS = {
   fiscalYearStart: 'January',
   timezone: 'UTC',
   currency: 'USD',
-  maintenanceMode: false
+  maintenanceMode: false,
+  defaultTheme: 'light' // Default theme setting
 };

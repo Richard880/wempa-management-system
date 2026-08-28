@@ -236,6 +236,18 @@ export default function GeneralSettingsPage() {
               </div>
             </div>
 
+             <div className="col-md-4">
+    <label className="form-label font-weight-bold">System Default Theme</label>
+    <select className={`form-select ${errors.defaultTheme ? 'is-invalid' : ''}`} {...register('defaultTheme')}>
+      <option value="light">Light Mode Theme</option>
+      <option value="dark">Dark Mode Theme</option>
+    </select>
+    {errors.defaultTheme && <div className="invalid-feedback">{errors.defaultTheme.message}</div>}
+    <small className="text-muted d-block mt-1">
+      Sets the baseline theme engine profile for all user roles across the platform.
+    </small>
+  </div>
+
             <div className={`mb-4 ${styles.switchContainer}`}>
               <div className="form-check form-switch m-0">
                 <input

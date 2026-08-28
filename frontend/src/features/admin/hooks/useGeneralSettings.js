@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form'; // Added useWatch to listen for changes
 import { zodResolver } from '@hookform/resolvers/zod';
 import { settingsService } from '../services/settingsService';
 import { generalSettingsSchema, DEFAULT_GENERAL_SETTINGS } from '../constants/settingsConfig';
@@ -15,7 +15,17 @@ export const useGeneralSettings = () => {
     defaultValues: DEFAULT_GENERAL_SETTINGS
   });
 
-  const { reset } = formMethods;
+  const { reset, control } = formMethods;
+
+  // Real-time listener that watches the selected theme field in the form
+  const selectedTheme = useWatch({ control, name: 'defaultTheme' });
+
+  // Update Bootstrap 5 data attribute dynamically in real-time as the form value shifts
+  useEffect(() => {
+    if (selectedTheme) {
+      document.documentElement.setAttribute('data-bs-theme', selectedTheme);
+    }
+  }, [selectedTheme]);
 
   useEffect(() => {
     let isMounted = true;
@@ -50,7 +60,7 @@ export const useGeneralSettings = () => {
       
       await settingsService.updateGeneralSettings(data);
       setSuccessMessage('General system settings updated successfully.');
-      reset(data); // Sync form state dirty trackers
+      reset(data);
     } catch (err) {
       setError('Failed to securely preserve settings updates.');
     } finally {

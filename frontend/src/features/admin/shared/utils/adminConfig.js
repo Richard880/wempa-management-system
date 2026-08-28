@@ -134,10 +134,20 @@ export const SIDEBAR_STRUCTURE = [
     ],
   },
 
+   /**
+   * Super Admin only.
+   *
+   * System settings configuration matrix.
+   */
   {
+    id: "global-settings",
     type: "link",
     label: "Global Settings",
-    path: "/admin/settings",
+    path: "/admin/settings/general", // Points directly to our leaf route
     icon: "bi-gear",
+    allowedRoles: [
+      ROLES.SUPER_ADMIN,
+    ],
   },
 ];
+

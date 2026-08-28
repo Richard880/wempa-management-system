@@ -51,7 +51,9 @@ const ROUTES = {
   ADMIN_NEWS_NEW: "/admin/news/new",
   ADMIN_NEWS_EDIT: "/admin/news/edit/:newsId", 
 
-  ADMIN_SETTINGS: "/admin/settings",
+
+   ADMIN_SETTINGS: '/admin/settings',
+  ADMIN_SETTINGS_GENERAL: '/admin/settings/general',
 
   /* ==========================================
    * Miscellaneous

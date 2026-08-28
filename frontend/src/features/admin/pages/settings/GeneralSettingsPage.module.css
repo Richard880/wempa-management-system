@@ -1,0 +1,42 @@
+.settingsContainer {
+  padding: 1.5rem;
+  max-width: 900px;
+}
+
+.settingsCard {
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #e3e6f0;
+  box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.05);
+}
+
+.cardHeaderCustom {
+  background-color: #f8f9fc;
+  border-bottom: 1px solid #e3e6f0;
+  padding: 1rem 1.5rem;
+}
+
+.navTabsCustom {
+  border-bottom: 2px solid #e3e6f0;
+  margin-bottom: 1.5rem;
+}
+
+.navLinkCustom {
+  color: #4e73df;
+  font-weight: 600;
+  padding: 0.75rem 1.25rem;
+  border: none;
+  background: transparent;
+}
+
+.navLinkCustomActive {
+  color: #2e59d9;
+  border-bottom: 2px solid #4e73df !important;
+}
+
+.switchContainer {
+  background-color: #fff3cd;
+  border: 1px solid #ffeeba;
+  padding: 1rem;
+  border-radius: 6px;
+}

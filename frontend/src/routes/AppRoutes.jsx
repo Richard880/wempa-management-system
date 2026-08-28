@@ -81,6 +81,11 @@ import CreateNewsPage from "../features/admin/pages/news/CreateNewsPage";
 import EditNewsPage from "../features/admin/pages/news/EditNewsPage";
 
 
+/* ==========================================
+   GENERAL SETTINGS IMPORTS HERE
+   ========================================== */
+import GeneralSettingsPage from '../features/admin/pages/settings/GeneralSettingsPage';
+
 
 
 
@@ -156,9 +161,10 @@ function AppRoutes() {
             <Route path={ROUTES.ADMIN_EVENTS_NEW} element={<CreateEventPage />} />
             <Route path={ROUTES.ADMIN_EVENTS_EDIT} element={<CreateEventPage />} />
             <Route path="/admin/events/attendees/:eventId" element={<EventAttendeesPage />} />
-            <Route path={ROUTES.ADMIN_NEWS_NEW} element={<CreateNewsPage />} />
-            <Route path={ROUTES.ADMIN_NEWS_EDIT} element={<EditNewsPage />} />
-
+           
+           
+           
+            
             {/* ==========================================
                 MEMBER MANAGEMENT (Requires Permissions)
                 ========================================== */}
@@ -191,9 +197,20 @@ function AppRoutes() {
                 <Route path={ROUTES.ADMIN_MANAGEMENT} element={<AdminManagementPage />} />
               </Route>
 
-              {/* // Inside AdminLayout */}
-              <Route path={ROUTES.ADMIN_NEWS} element={<ManageNewsPage />} />
+               {/* ==========================================
+                INSERT NEWS MANAGEMENT SUB-ROUTES HERE
+                ========================================== */}
+               <Route path={ROUTES.ADMIN_NEWS} element={<ManageNewsPage />} />
               <Route path={ROUTES.ADMIN_NEWS_NEW} element={<NewsForm />} />
+              <Route path={ROUTES.ADMIN_NEWS_NEW} element={<CreateNewsPage />} />
+              <Route path={ROUTES.ADMIN_NEWS_EDIT} element={<EditNewsPage />} />
+
+
+                {/* Global Settings Subsystem Roots */}
+             
+              <Route path={ROUTES.ADMIN_SETTINGS_GENERAL} element={<GeneralSettingsPage />} />
+              
+
 
             
             </Route>

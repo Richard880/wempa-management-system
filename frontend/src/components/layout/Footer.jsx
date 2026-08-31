@@ -1,6 +1,10 @@
 import { Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa";
+import { 
+  FaFacebookF, 
+  FaInstagram,
+  //  FaLinkedinIn
+   } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { FaEnvelope, FaPhoneAlt, FaMapMarkerAlt } from "react-icons/fa";
 
@@ -30,9 +34,9 @@ function Footer() {
                 <FaFacebookF />
               </a>
 
-              <a href="#" aria-label="LinkedIn">
+              {/* <a href="#" aria-label="LinkedIn">
                 <FaLinkedinIn />
-              </a>
+              </a> */}
 
               <a href="#" aria-label="Instagram">
                 <FaInstagram />
@@ -110,7 +114,7 @@ function Footer() {
 
               <p>
                 <FaEnvelope />
-                <span>info@wempa.org</span>
+                <span>wempainfo@gmail.com</span>
               </p>
             </div>
           </Col>

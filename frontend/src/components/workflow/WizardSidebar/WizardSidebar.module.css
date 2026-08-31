@@ -1,33 +1,47 @@
+/* src/components/workflow/WizardSidebar/WizardSidebar.module.css */
+
 .sidebar {
   display: flex;
   flex-direction: column;
-  background: #0f172a; /* Maritime Deep Midnight Navy Blue */
-  border-right: 1px solid #1e293b;
-  padding: 2.5rem 1.75rem;
+  background: rgba(11, 22, 44, 0.45) !important; 
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 2.5rem 1.5rem;
   height: 100vh; 
+  max-height: 100vh; /* Strict constraint locks bar exactly to window limits */
   box-sizing: border-box;
   flex-shrink: 0;
+  width: 290px; /* Anchored default width asset boundaries */
+  overflow: hidden; /* Stops child containers from breaking boundary limits */
 }
 
 .topNavigation {
   margin-bottom: 2rem;
+  flex-shrink: 0; /* Prevents the back button row from squeezing */
 }
 
 .backButton {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  color: #94a3b8; /* Slate tint text color */
+  gap: 0.65rem;
+  color: #94a3b8;
   text-decoration: none;
-  font-size: 0.875rem;
-  font-weight: 500;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  padding: 0.25rem 0;
+  font-size: 0.825rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0.5rem 0.75rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 10px;
 }
 
 .backButton:hover {
-  color: #38bdf8; /* Ocean Sky Blue */
-  transform: translateX(-4px); /* Micro nudge animation on hover */
+  color: #38bdf8;
+  background: rgba(14, 165, 233, 0.08);
+  border-color: rgba(14, 165, 233, 0.2);
 }
 
 .header {
@@ -35,25 +49,55 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1.75rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  flex-shrink: 0; /* Pin header structure layout static */
 }
 
 .title {
   margin: 0;
-  font-size: 1.1rem;
+  font-size: 0.875rem;
   font-weight: 700;
-  color: #f8fafc; /* Ice White headers */
+  color: #f8fafc;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
 
 .percent {
-  font-weight: 700;
-  color: #38bdf8; /* Radiant Ocean Accent Cyan Blue */
+  font-weight: 800;
+  color: #0ea5e9; 
   font-size: 1.1rem;
+  font-family: monospace;
+  flex-shrink: 0; /* Keeps layout fixed from character changes */
 }
 
+/* 🔓 THE INNER NAVIGATION SCROLLWAY */
 .navigation {
   display: flex;
   flex-direction: column;
   gap: 0.65rem;
+  flex: 1;
+  overflow-y: auto; /* Activates internal scrolling for overflow steps */
+  overflow-x: hidden;
+  padding-right: 0.25rem; /* Padding offset for scrollbar track widths */
+}
+
+/* Customized sleek scrollbar tracking parameters */
+.navigation::-webkit-scrollbar {
+  width: 4px;
+}
+
+.navigation::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.navigation::-webkit-scrollbar-thumb {
+  background: rgba(14, 165, 233, 0.15);
+  border-radius: 10px;
+}
+
+.navigation::-webkit-scrollbar-thumb:hover {
+  background: rgba(14, 165, 233, 0.35);
 }
 
 /* Base button transitions */
@@ -62,37 +106,32 @@
   align-items: center;
   gap: 1rem;
   width: 100%;
-  padding: 0.85rem 1rem;
+  padding: 0.8rem 1rem;
   border: 1px solid transparent;
-  border-radius: 0.65rem;
-  background: transparent;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.01);
   cursor: pointer;
-  
-  /* Smooth transition wrapper hook */
-  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .step:hover {
-  background: rgba(30, 41, 59, 0.6); /* Translucent navy hover track */
-  transform: translateX(3px); /* Elegant slide interaction */
+  background: rgba(255, 255, 255, 0.03);
+  transform: translateX(3px);
 }
 
-/* Step Circle indicators */
 .indicator {
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 2rem;
+  height: 2rem;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #1e293b;
-  border: 2px solid #334155;
-  color: #94a3b8;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #64748b;
   font-weight: 700;
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   flex-shrink: 0;
-  
-  /* Indicator change transition values */
   transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
@@ -101,19 +140,23 @@
   flex-direction: column;
   align-items: flex-start;
   text-align: left;
+  min-width: 0; /* Allows text truncation algorithms to compute safely */
 }
 
 .name {
   font-weight: 600;
-  font-size: 0.95rem;
-  color: #cbd5e1;
-  transition: color 0.3s ease;
+  font-size: 0.875rem;
+  color: #94a3b8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Safely handles long step titles with ellipsis */
+  width: 100%;
 }
 
-/* 🟢 ACTIVE STEP STATE */
+/* 🔵 ACTIVE STATE */
 .active {
-  background: rgba(56, 189, 248, 0.08); /* Transparent Sky Glow */
-  border-color: rgba(56, 189, 248, 0.2);
+  background: rgba(14, 165, 233, 0.06) !important;
+  border: 1px solid rgba(14, 165, 233, 0.15) !important;
 }
 
 .active .name {
@@ -121,49 +164,48 @@
 }
 
 .active .indicator {
-  background: #0284c7; /* Deep Sea Blue */
+  background: #0ea5e9;
   border-color: #38bdf8;
   color: #ffffff;
-  transform: scale(1.08); /* Pop active bubble forward slightly */
-  box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
+  transform: scale(1.04);
+  box-shadow: 0 0 12px rgba(14, 165, 233, 0.35);
 }
 
-/* 🟢 COMPLETED STEP STATE */
+/* 🟢 COMPLETED SUCCESS STATE */
+.completed {
+  background: rgba(20, 184, 166, 0.02);
+}
+
 .completed .name {
-  color: #94a3b8;
+  color: #cbd5e1;
 }
 
 .completed .indicator {
-  background: #059669; /* Seafoam Maritime Green */
-  border-color: #34d399;
-  color: #ffffff;
+  background: rgba(20, 184, 166, 0.12);
+  border-color: #14b8a6;
+  color: #2dd4bf;
 }
 
-/* 🟢 MICRO-ANIMATION FOR THE CHECKMARK POP UP */
 .popCheck {
   display: inline-block;
   animation: checkPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
 @keyframes checkPop {
-  0% {
-    transform: scale(0) rotate(-20deg);
-    opacity: 0;
-  }
-  100% {
-    transform: scale(1) rotate(0deg);
-    opacity: 1;
-  }
+  0% { transform: scale(0) rotate(-15deg); opacity: 0; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
 }
 
-/* 📱 ADAPTIVE MOBILE NAV BAR (HORIZONTAL SWIPING SEAFOAM STRIP) */
+/* 📱 RESPONSIVE INTERFACE SWIPING CAROUSEL (Mobile Override Viewports) */
 @media (max-width: 992px) {
   .sidebar {
     height: auto;
+    max-height: none;
     width: 100%;
     border-right: none;
-    border-bottom: 1px solid #1e293b;
-    padding: 1.25rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 1.25rem 1.25rem;
+    background: rgba(11, 22, 44, 0.85) !important;
   }
 
   .topNavigation {
@@ -172,48 +214,44 @@
 
   .header {
     margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
   }
 
   .navigation {
     flex-direction: row;
     overflow-x: auto;
+    overflow-y: hidden;
     white-space: nowrap;
     gap: 0.5rem;
-    padding-bottom: 0.25rem;
-    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.4rem;
   }
   
   .navigation::-webkit-scrollbar {
-    display: none;
+    height: 3px;
   }
 
   .step {
     padding: 0.5rem 0.85rem;
-    background: #1e293b;
-    border-color: #334155;
-    flex-shrink: 0;
+    background: rgba(15, 23, 42, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.05);
     width: auto;
   }
   
   .step:hover {
-    transform: none; /* Turn off sideways animation on mobile devices */
-  }
-
-  .active {
-    background: rgba(56, 189, 248, 0.12);
-  }
-
-  .indicator {
-    width: 1.75rem;
-    height: 1.75rem;
-    font-size: 0.75rem;
-  }
-
-  .active .indicator {
     transform: none;
   }
 
+  .active {
+    background: rgba(14, 165, 233, 0.1) !important;
+  }
+
+  .indicator {
+    width: 1.65rem;
+    height: 1.65rem;
+    font-size: 0.75rem;
+  }
+
   .name {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
   }
 }

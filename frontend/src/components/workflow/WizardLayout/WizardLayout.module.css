@@ -1,18 +1,23 @@
+/* src/components/workflow/WizardLayout.module.css */
+
 .layout {
   display: grid;
-  grid-template-columns: 320px minmax(0, 1fr);
+  grid-template-columns: 280px minmax(0, 1fr);
   width: 100%;
   height: 100vh;
-  
-  /* 	🏼 UPDATE THIS LINE: Use auto overflow instead of hidden */
-  overflow: auto; 
-  background-color: #f4f7f9;
+  max-height: 100vh;
+  overflow: hidden; /* Keeps the outer layout stable while inner fields scroll */
+  background: transparent !important;
+  box-sizing: border-box;
 }
 
 @media (max-width: 992px) {
   .layout {
     grid-template-columns: 1fr;
     grid-template-rows: auto minmax(0, 1fr);
-    height: auto; /* Allow natural page collapses on small screens */
+    height: auto;
+    min-height: 100dvh;
+    max-height: none;
+    overflow: auto;
   }
 }

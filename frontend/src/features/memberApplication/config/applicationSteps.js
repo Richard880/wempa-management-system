@@ -1,57 +1,41 @@
+// src/features/members/config/applicationSteps.js
+
 export const APPLICATION_STEPS = [
   {
     id: 1,
     key: "personal",
     title: "Personal Information",
-    weight: 25,
+    weight: 16.66,
   },
   {
     id: 2,
     key: "contact",
     title: "Contact Information",
-    weight: 25,
+    weight: 16.66,
   },
-  // {
-  //   id: 3,
-  //   key: "employment",
-  //   title: "Employment Information",
-  //   weight: 10,
-  // },
-  // {
-  //   id: 4,
-  //   key: "maritime",
-  //   title: "Maritime Information",
-  //   weight: 10,
-  // },
-  // {
-  //   id: 5,
-  //   key: "emergencyContact",
-  //   title: "Emergency Contact",
-  //   weight: 10,
-  // },
-  // {
-  //   id: 6,
-  //   key: "nextOfKin",
-  //   title: "Next of Kin",
-  //   weight: 10,
-  // },
   {
     id: 3,
-    key: "documents",
-    title: "Supporting Documents",
-    weight: 25,
+    key: "employment",
+    title: "Employment Information",
+    weight: 16.66,
   },
   {
     id: 4,
-    key: "review",
-    title: "Review Application",
-    weight: 25,
+    key: "documents",
+    title: "Supporting Documents",
+    weight: 16.66,
   },
   {
     id: 5,
-    key: "declaration",
-    title: "Declaration & Submit",
-    weight: 25,
+    key: "review",
+    title: "Review & Declaration", // Unified summary checkpoint
+    weight: 16.66,
+  },
+  {
+    id: 6,
+    key: "payment",
+    title: "M-Pesa Payment", // True linear final application action
+    weight: 16.70, // Adjusted to round up perfectly to exactly 100.00%
   },
 ];
 

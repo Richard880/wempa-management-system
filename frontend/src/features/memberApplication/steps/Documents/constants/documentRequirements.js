@@ -54,42 +54,42 @@ const documentRequirements = [
   //   maxSize: 5 * 1024 * 1024,
   // },
 
-  // {
-  //   id: "academicCertificate",
+  {
+    id: "academicCertificate",
 
-  //   type: DOCUMENT_TYPES.ACADEMIC_CERTIFICATE,
+    type: DOCUMENT_TYPES.ACADEMIC_CERTIFICATE,
 
-  //   title: "Academic Certificate",
+    title: "Academic Certificate",
 
-  //   description:
-  //     "Upload your highest academic qualification certificate.",
+    description:
+      "Upload your highest academic qualification certificate.",
 
-  //   required: false,
+    required: false,
 
-  //   acceptedTypes:
-  //     ".pdf,.jpg,.jpeg,.png",
+    acceptedTypes:
+      ".pdf,.jpg,.jpeg,.png",
 
-  //   maxSize: 10 * 1024 * 1024,
-  // },
+    maxSize: 10 * 1024 * 1024,
+  },
 
-  // {
-  //   id: "professionalCertificate",
+  {
+    id: "professionalCertificate",
 
-  //   type:
-  //     DOCUMENT_TYPES.PROFESSIONAL_CERTIFICATE,
+    type:
+      DOCUMENT_TYPES.PROFESSIONAL_CERTIFICATE,
 
-  //   title: "Professional / Maritime Certificate",
+    title: "Professional / Maritime Certificate",
 
-  //   description:
-  //     "Upload any maritime or professional certification relevant to your application.",
+    description:
+      "Upload any maritime or professional certification relevant to your application.",
 
-  //   required: false,
+    required: false,
 
-  //   acceptedTypes:
-  //     ".pdf,.jpg,.jpeg,.png",
+    acceptedTypes:
+      ".pdf,.jpg,.jpeg,.png",
 
-  //   maxSize: 10 * 1024 * 1024,
-  // },
+    maxSize: 10 * 1024 * 1024,
+  },
 
   // {
   //   id: "cv",

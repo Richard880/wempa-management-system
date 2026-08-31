@@ -1,3 +1,5 @@
+// src/features/members/services/applicationService.js
+
 import {
   doc,
   getDoc,
@@ -17,18 +19,18 @@ const getUserRef = (uid) =>
 const getMemberRef = (uid) =>
   doc(db, FIREBASE_COLLECTIONS.MEMBERS, uid);
 
+/**
+ * Default registration schema blueprint infrastructure
+ */
 const createDefaultApplication = () => ({
   currentStep: 1,
   profileCompletion: 0,
   completedSections: [],
   applicationStatus: "draft",
-  isLocked: false, // Added for UI and Security Rule alignment
+  isLocked: false,
   personal: {},
   contact: {},
-  //employment: {},
- // emergencyContact: {},
-  //maritime: {},
-  //nextOfKin: {},
+  employment: {}, // 🟢 RESTORED: Aligns database schema layout models perfectly
   documents: {},
   declaration: {},
   createdAt: new Date().toISOString(),
@@ -36,6 +38,10 @@ const createDefaultApplication = () => ({
 });
 
 const applicationService = {
+  /**
+   * Fetches the user profile and member application snapshots simultaneously.
+   * Dynamically spawns a clean default document blueprint if no record is found.
+   */
   async getApplication(uid) {
     const userRef = getUserRef(uid);
     const memberRef = getMemberRef(uid);
@@ -49,7 +55,6 @@ const applicationService = {
       throw new Error("User profile not found.");
     }
 
-    // 	🏼 1. FIXED: Inject the real document ID string directly from the 'users' snapshot layer
     const profile = {
       id: userSnapshot.id,
       ...userSnapshot.data()
@@ -63,7 +68,6 @@ const applicationService = {
         updatedAt: serverTimestamp(),
       });
 
-      // Include ID in default generation for data consistency hooks
       return { 
         profile, 
         application: { id: memberSnapshot.id, ...applicationData } 
@@ -72,7 +76,6 @@ const applicationService = {
 
     return {
       profile,
-      // 	🏼 2. FIXED: Inject the member document ID string as well for safety
       application: {
         id: memberSnapshot.id,
         ...memberSnapshot.data()
@@ -80,10 +83,15 @@ const applicationService = {
     };
   },
 
+  /**
+   * 🟢 TRANSACTIONAL SAVE PIPE SECURED
+   * Commits the current step's payload data parameters to Firestore, updates completedSections,
+   * and computes progress metrics up to a clean 100% cap.
+   */
   async saveSection({ uid, section, data, currentStep }) {
     const memberRef = getMemberRef(uid);
 
-    // Sanitize data for Firestore
+    // Sanitize input properties to prevent Firestore from rejecting undefined values
     const sanitizedData = JSON.parse(JSON.stringify(data, (_, value) => 
       value === undefined ? null : value
     ));
@@ -97,14 +105,22 @@ const applicationService = {
 
       const application = snapshot.data();
 
-      // PRODUCTION SAFETY: Prevent saves if application is locked
+      // Guard check: Prevent subsequent saves if the application file is locked down
       if (application.isLocked) {
         throw new Error("Application is locked and cannot be edited.");
       }
 
       const completedSections = application.completedSections || [];
       const updatedSections = [...new Set([...completedSections, section])];
-      const profileCompletion = calculateProgress(updatedSections);
+      
+      // Compute progress metrics using the updated weights helper file
+      let profileCompletion = calculateProgress(updatedSections);
+
+      // 🟢 HARDENED COMPLETION BOUNDS FIXED: If all 6 distinct workflow phases are tracked,
+      // override any decimal anomalies to log a perfect 100% progress score to the server.
+      if (updatedSections.length >= 6) {
+        profileCompletion = 100;
+      }
 
       transaction.update(memberRef, {
         [section]: sanitizedData,
@@ -122,24 +138,26 @@ const applicationService = {
   },
 
   /**
-   * FINAL LOCK LOGIC
-   * Sets status to submitted and isLocked to true
+   * FINAL ACCESS SUBMISSION LOCK
+   * Changes status keys to submitted and activates the isLocked boolean guard
    */
   async submitApplication(uid) {
     const memberRef = getMemberRef(uid);
 
     await updateDoc(memberRef, {
       applicationStatus: "submitted",
-      isLocked: true, // This is the trigger for your UI and Firestore Rules
+      isLocked: true, 
       submittedAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
     });
   },
 
+  /**
+   * Static fallback wizard page selector index writer
+   */
   async updateCurrentStep(uid, currentStep) {
     const memberRef = getMemberRef(uid);
     
-    // Safety: check if locked before updating step
     const snapshot = await getDoc(memberRef);
     if (snapshot.exists() && snapshot.data().isLocked) return;
 
@@ -149,6 +167,9 @@ const applicationService = {
     });
   },
 
+  /**
+   * Global state index status modifier
+   */
   async updateApplicationStatus(uid, status) {
     const memberRef = getMemberRef(uid);
     await updateDoc(memberRef, {

@@ -1,222 +1,73 @@
-/*
-==========================================
-Upload Progress
-==========================================
-*/
+/* src/features/members/steps/Documents/Documents.module.css */
 
-.progressContainer {
+.container {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-
+  gap: 2.5rem;
   width: 100%;
 }
 
-.progressHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  font-size: 0.85rem;
+.header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 1.25rem;
+  position: relative;
 }
 
-.progressLabel {
-  color: var(--bs-secondary-color, #6c757d);
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, #0ea5e9, #14b8a6);
+  border-radius: 2px;
 }
 
-.progressValue {
-  font-weight: 600;
-  color: var(--bs-primary, #0d6efd);
+.title {
+  margin: 0;
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: #ffffff !important;
 }
 
-.progressTrack {
+.description {
+  margin-top: 0.65rem;
+  margin-bottom: 0;
+  color: #94a3b8 !important;
+  line-height: 1.6;
+  font-size: 0.9rem;
+}
+
+/* 🔓 RE-ENGINEERED UPLOAD GRID */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
   width: 100%;
-  height: 8px;
-
-  overflow: hidden;
-
-  border-radius: 999px;
-
-  background: #e9ecef;
 }
 
-.progressFill {
-  height: 100%;
-
-  border-radius: inherit;
-
-  background: linear-gradient(
-      90deg,
-      #0d6efd,
-      #198754
-  );
-
-  transition:
-      width .35s ease,
-      background-color .2s ease;
-}
-
-/*
-==========================================
-Document Status Badge
-==========================================
-*/
-
-.statusBadge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 0.35rem 0.8rem;
-
-  border-radius: 999px;
-
-  font-size: 0.75rem;
-  font-weight: 600;
-
-  white-space: nowrap;
-}
-
-/* Pending */
-
-.pending {
-  background: #f8f9fa;
-  color: #6c757d;
-}
-
-/* Uploading */
-
-.uploading {
-  background: #e7f1ff;
-  color: #0d6efd;
-}
-
-/* Uploaded */
-
-.uploaded {
-  background: #d1ecf1;
-  color: #0c5460;
-}
-
-/* Waiting for admin review */
-
-.reviewing {
-  background: #fff3cd;
-  color: #856404;
-}
-
-/* Approved */
-
-.verified {
-  background: #d1e7dd;
-  color: #146c43;
-}
-
-/* Rejected */
-
-.rejected {
-  background: #f8d7da;
-  color: #842029;
-}
-
-/*
-==========================================
-Document Preview
-==========================================
-*/
-
-.previewContainer {
-  width: 100%;
-  height: 220px;
-
-  overflow: hidden;
-
-  border: 1px solid #dee2e6;
-  border-radius: 0.75rem;
-
-  background: #ffffff;
-}
-
-.previewImage {
-  width: 100%;
-  height: 100%;
-
-  object-fit: contain;
-}
-
-.previewPdf {
-  width: 100%;
-  height: 100%;
-
-  border: none;
-}
-
-.previewPlaceholder {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  gap: 0.75rem;
-
-  width: 100%;
-  height: 220px;
-
-  border: 2px dashed #ced4da;
-  border-radius: 0.75rem;
-
-  background: #f8f9fa;
-
-  color: #6c757d;
-
-  text-align: center;
-
-  transition:
-    border-color .2s ease,
-    background .2s ease;
-}
-
-.previewPlaceholder:hover{
-    border-color:#0d6efd;
-}
-
-.previewIcon {
-  font-size: 2.5rem;
-}
-
-/*
-==========================================
-Document Upload Card
-==========================================
-*/
-
+/* 💎 Premium Frosted Glass Document Cards */
 .card {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
-
-  padding: 1.5rem;
-
-  background: #ffffff;
-
-  border: 1px solid #dee2e6;
-  border-radius: 1rem;
-
-  box-shadow: 0 2px 8px rgba(0,0,0,.05);
-
-  transition:
-    transform .2s ease,
-    box-shadow .2s ease,
-    border-color .2s ease;
+  gap: 1.5rem;
+  padding: 1.75rem;
+  background: rgba(15, 23, 42, 0.35) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-sizing: border-box;
 }
 
 .card:hover {
-  transform: translateY(-2px);
-
-  border-color: #0d6efd33;
-
-  box-shadow:
-    0 10px 24px rgba(13,110,253,.10);
+  transform: translateY(-3px);
+  border-color: rgba(14, 165, 233, 0.3) !important;
+  box-shadow: 0 15px 35px -5px rgba(14, 165, 233, 0.1);
 }
 
 .cardHeader {
@@ -228,72 +79,172 @@ Document Upload Card
 
 .cardTitle {
   margin: 0;
-
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #f8fafc !important;
+  letter-spacing: 0.2px;
 }
 
 .cardDescription {
   margin-top: 0.4rem;
-
-  color: #6c757d;
-
-  font-size: 0.875rem;
+  color: #94a3b8 !important;
+  font-size: 0.8125rem;
+  line-height: 1.4;
 }
 
 .required {
   margin-left: 0.25rem;
-
-  color: #dc3545;
+  color: #f87171 !important;
+  font-weight: bold;
 }
 
-.cardFooter{
-    display:flex;
-
-    flex-wrap:wrap;
-
-    gap:.75rem;
+/* 📸 HIGH-FIDELITY LIVE DOCUMENT PREVIEW CANVAS */
+.previewContainer {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 12px;
+  background: rgba(3, 7, 18, 0.5) !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-.cardFooter > *{
-    flex:1;
+.previewImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Prevents text or face clipping on passport structures */
+  background: rgba(0, 0, 0, 0.2);
 }
 
-/*
-==========================================
-Document Grid
-==========================================
-*/
-
-.grid{
-    display:grid;
-
-    grid-template-columns:
-        repeat(
-            auto-fit,
-            minmax(320px,1fr)
-        );
-
-    gap:1.5rem;
+.previewPdf {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 11px;
 }
 
-
-.selected {
-  background-color: #fff3cd;
-  color: #856404;
+/* Dashed Drag/Pick Runway Fallbacks */
+.previewPlaceholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  height: 200px;
+  border: 2px dashed rgba(255, 255, 255, 0.12) !important;
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.2) !important;
+  color: #64748b !important;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
 }
 
-.queued {
-  background-color: #cfe2ff;
-  color: #084298;
+.previewPlaceholder:hover {
+  border-color: #0ea5e9 !important;
+  background: rgba(14, 165, 233, 0.03) !important;
+  color: #38bdf8 !important;
 }
 
-.failed {
-  background-color: #f8d7da;
-  color: #842029;
+.previewIcon {
+  font-size: 2.5rem;
+  color: rgba(148, 163, 184, 0.25);
+  transition: color 0.2s ease;
 }
 
-.cancelled {
-  background-color: #e2e3e5;
-  color: #41464b;
+.previewPlaceholder:hover .previewIcon {
+  color: rgba(14, 165, 233, 0.6);
+}
+
+/* 📊 Centralized Progress Ribbon Engine */
+.progressContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  width: 100%;
+}
+
+.progressHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.progressLabel {
+  color: #94a3b8;
+  text-transform: uppercase;
+}
+
+.progressValue {
+  color: #38bdf8;
+  font-family: monospace;
+}
+
+.progressTrack {
+  width: 100%;
+  height: 6px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #0ea5e9 0%, #14b8a6 100%);
+  transition: width 0.3s ease;
+}
+
+/* 🏷️ Tokenized Micro Status Indicators */
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem 0.65rem;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  white-space: nowrap;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+.pending { background: rgba(255, 255, 255, 0.05); color: #64748b; }
+.uploading { background: rgba(14, 165, 233, 0.12); color: #38bdf8; border: 1px solid rgba(14, 165, 233, 0.15); }
+.uploaded { background: rgba(20, 184, 166, 0.12); color: #2dd4bf; border: 1px solid rgba(20, 184, 166, 0.15); }
+.selected { background: rgba(234, 179, 8, 0.12); color: #fbbf24; border: 1px solid rgba(234, 179, 8, 0.15); }
+.queued { background: rgba(165, 180, 252, 0.1); color: #818cf8; border: 1px solid rgba(165, 180, 252, 0.15); }
+.failed { background: rgba(239, 68, 68, 0.12); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.15); }
+.cancelled { background: rgba(100, 116, 139, 0.15); color: #94a3b8; }
+
+.cardFooter {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: auto;
+}
+
+.cardFooter :global(.btn),
+.cardFooter button {
+  padding: 0.5rem 1rem !important;
+  font-size: 0.8125rem !important;
+  font-weight: 600 !important;
+  border-radius: 8px !important;
+}
+
+.loadingContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem;
+  color: #0ea5e9;
+  font-weight: 500;
 }

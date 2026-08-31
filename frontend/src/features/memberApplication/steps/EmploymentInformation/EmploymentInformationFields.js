@@ -1,7 +1,7 @@
 import EMPLOYMENT_STATUS from "../../../../constants/employmentStatus";
 import ORGANIZATION_TYPES from "../../../../constants/organizationTypes";
-import MARITIME_SECTORS from "../../../../constants/maritimeSectors";
-import PROFESSIONAL_LEVELS from "../../../../constants/professionalLevels";
+// import MARITIME_SECTORS from "../../../../constants/maritimeSectors";
+// import PROFESSIONAL_LEVELS from "../../../../constants/professionalLevels";
 
 const employmentInformationFields = [
   /*
@@ -20,7 +20,7 @@ const employmentInformationFields = [
 
   {
     name: "employerName",
-    label: "Employer / Organization",
+    label: "Employer / Institution",
     type: "text",
     placeholder: "Employer Name",
     required: true,
@@ -44,38 +44,38 @@ const employmentInformationFields = [
 
   {
     name: "department",
-    label: "Department",
+    label: "Course of Study / Department",
     type: "text",
-    placeholder: "Department",
+    placeholder: "Course of Study or Department",
   },
 
   {
-    name: "workStation",
-    label: "Work Station",
+    name: "Specialization",
+    label: "Specialization",
     type: "text",
-    placeholder: "Duty Station",
+    placeholder: "Area of Specialization",
   },
 
-  {
-    name: "staffNumber",
-    label: "Staff Number",
-    type: "text",
-    placeholder: "If Applicable",
-  },
+  // {
+  //   name: "staffNumber",
+  //   label: "Staff Number",
+  //   type: "text",
+  //   placeholder: "If Applicable",
+  // },
 
-  {
-    name: "employmentDate",
-    label: "Employment Start Date",
-    type: "date",
-    required: true,
-  },
+  // {
+  //   name: "employmentDate",
+  //   label: "Employment Start Date",
+  //   type: "date",
+  //   required: true,
+  // },
 
-  {
-    name: "monthlyIncome",
-    label: "Monthly Income (KES)",
-    type: "number",
-    placeholder: "Optional",
-  },
+  // {
+  //   name: "monthlyIncome",
+  //   label: "Monthly Income (KES)",
+  //   type: "number",
+  //   placeholder: "Optional",
+  // },
 
   /*
   ----------------------------------------
@@ -84,20 +84,20 @@ const employmentInformationFields = [
   */
 
   {
-    name: "maritimeSector",
-    label: "Maritime Sector",
-    type: "select",
-    options: MARITIME_SECTORS,
+    name: "Years Of Maritime Experience",
+    label: "Years of Maritime Experience",
+    type: "number",
+    placeholder: "Enter years of maritime experience",
     required: true,
   },
 
-  {
-    name: "professionalLevel",
-    label: "Professional Level",
-    type: "select",
-    options: PROFESSIONAL_LEVELS,
-    required: true,
-  },
+  // {
+  //   name: "professionalLevel",
+  //   label: "Professional Level",
+  //   type: "select",
+  //   options: PROFESSIONAL_LEVELS,
+  //   required: true,
+  // },
 ];
 
 export default employmentInformationFields;

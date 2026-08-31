@@ -24,8 +24,8 @@ export default function Sidebar({ isOpen, toggleSidebar }) {
   const navLinks = [
     { path: ROUTES.MEMBER_DASHBOARD, icon: "bi-speedometer2", label: "Dashboard" },
     { path: ROUTES.MEMBER_APPLICATION, icon: "bi-card-checklist", label: "Membership" },
-    { path: ROUTES.MEMBER_PROFILE, icon: "bi-person-badge", label: "Profile" },
-    { path: "/payments", icon: "bi-credit-card-2-front", label: "Payments" },
+   { path: ROUTES.MEMBER_PROFILE, icon: "bi-person-badge", label: "Profile" },
+    // { path: "/payments", icon: "bi-credit-card-2-front", label: "Payments" },
   ];
 
   // 👇 4. INJECT ADMIN PORTAL LINK IF EXPLICIT MATCH DETECTED

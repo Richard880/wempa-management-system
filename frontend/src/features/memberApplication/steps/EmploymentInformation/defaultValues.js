@@ -1,15 +1,13 @@
+// src/features/members/steps/EmploymentInformation/defaultValues.js
+
 const defaultValues = {
   employmentStatus: "",
   employerName: "",
   organizationType: "",
   jobTitle: "",
   department: "",
-  workStation: "",
-  staffNumber: "",
-  employmentDate: "",
-  monthlyIncome: "",
-  maritimeSector: "",      // Fix: Added missing property mapping to resolve database errors
-  professionalLevel: "",   // Fix: Added missing property mapping to resolve database errors
+  Specialization: "",
+  "Years Of Maritime Experience": "",
 };
 
 export default defaultValues;

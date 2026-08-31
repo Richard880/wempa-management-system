@@ -1,29 +1,40 @@
-import  { useMemo } from "react";
+// src/features/members/steps/EmploymentInformation/EmploymentInformation.jsx
+import { useMemo } from "react";
 import PropTypes from "prop-types";
-import useApplicationFormStep from "../../hooks/useApplicationFormStep";
 import { FormSection, FormGrid, DynamicField } from "../../../../components/forms";
+import useApplicationFormStep from "../../hooks/useApplicationFormStep";
 import employmentInformationSchema from "./EmploymentInformationSchema";
 import employmentInformationFields from "./EmploymentInformationFields";
 import defaultValues from "./defaultValues";
 import styles from "./EmploymentInformation.module.css";
-import WizardFooter from "../../../../components/workflow/WizardFooter"; // Updated to use your correct path
+import WizardFooter from "../../../../components/workflow/WizardFooter";
 
-// formId is passed as a prop from MemberApplicationPage to connect to the WizardFooter
 export default function EmploymentInformation({ initialData, formId }) {
-  // Memoize values to ensure the object reference remains stable across renders
+  
+  /**
+   * 🟢 DATABASE PROFILE FIELD SYNCHRONIZATION FIXED
+   * Maps properties precisely matching your configuration keys so that values load
+   * cleanly from Firestore and pass through Zod validations without blocking signatures.
+   */
   const stableValues = useMemo(() => {
+    const empData = initialData?.employment || initialData || {};
+    
     return {
-      ...defaultValues,
-      ...(initialData || {}),
+      employmentStatus: empData.employmentStatus ?? "",
+      employerName: empData.employerName ?? "",
+      organizationType: empData.organizationType ?? "",
+      jobTitle: empData.jobTitle ?? "",
+      department: empData.department ?? "",
+      Specialization: empData.Specialization ?? "",
+      "Years Of Maritime Experience": empData["Years Of Maritime Experience"] ?? empData.yearsOfExperience ?? "",
     };
   }, [initialData]);
 
-  // Extract form methods from the custom hook
   const {
     register,
     handleSubmit,
     formState: { errors },
-    application, // Provides { saveStepData, isSaving } from your unified hook
+    application,
   } = useApplicationFormStep({
     schema: employmentInformationSchema,
     defaultValues: defaultValues,       
@@ -34,19 +45,20 @@ export default function EmploymentInformation({ initialData, formId }) {
 
   const onSubmit = async (data) => {
     try {
-      console.log("Saving Employment Information to Firestore:", data);
-      // Serializes proxy state data, writes to your Firestore backend collection, and updates wizard step
+      console.log("Committing synchronized employment payload data directly to Firestore:", data);
+      
+      // Fires serialization pipelines and saves values to the members collection securely
       const success = await application.saveStepData(data);
       if (success) {
-        console.log("Employment Information Step Successfully Saved.");
+        console.log("Employment section successfully updated in the database registry.");
       }
     } catch (err) {
-      console.error("Failed to execute employment form submission:", err);
+      console.error("Failed to commit employment section fields update:", err);
     }
   };
 
   return (
-    <form id={formId} onSubmit={handleSubmit(onSubmit)} className={styles.container}>
+    <form id={formId} onSubmit={handleSubmit(onSubmit)} className={styles.container} noValidate>
       <FormSection
         title="Employment Information"
         description="Tell us about your current employment and professional engagement within the maritime sector."
@@ -63,10 +75,6 @@ export default function EmploymentInformation({ initialData, formId }) {
         </FormGrid>
       </FormSection>
 
-      {/* 
-        CRITICAL: Mounted inside the form so that type="submit" 
-        wireframes into the handleSubmit pipeline effortlessly.
-      */}
       <WizardFooter loading={application.isSaving} />
     </form>
   );

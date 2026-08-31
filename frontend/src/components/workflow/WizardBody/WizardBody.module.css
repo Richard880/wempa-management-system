@@ -1,29 +1,13 @@
+/* src/components/workflow/WizardBody.module.css */
+
 .body {
-  display: grid;
-
-  grid-template-columns: 320px 1fr;
-
-  gap: 2rem;
-
-  flex: 1;
-
-  padding: 2rem;
-
-  max-width: 1600px;
-
   width: 100%;
-
-  margin: 0 auto;
-
-  align-items: start;
-}
-
-@media (max-width: 992px) {
-  .body {
-    grid-template-columns: 1fr;
-
-    padding: 1.5rem;
-
-    gap: 1.5rem;
-  }
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
 }

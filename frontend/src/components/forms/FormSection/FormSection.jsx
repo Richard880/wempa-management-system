@@ -1,12 +1,9 @@
-import PropTypes from "prop-types";
+// src/components/forms/FormSection/FormSection.jsx
 
+import PropTypes from "prop-types";
 import styles from "./FormSection.module.css";
 
-function FormSection({
-  title,
-  description,
-  children,
-}) {
+function FormSection({ title, description, children }) {
   return (
     <section className={styles.section}>
       {(title || description) && (

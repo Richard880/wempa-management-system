@@ -1,3 +1,5 @@
+// src/components/workflow/WizardFooter.jsx
+
 import PropTypes from "prop-types";
 import Button from "../../ui/Button";
 import useWizard from "../WizardProvider/useWizard";
@@ -11,16 +13,12 @@ function WizardFooter({ onSaveDraft, loading = false, disabled = false }) {
   const { isFirstStep, isLastStep, currentStep, steps } = state;
   const { previousStep } = actions;
 
-  /*
-  ----------------------------------------
-  Primary Navigation Interceptor
-  ----------------------------------------
-  If onSaveDraft is passed directly, intercept execution manually.
-  Otherwise, let the native form "submit" event cascade naturally.
-  */
+  /**
+   * Primary Action Navigation Interceptor Rule
+   */
   const handlePrimaryAction = (e) => {
     if (typeof onSaveDraft === "function") {
-      e.preventDefault(); // Stop native submit only if handling saving via explicit overrides
+      e.preventDefault(); 
       onSaveDraft();
     }
   };
@@ -34,7 +32,7 @@ function WizardFooter({ onSaveDraft, loading = false, disabled = false }) {
           onClick={previousStep}
           disabled={isFirstStep || loading || disabled}
         >
-          <i className="fas fa-chevron-left me-2"></i> Previous
+          <i className="fas fa-chevron-left"></i> Previous
         </Button>
       </div>
 
@@ -45,7 +43,7 @@ function WizardFooter({ onSaveDraft, loading = false, disabled = false }) {
           </span>
           {loading && (
             <span className={styles.syncText}>
-              <i className="fas fa-cloud-upload-alt fa-spin ms-2"></i> Syncing...
+              <i className="fas fa-cloud-upload-alt fa-spin"></i> Syncing Registry...
             </span>
           )}
         </div>
@@ -54,26 +52,23 @@ function WizardFooter({ onSaveDraft, loading = false, disabled = false }) {
       <div className={styles.right}>
         <Button
           variant={isLastStep ? "success" : "primary"}
-          
-          /* 
-          CRITICAL FIX: Change from "button" to "submit".
-          This allows the button to natively fire HTML onSubmit listeners
-          on forms like Documents.jsx.
-          */
           type="submit" 
-          
           onClick={handlePrimaryAction}
           disabled={loading || disabled}
         >
           {loading ? (
             <>
-              <i className="fas fa-spinner fa-spin me-2"></i>
+              <i className="fas fa-spinner fa-spin"></i>
               Processing...
             </>
           ) : isLastStep ? (
-            <>Submit Application <i className="fas fa-check-circle ms-2"></i></>
+            <>
+              Submit Application <i className="fas fa-check-circle"></i>
+            </>
           ) : (
-            <>Save & Next <i className="fas fa-chevron-right ms-2"></i></>
+            <>
+              Save & Next <i className="fas fa-chevron-right"></i>
+            </>
           )}
         </Button>
       </div>
@@ -82,7 +77,7 @@ function WizardFooter({ onSaveDraft, loading = false, disabled = false }) {
 }
 
 WizardFooter.propTypes = {
-  onSaveDraft: PropTypes.func, // FIX: Changed from .isRequired to optional to support native form submit panels
+  onSaveDraft: PropTypes.func, 
   loading: PropTypes.bool,
   disabled: PropTypes.bool,
 };

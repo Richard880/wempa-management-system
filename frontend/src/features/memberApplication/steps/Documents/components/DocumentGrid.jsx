@@ -1,20 +1,15 @@
+// src/features/members/steps/Documents/components/DocumentGrid.jsx
+
 import PropTypes from "prop-types";
-
 import DocumentUploadCard from "./DocumentUploadCard";
-
 import styles from "../Documents.module.css";
 
 function DocumentGrid({
   documents,
-
   onUpload,
-
   onReplace,
-
   onRemove,
-
   onRetry,
-
   onCancel,
 }) {
   return (
@@ -23,6 +18,10 @@ function DocumentGrid({
         <DocumentUploadCard
           key={document.id}
           document={document}
+          /* 
+          🟢 PARAMETER ALIGNMENT: Passes both file object definitions and 
+          target IDs back up to the hooks to preserve instant preview mappings.
+          */
           onUpload={(file) =>
             onUpload?.({
               documentId: document.id,
@@ -35,15 +34,9 @@ function DocumentGrid({
               file,
             })
           }
-          onRemove={() =>
-            onRemove?.(document.id)
-          }
-          onRetry={() =>
-            onRetry?.(document.id)
-          }
-          onCancel={() =>
-            onCancel?.(document.id)
-          }
+          onRemove={() => onRemove?.(document.id)}
+          onRetry={() => onRetry?.(document.id)}
+          onCancel={() => onCancel?.(document.id)}
         />
       ))}
     </div>
@@ -52,15 +45,10 @@ function DocumentGrid({
 
 DocumentGrid.propTypes = {
   documents: PropTypes.array.isRequired,
-
   onUpload: PropTypes.func,
-
   onReplace: PropTypes.func,
-
   onRemove: PropTypes.func,
-
   onRetry: PropTypes.func,
-
   onCancel: PropTypes.func,
 };
 

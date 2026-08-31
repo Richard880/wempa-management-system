@@ -1,26 +1,27 @@
+// src/components/workflow/WizardSidebar/WizardSidebar.jsx
+
 import { Link } from "react-router-dom";
 import styles from "./WizardSidebar.module.css";
 import useWizard from "../WizardProvider/useWizard";
-import { useAuth } from "../../../features/auth/hooks/useAuth"; // 1. Ensure useAuth is imported
+import { useAuth } from "../../../features/auth/hooks/useAuth"; 
 import ROUTES from "../../../constants/routes"; 
 
 export default function WizardSidebar() {
   const context = useWizard();
-  const { auth } = useAuth(); // 2. Extract the auth state payload
+  const { auth } = useAuth(); 
   
   if (!context) return null;
 
   const { state, actions } = context;
   const { steps, currentStep, completedSteps, progress } = state;
 
-  // 3. Dynamically route back based on whether they are an Admin or a Member
-  const isUserAdmin = auth?.currentUser?.role === "admin"; 
+  const userRole = auth?.role || auth?.profile?.role || "member";
+  const isUserAdmin = userRole === "admin" || userRole === "super_admin";
   const dashboardTarget = isUserAdmin ? ROUTES.ADMIN_DASHBOARD : ROUTES.MEMBER_DASHBOARD;
 
   return (
     <aside className={styles.sidebar}>
       <div className={styles.topNavigation}>
-        {/* 	🏼 4. UPDATED TO TARGET VARIABLE PATH ROUTE */}
         <Link to={dashboardTarget} className={styles.backButton}>
           <i className="bi bi-arrow-left" aria-hidden="true" />
           <span>Back to Dashboard</span>
@@ -29,9 +30,10 @@ export default function WizardSidebar() {
 
       <div className={styles.header}>
         <h2 className={styles.title}>Registration Progress</h2>
-        <span className={styles.percent}>{progress}%</span>
+        <span className={styles.percent}>{Math.round(progress || 0)}%</span>
       </div>
 
+      {/* 🔓 THE INNER NAVIGATION SCROLLWAY */}
       <nav className={styles.navigation}>
         {steps.map((step) => {
           const isCompleted = completedSteps.includes(step.key);
@@ -42,9 +44,9 @@ export default function WizardSidebar() {
               key={step.id}
               type="button"
               className={[
-                styles.step,
-                isActive && styles.active,
-                isCompleted && styles.completed,
+                styles.step, // 🟢 FIXED: Added object property access dot
+                isActive && styles.active, // 🟢 FIXED: Added object property access dot
+                isCompleted && styles.completed, // 🟢 FIXED: Added object property access dot
               ]
                 .filter(Boolean)
                 .join(" ")}

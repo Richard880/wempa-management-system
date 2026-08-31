@@ -1,23 +1,15 @@
+// src/features/members/steps/Review/Review.jsx
 import PropTypes from "prop-types";
 import useWizard from "../../../../components/workflow/WizardProvider/useWizard";
-import WizardFooter from "../../../../components/workflow/WizardFooter";
 import useApplicationForm from "../../hooks/useApplicationForm"; 
+import reviewSections from "./constants/reviewSections"; // 🟢 IMPORT: Dynamic section configurations map
 import styles from "./Review.module.css"; 
 
-export default function Review({ formId }) {
+export default function Review() {
   const { actions } = useWizard();
   
-  // FIX: Destructure the independent 'documents' object directly from the custom hook return statement
+  // Directly extracts live data context vectors from the parent registry custom hook
   const { application, documents, loading } = useApplicationForm();
-
-  const handleNextStep = (e) => {
-    e.preventDefault();
-    if (actions?.nextStep) {
-      actions.nextStep();
-    } else {
-      console.warn("Wizard navigation tracking failed: nextStep action missing.");
-    }
-  };
 
   const handleJumpToStep = (stepNumber) => {
     if (actions?.goToStep) {
@@ -25,7 +17,6 @@ export default function Review({ formId }) {
     }
   };
 
-  // Safe wrapper to prevent empty text fields from throwing layout alignment issues
   const renderRow = (label, value) => (
     <div className={styles.reviewRow}>
       <span className={styles.reviewLabel}>{label}</span>
@@ -33,12 +24,6 @@ export default function Review({ formId }) {
     </div>
   );
 
-  /*
-  ----------------------------------------
-  Status Badge Label Formatter
-  ----------------------------------------
-  Translates system status keys into crisp readable text badges.
-  */
   const displayStatusLabel = (status) => {
     switch (status?.toLowerCase()) {
       case "uploaded":
@@ -59,76 +44,70 @@ export default function Review({ formId }) {
   if (loading) {
     return (
       <div className={styles.loadingContainer}>
-        <i className="fas fa-spinner fa-spin me-2"></i> Loading application review panel...
+        <div className="spinner-border text-info spinner-border-sm me-2" role="status" />
+        <span className={styles.loadingText}>Compiling maritime file directory review summary...</span>
       </div>
     );
   }
 
   return (
-    <form id={formId} onSubmit={handleNextStep} className={styles.container}>
-      {/* 1. Personal Information */}
-      <section className={styles.reviewSection}>
-        <header className={styles.sectionHeader}>
-          <div>
-            <h3 className={styles.sectionTitle}>1. Personal Information</h3>
-            <p className={styles.sectionDescription}>Identity and background details.</p>
-          </div>
-          <button type="button" onClick={() => handleJumpToStep(1)} className={styles.editSectionButton}>
-            Edit
-          </button>
-        </header>
-        <div className={styles.sectionBody}>
-          {renderRow("First Name", application?.personal?.firstName)}
-          {renderRow("Middle Name", application?.personal?.middleName)}
-          {renderRow("Last Name", application?.personal?.lastName)}
-          {renderRow("Gender", application?.personal?.gender)}
-          {renderRow("Date of Birth", application?.personal?.dateOfBirth)}
-          {renderRow("Nationality", application?.personal?.nationality)}
-          {renderRow("ID/Passport Number", application?.personal?.idNumber)}
-        </div>
-      </section>
+    <div className={styles.reviewWrapper}>
+      {/* 🟢 DYNAMIC FORM ELEMENT LOOPS: Processes Personal, Contact, and Employment segments sequentially */}
+      {reviewSections
+        .filter((sec) => sec.id !== "documents") // Isolates traditional text fields from file maps
+        .map((section, idx) => {
+          const sectionData = application?.[section.id] || {};
 
-      {/* 2. Contact Information */}
-      <section className={styles.reviewSection}>
-        <header className={styles.sectionHeader}>
-          <div>
-            <h3 className={styles.sectionTitle}>2. Contact Information</h3>
-            <p className={styles.sectionDescription}>Address and mobile routing metrics.</p>
-          </div>
-          <button type="button" onClick={() => handleJumpToStep(2)} className={styles.editSectionButton}>
-            Edit
-          </button>
-        </header>
-        <div className={styles.sectionBody}>
-          {renderRow("Email Address", application?.contact?.email)}
-          {renderRow("Phone Number", application?.contact?.phoneNumber)}
-          {renderRow("Alternative Phone", application?.contact?.alternativePhoneNumber)}
-          {renderRow("Physical Address", application?.contact?.physicalAddress)}
-        </div>
-      </section>
+          return (
+            <section key={section.id} className={styles.reviewSection}>
+              <header className={styles.sectionHeader}>
+                <div>
+                  <h3 className={styles.sectionTitle}>
+                    {idx + 1}. {section.title}
+                  </h3>
+                  <p className={styles.sectionDescription}>
+                    Verified system parameters under {section.title.toLowerCase()}.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => handleJumpToStep(section.editStep)}
+                  className={styles.editSectionButton}
+                >
+                  Modify Section
+                </button>
+              </header>
+              
+              <div className={styles.sectionBody}>
+                {section.fields.map((field) =>
+                  renderRow(field.label, sectionData[field.key])
+                )}
+              </div>
+            </section>
+          );
+        })}
 
-      {/* 3. Supporting Documentation */}
+      {/* 💎 4. Supporting Documentation (Handled independently via dynamic thumbnail loops) */}
       <section className={styles.reviewSection}>
         <header className={styles.sectionHeader}>
           <div>
-            <h3 className={styles.sectionTitle}>3. Uploaded Documents</h3>
-            <p className={styles.sectionDescription}>Live verification of required compliance files.</p>
+            <h3 className={styles.sectionTitle}>4. Uploaded Certificates & Documents</h3>
+            <p className={styles.sectionDescription}>Live directory verification check of submitted digital assets.</p>
           </div>
-          <button type="button" onClick={() => handleJumpToStep(3)} className={styles.editSectionButton}>
-            Edit
+          {/* 🟢 FIXED: Routes modification requests directly to step index 4 */}
+          <button type="button" onClick={() => handleJumpToStep(4)} className={styles.editSectionButton}>
+            Modify Assets
           </button>
         </header>
         
         <div className={styles.reviewDocuments}>
           {documents && Object.keys(documents).length > 0 ? (
             Object.entries(documents).map(([key, doc]) => {
-              // Ignore administrative primitive structural variables if they slip into the map loop
-              if (typeof doc !== 'object' || doc === null) return null;
+              if (typeof doc !== "object" || doc === null) return null;
 
               const dbStatus = doc?.status || "pending";
               const statusClass = styles[dbStatus.toLowerCase()] || styles.pending;
               
-              // Formatting camelCase database tokens (e.g. nationalId -> National Id)
               const cleanTitle = key
                 .replace(/([A-Z])/g, " $1")
                 .replace(/^./, (str) => str.toUpperCase())
@@ -138,8 +117,8 @@ export default function Review({ formId }) {
                 <div key={key} className={styles.documentCard}>
                   <div className={styles.documentInfo}>
                     <h4 className={styles.documentTitle}>{cleanTitle}</h4>
-                    <p className={styles.documentFileName}>
-                      {doc?.fileName || "Missing_Asset_File.pdf"}
+                    <p className={styles.documentFileName} title={doc?.fileName}>
+                      {doc?.fileName || "Attached_Asset_Certificate.pdf"}
                     </p>
                   </div>
                   <div className={styles.documentStatus}>
@@ -152,20 +131,15 @@ export default function Review({ formId }) {
             })
           ) : (
             <div className={styles.emptyDocuments}>
-              No digital certificates found in the application database tree.
+              ✕ No digital certificates or passport photos discovered in the application registry.
             </div>
           )}
         </div>
       </section>
-
-
-
-      {/* Tell footer this is the last verification page before final submission */}
-      <WizardFooter isLastStep={true} loading={false} />
-    </form>
+    </div>
   );
 }
 
 Review.propTypes = {
-  formId: PropTypes.string.isRequired,
+  formId: PropTypes.string,
 };

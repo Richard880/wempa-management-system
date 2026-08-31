@@ -1,3 +1,4 @@
+// src/features/members/steps/Documents/Documents.jsx
 import { useEffect, useMemo } from "react";
 import PropTypes from "prop-types";
 import useApplicationFormStep from "../../hooks/useApplicationFormStep";
@@ -8,18 +9,14 @@ import useDocumentUpload from "./hooks/useDocumentUpload";
 import styles from "./Documents.module.css";
 import WizardFooter from "../../../../components/workflow/WizardFooter"; 
 import useWizard from "../../../../components/workflow/WizardProvider/useWizard"; 
-
-// 1. IMPORT YOUR AUTH HOOK DIRECTLY INTO THIS FILE
 import { useAuth } from "../../../auth/hooks/useAuth"; 
 
 export default function Documents({ initialData, formId }) {
   const { state } = useWizard();
-  const dynamicStepIndex = state?.currentStep || 3; 
-
-  // 2. EXTRACT THE LIVE USER OBJECT DIRECTLY FROM AUTH
   const { auth } = useAuth();
-  const directUser = auth?.currentUser;
-  const currentUserId = directUser?.uid;
+  
+  const dynamicStepIndex = state?.currentStep || 3; 
+  const currentUserId = auth?.currentUser?.uid || "";
 
   // Stabilize initialData input parsing baseline using useMemo
   const stableValues = useMemo(() => {
@@ -44,7 +41,7 @@ export default function Documents({ initialData, formId }) {
 
   const documentValues = watch("documents") || {};
 
-  // 👇 MOVE HOOK HERE: Initialize hook first so its methods are defined throughout the entire file scope
+  // 🟢 HOOK MODEL ALIGNMENT: Mounted uniformly without conditional short-circuit breaks above it
   const {
     documents,
     resetDocuments,
@@ -54,23 +51,8 @@ export default function Documents({ initialData, formId }) {
     retryDocument,
     cancelDocument,
     processing,
-  } = useDocumentUpload(stableValues.documents, currentUserId);
+  } = useDocumentUpload(stableValues.documents, currentUserId || "fallback_uid");
 
-  // 👇 LOADING GUARD: Safely blocks rendering elements below if user is not loaded yet
-  if (!currentUserId) {
-    return (
-      <div className={styles.loadingContainer}>
-        <i className="fas fa-spinner fa-spin me-2"></i> 
-        Verifying secure user session...
-      </div>
-    );
-  }
-
-  /*
-  ----------------------------------------
-  Safe State Mapping Engine (Infinite Loop Prevention)
-  ----------------------------------------
-  */
   useEffect(() => {
     if (initialData?.documents) {
       resetDocuments(initialData.documents);
@@ -110,17 +92,11 @@ export default function Documents({ initialData, formId }) {
         shouldValidate: true 
       });
     }
-  }, [documents, setValue]); 
+  }, [documents, setValue, documentValues]); 
 
-  /*
-  ----------------------------------------
-  Hardened Step Data Submission
-  ----------------------------------------
-  */
-   const onSubmit = async (data) => {
+  const onSubmit = async (data) => {
     try {
       console.log("Preparing form data payload for Firestore save...", data);
-
       const sanitizedDocumentsPayload = {};
       
       documents.forEach((doc) => {
@@ -140,37 +116,47 @@ export default function Documents({ initialData, formId }) {
       };
 
       console.log("Committing clean document tree to Firestore:", finalSubmissionPayload);
-      
       const success = await application.saveStepData(finalSubmissionPayload);
       if (success) {
-        console.log("Documents Step Successfully Synchronized to Cloud.");
+        console.log("Documents Step Successfully Saved to Firestore.");
       }
     } catch (err) {
       console.error("Failed to execute documents form submission:", err);
     }
   };
 
+  // 🟢 SAFE LAYOUT RENDER GUARD: Placed beneath hook calculations to honor React's execution framework
+  if (!currentUserId) {
+    return (
+      <div className={styles.loadingContainer}>
+        <div className="spinner-border spinner-border-sm text-info me-2" role="status" />
+        <span>Verifying active registry session credentials...</span>
+      </div>
+    );
+  }
+
   return (
     <form id={formId} onSubmit={handleSubmit(onSubmit)} className={styles.container}>
       <header className={styles.header}>
         <h2 className={styles.title}>Supporting Documents</h2>
         <p className={styles.description}>
-          Upload the required supporting documents before submitting your application.
+          Upload the required supporting compliance documents and a passport photo before submitting your application.
         </p>
       </header>
 
-      <DocumentGrid
-        documents={documents ?? []}
-        processing={processing}
-        onUpload={uploadDocument}
-        onReplace={replaceDocument}
-        onRemove={removeDocument}
-        onRetry={retryDocument}
-        onCancel={cancelDocument}
-        errors={errors?.documents}
-      />
+    <DocumentGrid
+  documents={documents ?? []}
+  processing={processing}
+  onUpload={uploadDocument}   // Calls the hook to assign uid storage paths
+  onReplace={replaceDocument} // Fires cleanup routines for old storage paths
+  onRemove={removeDocument}   // Releases local object URL memory blocks
+  onRetry={retryDocument}     // Retries failed upload tasks
+  onCancel={cancelDocument}   // Safely aborts the active stream task
+  errors={errors?.documents}
+/>
 
-      <WizardFooter loading={application?.isSaving || processing} />
+
+      <WizardFooter loading={application.isSaving || processing} />
     </form>
   );
 }

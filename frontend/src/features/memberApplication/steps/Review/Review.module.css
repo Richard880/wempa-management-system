@@ -1,18 +1,68 @@
-/*
---------------------------------------------------
-Review Row
---------------------------------------------------
-*/
+/* src/features/members/steps/Review/Review.module.css */
 
-.reviewRow {
+.reviewWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  width: 100%;
+}
+
+/* 💎 Premium Frosted Glass Summary Cards */
+.reviewSection {
+  background: rgba(15, 23, 42, 0.35) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 16px;
+  padding: 2.25rem;
+  box-sizing: border-box;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
+  transition: border-color 0.25s ease;
+}
+
+.reviewSection:hover {
+  border-color: rgba(14, 165, 233, 0.2) !important; /* Soft Marine Cyan edge aura */
+}
+
+.sectionHeader {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 1rem;
+  gap: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.75rem;
+}
 
-  padding: 0.9rem 0;
+.sectionTitle {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #38bdf8 !important; /* Vibrant Deep Sea Cyan */
+  letter-spacing: 0.3px;
+}
 
-  border-bottom: 1px solid var(--bs-border-color);
+.sectionDescription {
+  margin: 0.35rem 0 0 0;
+  font-size: 0.8125rem;
+  color: #94a3b8 !important; /* Clean slate contrast metadata */
+}
+
+/* 🧭 HIGH-CONTRAST DYNAMIC WORKSPACE GRID */
+.sectionBody {
+  display: grid;
+  /* Automatically columns form parameters side-by-side horizontally where necessary */
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem 2.5rem;
+  width: 100%;
+}
+
+.reviewRow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.04);
 }
 
 .reviewRow:last-child {
@@ -20,267 +70,147 @@ Review Row
 }
 
 .reviewLabel {
-  flex: 0 0 220px;
-
-  font-weight: 600;
-
-  color: var(--bs-secondary-color);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #64748b !important; /* Strong slate texture labels */
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
 }
 
 .reviewValue {
-  flex: 1;
-
-  text-align: right;
-
-  color: var(--bs-body-color);
-
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #ffffff !important; /* High contrast crisp white values */
   word-break: break-word;
 }
 
-/*
---------------------------------------------------
-Review Section
---------------------------------------------------
-*/
-
-.reviewSection {
-  background: var(--bs-body-bg);
-
-  border: 1px solid var(--bs-border-color);
-
-  border-radius: 0.75rem;
-
-  padding: 1.5rem;
-
-  margin-bottom: 1.5rem;
-}
-
-.sectionHeader {
-  display: flex;
-
-  justify-content: space-between;
-
-  align-items: flex-start;
-
-  gap: 1rem;
-
-  margin-bottom: 1.5rem;
-}
-
-.sectionTitle {
-  margin: 0;
-
-  font-size: 1.125rem;
-
-  font-weight: 600;
-}
-
-.sectionDescription {
-  margin-top: 0.5rem;
-
-  margin-bottom: 0;
-
-  color: var(--bs-secondary-color);
-}
-
-.sectionBody {
-  display: flex;
-
-  flex-direction: column;
-}
-
-/*
---------------------------------------------------
-Edit Section Button
---------------------------------------------------
-*/
-
+/* 🛠️ Modern Action Nudge Modifier Buttons */
 .editSectionButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 0.5rem 1rem;
-
-  border: 1px solid var(--bs-primary);
-
-  border-radius: 0.5rem;
-
-  background: transparent;
-
-  color: var(--bs-primary);
-
-  font-size: 0.875rem;
-
+  background: rgba(14, 165, 233, 0.06) !important;
+  border: 1px solid rgba(14, 165, 233, 0.25) !important;
+  color: #38bdf8 !important;
+  font-size: 0.8125rem;
   font-weight: 600;
-
+  padding: 0.45rem 1.1rem;
+  border-radius: 8px;
   cursor: pointer;
-
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease,
-    border-color 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .editSectionButton:hover:not(:disabled) {
-  background: var(--bs-primary);
-  color: #fff;
+  background: #0ea5e9 !important;
+  color: #ffffff !important;
+  border-color: #0ea5e9 !important;
+  box-shadow: 0 0 12px rgba(14, 165, 233, 0.35);
+  transform: translateY(-1px);
 }
 
-.editSectionButton:focus-visible {
-  outline: 2px solid var(--bs-primary);
-  outline-offset: 2px;
-}
-
-.editSectionButton:disabled {
-  opacity: 0.65;
-  cursor: not-allowed;
-}
-
-/*
---------------------------------------------------
-Review Status Badge
---------------------------------------------------
-*/
-/* base class applied to the span element */
-.reviewStatusBadge {
-  padding: 0.35rem 0.75rem;
-  font-size: 0.8rem;
-  font-weight: 600;
-  border-radius: 4px;
-}
-
-/* Color codes tied directly to backend status flags */
-.uploaded, .success, .verified {
-  background-color: #dcfce7 !important;
-  color: #15803d !important;
-}
-
-.pending, .queued, .uploading {
-  background-color: #f1f5f9 !important;
-  color: #475569 !important;
-}
-
-.failed {
-  background-color: #fee2e2 !important;
-  color: #b91c1c !important;
-}
-
-/*
---------------------------------------------------
-Selected
---------------------------------------------------
-*/
-
-.selected {
-  background: #cff4fc;
-  color: #055160;
-}
-
-
-
-
+/* 📂 Document Grid Deck Architecture */
 .reviewDocuments {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.85rem;
+  width: 100%;
 }
 
 .documentCard {
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  padding: 1rem;
-
-  border: 1px solid #dee2e6;
-
-  border-radius: 0.75rem;
-
-  background: #ffffff;
+  background: rgba(3, 7, 18, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
 }
 
 .documentInfo {
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
+  gap: 0.2rem;
 }
 
 .documentTitle {
   margin: 0;
-
-  font-size: 1rem;
-
+  font-size: 0.875rem;
   font-weight: 600;
+  color: #f1f5f9 !important;
 }
 
 .documentFileName {
   margin: 0;
-
-  color: #6c757d;
-
-  font-size: 0.9rem;
-}
-
-.requiredLabel {
-  display: inline-block;
-
-  width: fit-content;
-
-  padding: 0.2rem 0.55rem;
-
-  border-radius: 999px;
-
-  background: #fff3cd;
-
-  color: #664d03;
-
   font-size: 0.75rem;
-
-  font-weight: 600;
+  color: #64748b !important;
+  font-family: monospace;
 }
 
-.documentStatus {
-  display: flex;
+/* 🏷️ Tokenized Micro Status Indicators */
+.reviewStatusBadge {
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: 6px;
+  letter-spacing: 0.2px;
+}
+
+.uploaded, .success, .verified {
+  background-color: rgba(20, 184, 166, 0.12) !important;
+  color: #2dd4bf !important;
+  border: 1px solid rgba(20, 184, 166, 0.2);
+}
+
+.pending, .queued, .uploading {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  color: #94a3b8 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.failed {
+  background-color: rgba(239, 68, 68, 0.12) !important;
+  color: #f87171 !important;
+  border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
 .emptyDocuments {
-  padding: 2rem;
-
+  color: rgba(248, 113, 113, 0.6) !important;
+  font-size: 0.875rem;
   text-align: center;
-
-  color: #6c757d;
-
-  border: 1px dashed #ced4da;
-
-  border-radius: 0.75rem;
+  padding: 2rem;
+  background: rgba(239, 68, 68, 0.02);
+  border: 1px dashed rgba(239, 68, 68, 0.15);
+  border-radius: 12px;
 }
 
-/*
---------------------------------------------------
-Loading State
---------------------------------------------------
-*/
-
 .loadingContainer {
-  min-height: 320px;
-
   display: flex;
-  flex-direction: column;
-
   align-items: center;
   justify-content: center;
-
-  gap: 1rem;
+  padding: 4rem;
+  color: #0ea5e9;
 }
 
 .loadingText {
-  margin: 0;
-
-  color: var(--bs-secondary-color, #6c757d);
-
-  font-size: 0.95rem;
-
+  font-size: 0.875rem;
+  color: #94a3b8;
   font-weight: 500;
+}
+
+/* 📱 Responsive Mobile Stack Realignment Rules */
+@media (max-width: 768px) {
+  .sectionBody {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  
+  .reviewSection {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .documentCard {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.85rem;
+  }
 }

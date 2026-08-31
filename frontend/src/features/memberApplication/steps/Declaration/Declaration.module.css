@@ -1,118 +1,345 @@
-/*
---------------------------------------------------
-Declaration Agreement
---------------------------------------------------
-*/
+/* src/features/members/steps/Declaration/Declaration.module.css */
 
-.agreement {
-  background-color: #ffffff;
-
-  border: 1px solid #dee2e6;
-  border-radius: 0.75rem;
-
-  padding: 1.5rem;
-
-  margin-bottom: 2rem;
+.masterWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  width: 100%;
 }
 
-.sectionTitle {
-  margin-bottom: 1rem;
+/* src/features/members/steps/Declaration/Declaration.module.css */
+/* src/features/members/steps/Declaration/Declaration.module.css additions */
 
-  font-size: 1.2rem;
-  font-weight: 600;
+/* ==========================================================================
+   Premium Maritime Registry Sync Overlay
+   ========================================================================== */
 
-  color: var(--bs-dark);
+.loaderOverlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(3, 7, 18, 0.75) !important; /* Dims out background canvas */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999; /* Higher layer index seats it cleanly over layout views and headers */
+  animation: fadeInOverlay 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-.paragraph {
-  margin-bottom: 1rem;
-
-  line-height: 1.7;
-
-  color: var(--bs-secondary-color);
+.loaderCard {
+  background: rgba(15, 23, 42, 0.65) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 40px rgba(14, 165, 233, 0.1);
+  padding: 3rem 2.5rem;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 420px;
+  width: 90%;
 }
 
-.paragraph:last-child {
-  margin-bottom: 0;
+/* 🧭 Maritime Radar Echo Scanning Widget */
+.radarPing {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 2px solid rgba(14, 165, 233, 0.2);
+  position: relative;
+  margin-bottom: 1.75rem;
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.05) 0%, transparent 75%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
-/*
---------------------------------------------------
-Declaration Checklist
---------------------------------------------------
-*/
+.radarPing::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2px solid rgba(20, 184, 166, 0.4);
+  animation: radarPulse 2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+.radarLine {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 50%;
+  height: 2px;
+  background: linear-gradient(90deg, #0ea5e9, transparent);
+  transform-origin: left center;
+  animation: radarSweep 1.5s linear infinite;
+}
+
+.loaderTitle {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #ffffff !important;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.loaderSubtitle {
+  margin: 0.65rem 0 0 0;
+  font-size: 0.8125rem;
+  color: #94a3b8 !important;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+/* Animations Core Matrix */
+@keyframes fadeInOverlay {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes radarSweep {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes radarPulse {
+  0% { transform: scale(0.6); opacity: 1; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+/* ... keep your masterWrapper and container blocks exactly the same */
 
 .checklist {
   display: flex;
-
   flex-direction: column;
-
-  gap: 1.5rem;
-
-  margin-top: 2rem;
+  gap: 1.25rem; /* Spacious margins between checklist card lines */
+  width: 100%;
+  margin-top: 1.5rem;
 }
 
-/*
---------------------------------------------------
-Submission Notice
---------------------------------------------------
-*/
-
-.notice {
-  margin-top: 2rem;
-
-  padding: 1.5rem;
-
-  border: 1px solid #dee2e6;
-  border-radius: 0.75rem;
-
-  background-color: #f8f9fa;
+/* 🧭 Direct Selection Target: Forces checkboxes to stand out with high-contrast text views */
+.checklist :global(.form-check) {
+  display: flex;
+  align-items: center; 
+  gap: 1.25rem;
+  padding: 1.5rem 1.75rem;
+  background: rgba(15, 23, 42, 0.65) !important; /* Deepened glass for bold contrast text */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15) !important; /* Crisp high-contrast framing line */
+  border-radius: 14px;
+  margin-bottom: 0; /* Reset default line gaps to favor clean flex layout grids */
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
 }
 
-.noticeList {
-  margin: 1rem 0;
-
-  padding-left: 1.5rem;
+.checklist :global(.form-check:hover) {
+  background: rgba(30, 41, 59, 0.75) !important;
+  border-color: rgba(14, 165, 233, 0.5) !important; /* Glowing Marine Cyan border highlight */
+  box-shadow: 0 6px 24px rgba(14, 165, 233, 0.12);
+  transform: translateY(-1px);
 }
 
-.noticeList li {
+/* 🔓 ULTRA-CLEAR CHECKBOX INPUT FIX */
+.checklist :global(.form-check-input) {
+  width: 1.45rem; 
+  height: 1.45rem;
+  margin-top: 0;
+  background-color: rgba(3, 7, 18, 0.8) !important;
+  border: 2px solid rgba(255, 255, 255, 0.5) !important; /* Bold white border replaces faint controls */
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+}
+
+.checklist :global(.form-check-input:hover) {
+  border-color: #38bdf8 !important;
+}
+
+/* Checked State Aura (Vibrant Marine Cyan fill + high contrast graphic check checkmark shape) */
+.checklist :global(.form-check-input:checked) {
+  background-color: #0ea5e9 !important;
+  border-color: #38bdf8 !important;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://w3.org' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3.5' d='m6 10 3 3 6-6'/%3e%3c/svg%3e") !important;
+  box-shadow: 0 0 14px rgba(14, 165, 233, 0.6);
+}
+
+.checklist :global(.form-check-input:focus) {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.3);
+  border-color: #38bdf8 !important;
+}
+
+/* 🟢 BOLD HIGH-CONTRAST SELECTION LABELS */
+.checklist :global(.form-check-label) {
+  color: #ffffff !important; /* Bold, crisp high-contrast text */
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.5;
+  cursor: pointer;
+  user-select: none;
+  letter-spacing: 0.2px;
+}
+
+/* 🚨 Micro Badges for Input Validation Failures */
+.checklist :global(.invalid-feedback),
+.checklist :global(.error-message) {
+  color: #f87171 !important; /* Coral Red Warning text */
+  font-size: 0.8125rem;
+  margin-top: 0.25rem;
   margin-bottom: 0.75rem;
-
-  line-height: 1.6;
+  padding-left: 1.5rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  animation: slideInError 0.2s ease-out;
 }
 
-.noticeFooter {
-  margin: 0;
+/* ... keep your agreement-text-box and media queries remaining structures exactly the same */
 
-  font-weight: 500;
 
-  color: var(--bs-secondary-color);
-}
 
-/*
---------------------------------------------------
-Layout
---------------------------------------------------
-*/
+
 
 .container {
+  width: 100%;
   display: flex;
-
   flex-direction: column;
-
-  gap: 2rem;
 }
 
-.actions {
+/* 🧭 High-Contrast Interactive Checkbox Row Canvas */
+.container :global(.form-check) {
   display: flex;
+  align-items: center; /* Vertically align items for clean text balancing */
+  gap: 1.25rem;
+  padding: 1.5rem 1.75rem;
+  /* Deepened card fill tone to pop text values */
+  background: rgba(15, 23, 42, 0.5) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.12) !important; /* Highly visible card bounds */
+  border-radius: 14px;
+  margin-bottom: 1.25rem;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
 
-  justify-content: space-between;
+.container :global(.form-check:hover) {
+  background: rgba(30, 41, 59, 0.55) !important;
+  border-color: rgba(14, 165, 233, 0.45) !important; /* Radiant Marine Cyan structural aura */
+  box-shadow: 0 4px 20px rgba(14, 165, 233, 0.08);
+  transform: translateY(-1px);
+}
 
+/* 🔓 HIGH-CONTRAST CHECKBOX OVERRIDES */
+.container :global(.form-check-input) {
+  width: 1.45rem; /* Enhanced target dimension for easy touch/click selection */
+  height: 1.45rem;
+  margin-top: 0; /* Reset alignment offset */
+  background-color: rgba(3, 7, 18, 0.7) !important;
+  border: 2px solid rgba(255, 255, 255, 0.4) !important; /* Thick white frame replaces faint borders */
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+}
+
+.container :global(.form-check-input:hover) {
+  border-color: #38bdf8 !important; /* Deep Sea Cyan frame highlight */
+}
+
+/* Checked Success State (Vibrant Cyan Pop with High-Density Indicator) */
+.container :global(.form-check-input:checked) {
+  background-color: #0ea5e9 !important;
+  border-color: #38bdf8 !important;
+  /* Premium crisp checkmark shape vector */
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://w3.org' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3.5' d='m6 10 3 3 6-6'/%3e%3c/svg%3e") !important;
+  box-shadow: 0 0 14px rgba(14, 165, 233, 0.5);
+}
+
+.container :global(.form-check-input:focus) {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.25);
+  border-color: #38bdf8 !important;
+}
+
+/* 🟢 SHARP HIGH-CONTRAST TEXT LABEL */
+.container :global(.form-check-label) {
+  color: #ffffff !important; /* Ultra-clear white text replaces faint grey textures */
+  font-size: 0.95rem;
+  font-weight: 600; /* Enhanced text weight readability profile */
+  line-height: 1.5;
+  cursor: pointer;
+  user-select: none;
+  letter-spacing: 0.2px;
+}
+
+/* 🚨 Crisp Micro Floating Coral Red Warning Messages */
+.container :global(.invalid-feedback),
+.container :global(.error-message) {
+  color: #f87171 !important;
+  font-size: 0.8125rem;
+  margin-top: -0.75rem;
+  margin-bottom: 1.5rem;
+  padding-left: 2rem;
+  font-weight: 600;
+  display: flex;
   align-items: center;
+  gap: 0.4rem;
+  animation: slideInError 0.2s ease-out;
+}
 
-  margin-top: 2rem;
+/* 📜 Legal Terms Text Scroll Box (Agreement viewports) */
+.container :global(.agreement-text-box),
+.container :global(.terms-scrollbox) {
+  background: rgba(3, 7, 18, 0.5) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 14px;
+  padding: 1.5rem;
+  max-height: 240px;
+  overflow-y: auto;
+  color: #cbd5e1 !important; /* High contrast soft ice text */
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin-bottom: 2.25rem;
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.4);
+}
 
-  padding-top: 1.5rem;
+/* Custom Scrollbar for Legal Text Area */
+.container :global(.agreement-text-box::-webkit-scrollbar),
+.container :global(.terms-scrollbox::-webkit-scrollbar) {
+  width: 6px;
+}
 
-  border-top: 1px solid #dee2e6;
+.container :global(.agreement-text-box::-webkit-scrollbar-thumb),
+.container :global(.terms-scrollbox::-webkit-scrollbar-thumb) {
+  background: rgba(14, 165, 233, 0.3); /* Glowing track tracker */
+  border-radius: 10px;
+}
+
+@keyframes slideInError {
+  from { transform: translateY(-4px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@media (max-width: 576px) {
+  .masterWrapper {
+    gap: 2rem;
+  }
+  
+  .container :global(.form-check) {
+    padding: 1.25rem 1rem;
+    gap: 1rem;
+  }
+  
+  .container :global(.form-check-label) {
+    font-size: 0.875rem;
+  }
 }

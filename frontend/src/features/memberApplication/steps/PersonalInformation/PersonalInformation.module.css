@@ -1,5 +1,112 @@
+/* src/features/members/steps/PersonalInformation/PersonalInformation.module.css */
+
 .container {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+}
+
+/* Syncing Profile Loader Component */
+.syncOverlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  background: rgba(14, 165, 233, 0.06);
+  border: 1px solid rgba(14, 165, 233, 0.15);
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.syncSpinner {
+  color: #0ea5e9 !important; /* Vibrant Marine Cyan Token */
+}
+
+.syncText {
+  color: #38bdf8;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+/* Universal Global Deep Target Overrides for Dynamic Fields inside this card layout */
+.container :global(.form-label) {
+  color: #e2e8f0;
+  font-weight: 600;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+}
+
+.container :global(.form-label span) {
+  color: #ef4444; /* High contrast indicator */
+  margin-left: 0.25rem;
+}
+
+/* 🧭 Polishing the Translucent Marine Controls Natively */
+.container :global(.form-control),
+.container :global(.form-select) {
+  background-color: rgba(15, 23, 42, 0.5) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+  padding: 0.75rem 1rem;
+  font-size: 0.9375rem;
+  border-radius: 10px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Input States */
+.container :global(.form-control:focus),
+.container :global(.form-select:focus) {
+  border-color: #0ea5e9 !important;
+  box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.2), inset 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  background-color: rgba(15, 23, 42, 0.7) !important;
+  outline: none;
+}
+
+.container :global(.form-control::placeholder) {
+  color: rgba(148, 163, 184, 0.45);
+}
+
+/* Date Input Adjustment for Dark Canvas Platforms */
+.container :global(input[type="date"]::-webkit-calendar-picker-indicator) {
+  filter: invert(1) brightness(0.9) sepia(1) saturate(5) hue-rotate(160deg);
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.container :global(input[type="date"]::-webkit-calendar-picker-indicator:hover) {
+  opacity: 1;
+}
+
+/* Dropdown Menu Arrow Color Override */
+.container :global(.form-select) {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://w3.org' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%2338bdf8' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e") !important;
+  background-size: 12px 12px !important;
+}
+
+/* 🚨 Crisp Micro Floating Coral Red Error Messages */
+.container :global(.invalid-feedback),
+.container :global(.error-message) {
+  color: #f87171 !important;
+  font-size: 0.8125rem;
+  margin-top: 0.4rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  animation: slideInError 0.2s ease-out;
+}
+
+@keyframes slideInError {
+  from { transform: translateY(-4px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }

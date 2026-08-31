@@ -2,76 +2,99 @@
 
 .auth-layout {
   width: 100%;
-  /* 🟢 MOBILE FIRST: Allow natural growth for small screens */
+  /* 🟢 MOBILE FIRST: Fluid growth for smaller touchscreens */
   min-height: 100dvh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: radial-gradient(circle at top right, #1e293b 0%, #0f172a 100%);
+  /* Deep oceanic Abyssal Navy palette */
+  background: radial-gradient(circle at 80% 20%, #0f2042 0%, #050b14 100%);
   position: relative;
   box-sizing: border-box;
   overflow-x: hidden;
-  /* Allow the layout to scroll on mobile if the card is huge */
   overflow-y: auto; 
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
 }
 
-/* 🟢 BIG SCREEN OVERRIDE: Lock to window height */
+/* 🟢 BIG SCREEN OVERRIDE: Strict viewport lock for clean dashboard applications */
 @media (min-width: 1024px) {
   .auth-layout {
     height: 100vh;
     max-height: 100vh;
-    /* Prevent the main window from scrolling; inner form will scroll instead */
     overflow-y: hidden; 
   }
 }
 
-/* Abstract Sea Wave Backdrops Vector Layers */
+/* Premium Maritime Geometric & Fluid Backdrops */
 .auth-overlay {
   position: absolute;
   inset: 0;
   pointer-events: none;
   z-index: 1;
+  overflow: hidden;
 }
 
+/* Subtle, sophisticated ambient glowing sea-depth layers */
 .wave-layer-1, .wave-layer-2 {
   position: absolute;
-  bottom: -10%;
+  bottom: -20%;
   left: -10%;
-  width: 150vw;
-  height: 50vh;
-  border-radius: 43%;
-  background: rgba(56, 189, 248, 0.03); 
-  animation: waveMotion 25s infinite linear;
+  width: 140vw;
+  height: 60vh;
+  border-radius: 46% 40% 45% 42%;
+  /* Crisp clean marine lighting without muddy blue banner overlays */
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.05) 0%, rgba(20, 184, 166, 0.02) 100%); 
+  filter: blur(40px);
+  animation: oceanSwell 30s infinite alternate ease-in-out;
+  transform-origin: 55% 45%;
 }
 
 .wave-layer-2 {
-  bottom: -15%;
-  background: rgba(16, 185, 129, 0.02); 
-  animation: waveMotion 35s infinite linear reverse;
-  border-radius: 40%;
+  bottom: -25%;
+  left: -5%;
+  width: 150vw;
+  height: 65vh;
+  border-radius: 42% 45% 40% 47%;
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.04) 0%, rgba(56, 189, 248, 0.01) 100%); 
+  animation: oceanSwell 40s infinite alternate-reverse ease-in-out;
 }
 
-@keyframes waveMotion {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+/* Elegant, non-distracting oceanic sway animation */
+@keyframes oceanSwell {
+  0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+  50% { transform: translate(2%, 4%) rotate(3deg) scale(1.05); }
+  100% { transform: translate(-1%, -2%) rotate(-2deg) scale(0.98); }
+}
+
+/* Subtle compass grid pattern for maritime context */
+.auth-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.015;
+  background-image: 
+    radial-gradient(circle, #ffffff 1px, transparent 1px),
+    linear-gradient(to right, #ffffff 1px, transparent 1px),
+    linear-gradient(to bottom, #ffffff 1px, transparent 1px);
+  background-size: 40px 40px, 200px 200px, 200px 200px;
+  background-position: center;
 }
 
 .auth-viewport-wrapper {
   width: 100%;
-  height: 100%; /* Fill the layout */
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 1.5rem;
   z-index: 2;
   box-sizing: border-box;
-  max-width: 100%; 
+  max-width: 1200px; /* Comfortably seats high-end wizards and multi-step forms */
 }
 
-/* 🟢 ENSURE FORMS FIT ON BIG SCREENS */
 @media (min-width: 1024px) {
   .auth-viewport-wrapper {
-    /* Prevents the form from being physically taller than the viewport padding */
     max-height: 100vh; 
+    padding: 2.5rem;
   }
 }

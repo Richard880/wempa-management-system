@@ -2,109 +2,52 @@
 
 export default [
   {
-    id: "personal", // Matches database key
+    id: "personal", // Matches Firestore document database branch key
     title: "Personal Information",
-    editStep: 1,    // Matches APPLICATION_STEPS id for Personal
+    editStep: 1,    // Points perfectly to Step 1 in APPLICATION_STEPS 
     fields: [
+      { key: "membershipNumber", label: "Membership Number" }, // Auto-assigned identification
       { key: "firstName", label: "First Name" },
       { key: "middleName", label: "Middle Name" },
       { key: "lastName", label: "Last Name" },
       { key: "gender", label: "Gender" },
       { key: "dateOfBirth", label: "Date of Birth" },
       { key: "nationality", label: "Nationality" },
-      { key: "idNumber", label: "National ID" },
-      { key: "kraPin", label: "KRA PIN" },
+      { key: "idNumber", label: "National ID / Passport" },
     ],
   },
 
   {
-    id: "contact", // Matches database key
+    id: "contact", // Matches Firestore document database branch key
     title: "Contact Information",
-    editStep: 2,   // Matches APPLICATION_STEPS id for Contact
+    editStep: 2,   // Points perfectly to Step 2 in APPLICATION_STEPS
     fields: [
       { key: "email", label: "Email Address" },
       { key: "phoneNumber", label: "Phone Number" },
       { key: "alternativePhoneNumber", label: "Alternative Phone" },
-      { key: "county", label: "County" },
-      { key: "subCounty", label: "Sub County" },
-      { key: "ward", label: "Ward" },
-      { key: "town", label: "Town" },
       { key: "physicalAddress", label: "Physical Address" },
-      { key: "postalAddress", label: "Postal Address" },
-      { key: "postalCode", label: "Postal Code" },
     ],
   },
 
-  // {
-  //   id: "employment", // Matches database key
-  //   title: "Employment Information",
-  //   editStep: 3,      // Matches APPLICATION_STEPS id for Employment
-  //   fields: [
-  //     { key: "employmentStatus", label: "Employment Status" },
-  //     { key: "employerName", label: "Employer" },
-  //     { key: "organizationType", label: "Organization Type" },
-  //     { key: "jobTitle", label: "Job Title" },
-  //     { key: "department", label: "Department" },
-  //     { key: "workStation", label: "Work Station" },
-  //     { key: "staffNumber", label: "Staff Number" },
-  //     { key: "employmentDate", label: "Employment Date" },
-  //     { key: "monthlyIncome", label: "Monthly Income" },
-  //   ],
-  // },
-
-  // {
-  //   id: "maritime", // Matches database key
-  //   title: "Maritime Information",
-  //   editStep: 4,    // Matches APPLICATION_STEPS id for Maritime
-  //   fields: [
-  //     { key: "maritimeCategory", label: "Maritime Category" },
-  //     { key: "currentOccupation", label: "Current Occupation" },
-  //     { key: "organization", label: "Organization" },
-  //     { key: "designation", label: "Designation" },
-  //     { key: "yearsOfExperience", label: "Years of Experience" },
-  //     { key: "maritimeQualifications", label: "Qualifications" },
-  //     { key: "professionalMembership", label: "Professional Membership" },
-  //     { key: "vesselTypes", label: "Vessel Types" },
-  //     { key: "maritimeLicenseNumber", label: "License Number" },
-  //     { key: "additionalInformation", label: "Additional Information" },
-  //   ],
-  // },
-
-  // {
-  //   id: "emergencyContact", // Added to catch missing summary row block
-  //   title: "Emergency Contact",
-  //   editStep: 5,            // Matches APPLICATION_STEPS id for Emergency Contact
-  //   fields: [
-  //     { key: "fullName", label: "Full Name" },
-  //     { key: "relationship", label: "Relationship" },
-  //     { key: "phoneNumber", label: "Phone Number" },
-  //     { key: "alternativePhoneNumber", label: "Alternative Phone" },
-  //   ],
-  // },
-
-  // {
-  //   id: "nextOfKin", // Matches database key
-  //   title: "Next of Kin",
-  //   editStep: 6,     // Matches APPLICATION_STEPS id for Next of Kin
-  //   fields: [
-  //     { key: "fullName", label: "Full Name" },
-  //     { key: "relationship", label: "Relationship" },
-  //     { key: "phoneNumber", label: "Phone Number" },
-  //     { key: "alternativePhoneNumber", label: "Alternative Phone" },
-  //     { key: "email", label: "Email" },
-  //     { key: "nationalId", label: "National ID" },
-  //     { key: "county", label: "County" },
-  //     { key: "town", label: "Town" },
-  //     { key: "physicalAddress", label: "Physical Address" },
-  //     { key: "postalAddress", label: "Postal Address" },
-  //     { key: "postalCode", label: "Postal Code" },
-  //   ],
-  // },
+  {
+    id: "employment", // Matches Firestore document database branch key
+    title: "Employment Information",
+    editStep: 3,      // Points perfectly to Step 3 in APPLICATION_STEPS
+    fields: [
+      { key: "employmentStatus", label: "Employment Status" },
+      { key: "employerName", label: "Employer / Institution" },
+      { key: "organizationType", label: "Organization Type" },
+      { key: "jobTitle", label: "Job Title" },
+      { key: "department", label: "Course / Department" },
+      { key: "Specialization", label: "Area of Specialization" }, // 🟢 FIXED: Casing matched exactly to input name
+      { key: "Years Of Maritime Experience", label: "Years of Experience" }, // 🟢 RESTORED: Space-cased string key linked safely
+    ],
+  },
 
   {
-    id: "documents", // Matches database key
+    id: "documents", // Matches Firestore document database branch key
     title: "Supporting Documents",
-    editStep: 7,     // Matches APPLICATION_STEPS id for Documents
-    fields: [],
+    editStep: 4,     // 🟢 OPTIMIZED: Synchronized with Step 4 tracking targets
+    fields: [],      // Handled independently via your custom file thumbnail gallery mapping loops
   },
 ];

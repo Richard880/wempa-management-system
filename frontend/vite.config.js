@@ -9,4 +9,15 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  // 🟢 RESTORED BACKEND PROXY SERVER INFRASTRUCTURE
+  server: {
+    proxy: {
+      // Intercepts frontend /api calls and securely tunnels them to your Node server locally
+      '/api': {
+        target: 'http://localhost:5000',
+        changeOrigin: true,
+        secure: false,
+      }
+    }
+  }
 });

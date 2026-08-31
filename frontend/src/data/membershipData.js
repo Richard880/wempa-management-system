@@ -152,8 +152,7 @@ export const membershipFees = [
   {
     id: 1,
     title: "Student",
-    fee: "KES 1,000",
-    annual: "KES 500 Renewal",
+    fee: "KES 500",
     features: [
       "Student Membership",
       "Training Opportunities",
@@ -164,11 +163,11 @@ export const membershipFees = [
   {
     id: 2,
     title: "Professional",
-    fee: "KES 3,000",
-    annual: "KES 1,500 Renewal",
+    fee: "KES 1,500",
+   
     featured: true,
     features: [
-      "Professional Membership",
+      "Certified Professional Membership",
       "Certification Programmes",
       "Career Opportunities",
       "Voting Rights",
@@ -178,8 +177,8 @@ export const membershipFees = [
   {
     id: 3,
     title: "Corporate",
-    fee: "KES 15,000",
-    annual: "KES 10,000 Renewal",
+    fee: "KES 10,500",
+   
     features: [
       "Corporate Membership",
       "Company Recognition",

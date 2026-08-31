@@ -1,11 +1,18 @@
+// src/components/workflow/WizardBody.jsx
 
+import PropTypes from "prop-types";
 import styles from "./WizardBody.module.css";
+
 function WizardBody({ children }) {
   return (
-    <main className={styles.body}>
+    <div className={styles.body}>
       {children}
-    </main>
+    </div>
   );
 }
+
+WizardBody.propTypes = {
+  children: PropTypes.node.isRequired,
+};
 
 export default WizardBody;

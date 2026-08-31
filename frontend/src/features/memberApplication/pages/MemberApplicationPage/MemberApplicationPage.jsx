@@ -1,3 +1,4 @@
+// src/features/members/pages/MemberApplicationPage/MemberApplicationPage.jsx
 
 import Spinner from "../../../../components/ui/Spinner";
 import WizardProvider from "../../../../components/workflow/WizardProvider";
@@ -12,22 +13,16 @@ import useApplicationForm from "../../hooks/useApplicationForm";
 
 import PersonalInformation from "../../steps/PersonalInformation";
 import ContactInformation from "../../steps/ContactInformation";
-// import EmploymentInformation from "../../steps/EmploymentInformation";
-// import MaritimeInformation from "../../steps/MaritimeInformation";
-// import EmergencyContact from "../../steps/EmergencyContact";
-// import NextOfKin from "../../steps/NextOfKin";
+import EmploymentInformation from "../../steps/EmploymentInformation";
 import Documents from "../../steps/Documents";
-import Review from "../../steps/Review";
 import Declaration from "../../steps/Declaration";
+import MpesaPayment from "../../steps/payment/MpesaPayment";
 
 import styles from "./MemberApplicationPage.module.css";
 
-// Safely normalize steps configuration
 const STEPS = Array.isArray(APPLICATION_STEPS_CONFIG) 
   ? APPLICATION_STEPS_CONFIG 
   : (APPLICATION_STEPS_CONFIG?.APPLICATION_STEPS || []);
-
-// src/features/members/pages/MemberApplicationPage/MemberApplicationPage.jsx
 
 export default function MemberApplicationPage() {
   const {
@@ -41,6 +36,7 @@ export default function MemberApplicationPage() {
     nextStep,
     previousStep,
     goToStep,
+    saveSection,
     submitApplication,
   } = useApplicationForm();
 
@@ -49,11 +45,16 @@ export default function MemberApplicationPage() {
   if (loading || !application) {
     return (
       <div className={styles.loading}>
-        <Spinner size="lg" label="Initializing application system..." />
+        <Spinner size="lg" />
+        <span className={styles.loadingText}>INITIALIZING MARITIME REGISTRY...</span>
       </div>
     );
   }
 
+  /**
+   * Orchestrates the rendering of specific step components.
+   * Maps currentStep to the HTML tree segments cleanly.
+   */
   const renderStepComponent = () => {
     const commonProps = { formId, isLocked: application.isLocked };
 
@@ -63,34 +64,52 @@ export default function MemberApplicationPage() {
       case 2:
         return <ContactInformation {...commonProps} profile={profile} initialData={application.contact || {}} />;
       case 3:
-        return <Documents {...commonProps} initialData={application.documents || {}} />;
+        return <EmploymentInformation {...commonProps} initialData={application.employment || {}} />;
       case 4:
-        return <Review formId={formId} application={application} />;
+        return <Documents {...commonProps} initialData={application.documents || {}} />;
       case 5:
-        return <Declaration {...commonProps} initialData={application.declaration || {}} />;
+        return (
+          <Declaration 
+            {...commonProps} 
+            profile={profile} 
+            initialData={application.declaration || {}} 
+          />
+        );
+      case 6:
+        return (
+          <MpesaPayment 
+            application={application} 
+            saveSection={saveSection} 
+            submitApplication={submitApplication} 
+          />
+        );
       default:
         return <PersonalInformation {...commonProps} profile={profile} initialData={application.personal || {}} />;
     }
   };
 
+  /**
+   * Remote-trigger click handler for form actions.
+   * Finds the current mounted form and submits it programmatically.
+   */
   const handleRemoteSave = () => {
     if (application.isLocked) return;
 
     const activeForm = document.getElementById(formId);
     if (activeForm) {
       if (typeof activeForm.requestSubmit === 'function') {
-        activeForm.requestSubmit();
+        activeForm.requestSubmit(); // Fires React Hook Form handleSubmit natively
       } else {
         activeForm.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
       }
-    } else if (currentStep === 4) { // 🟢 Updated to match Review step
-      nextStep();
+    } else {
+      // 🟢 CONTROL FALLBACK: If no explicit form element handles the view context, 
+      // advance the step layout manually using the navigation hooks.
+      if (currentStep < 6) {
+        nextStep();
+      }
     }
   };
-
-  // ... keep all imports and top functions exactly the same ...
-
- // ... keeping all your imports exactly the same ...
 
   return (
     <div className={styles.page}>
@@ -106,11 +125,11 @@ export default function MemberApplicationPage() {
       >
         <WizardLayout>
           <WizardSidebar />
+          
           <div className={styles.content}>
             <WizardHeader />
             
             <div className={styles.scrollContainer}>
-              {/* 	🏼 WRAPPED THE FORMS IN THE MAXIMUM READABILITY LAYER */}
               <div className={styles.formMaxWrapper}>
                 <WizardBody>
                   {renderStepComponent()}
@@ -121,7 +140,9 @@ export default function MemberApplicationPage() {
             <WizardFooter 
               loading={saving} 
               onSaveDraft={handleRemoteSave}
-              isLastStep={currentStep === 5} 
+              /* 🟢 FIXED: The button will only turn green and display "Submit Application" 
+                 when the user hits Step 6 (M-Pesa Checkout) */
+              isLastStep={currentStep === 6}
               disabled={application.isLocked} 
             />
           </div>
@@ -130,8 +151,3 @@ export default function MemberApplicationPage() {
     </div>
   );
 }
-
-
-
-
-

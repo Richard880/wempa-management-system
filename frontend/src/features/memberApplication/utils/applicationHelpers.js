@@ -1,9 +1,8 @@
-import APPLICATION_STEPS_CONFIG from "../config/applicationSteps";
+// src/features/members/utils/applicationHelpers.js
+// 🟢 FIXED: Explicitly destructured the named export to match applicationSteps.js precisely
+import { APPLICATION_STEPS } from "../config/applicationSteps";
 
-// Safe fallback wrapper for default vs named import discrepancies
-const STEPS = Array.isArray(APPLICATION_STEPS_CONFIG) 
-  ? APPLICATION_STEPS_CONFIG 
-  : (APPLICATION_STEPS_CONFIG?.APPLICATION_STEPS || []);
+const STEPS = Array.isArray(APPLICATION_STEPS) ? APPLICATION_STEPS : [];
 
 export function getStepById(stepId) {
   return STEPS.find((step) => step.id === stepId) || null;
@@ -29,12 +28,24 @@ export function isLastStep(currentStep) {
   return currentStep === STEPS.length;
 }
 
+/**
+ * 🟢 HARDENED ARITHMETIC PROGRESS ENGINE
+ * Aggregates step weights and ensures standard precision values are rounded correctly
+ * to avoid floating-point errors.
+ */
 export function calculateProgress(completedSections = []) {
-  return STEPS.reduce(
+  if (!Array.isArray(completedSections) || completedSections.length === 0) {
+    return 0;
+  }
+
+  const exactSum = STEPS.reduce(
     (total, step) =>
       completedSections.includes(step.key)
-        ? total + (step.weight || 0)
+        ? total + (Number(step.weight) || 0)
         : total,
     0
   );
+
+  // Math.round strips out micro decimal artifacts (e.g., 99.99999999% scales perfectly to 100%)
+  return Math.round(exactSum * 100) / 100;
 }

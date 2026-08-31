@@ -1,3 +1,4 @@
+// src/features/members/steps/PersonalInformation/personalInformationSchema.js
 import { z } from "zod";
 
 import {
@@ -5,11 +6,13 @@ import {
   requiredSelect,
   adultDate,
   nationalId,
- // kraPin,
   requiredText,
 } from "../../../../utils/validation";
 
 const personalInformationSchema = z.object({
+  // 🟢 NEW TRACKING ENGINE NODE: Allows optional system values to map into the payload
+  membershipNumber: z.string().trim().optional().or(z.literal("")),
+
   firstName: requiredName("First Name"),
 
   middleName: z.string().trim().optional(),
@@ -27,8 +30,6 @@ const personalInformationSchema = z.object({
   ),
 
   idNumber: nationalId()
-
-  // kraPin: kraPin(),
 });
 
 export default personalInformationSchema;

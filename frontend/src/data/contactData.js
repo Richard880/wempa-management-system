@@ -22,7 +22,7 @@ import {
       id: 3,
       icon: FaEnvelope,
       title: "Email",
-      value: "info@wempa.org",
+      value: "wempainfo@gmail.com",
     },
     {
       id: 4,

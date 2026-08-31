@@ -1,16 +1,12 @@
-import PropTypes from "prop-types";
+// src/components/forms/DynamicField/DynamicField.jsx
 
+import PropTypes from "prop-types";
 import Input from "../../ui/Input";
 import Textarea from "../../ui/Textarea";
 import Select from "../../ui/Select";
-
 import styles from "./DynamicField.module.css";
 
-function DynamicField({
-  field,
-  register,
-  errors,
-}) {
+function DynamicField({ field, register, errors }) {
   const error = errors?.[field.name]?.message;
 
   const commonProps = {
@@ -95,7 +91,6 @@ DynamicField.propTypes = {
   }).isRequired,
 
   register: PropTypes.func.isRequired,
-
   errors: PropTypes.object,
 };
 

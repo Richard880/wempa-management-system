@@ -5,9 +5,7 @@ import { Container, Navbar, Nav, Button, NavDropdown } from "react-bootstrap";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 
-// 1. Import your central routing constants contract layout map
 import ROUTES from "../../constants/routes"; 
-
 import logo from "../../assets/logos/wempa-logo.jpeg";
 import "../../styles/layout/navbar.css";
 
@@ -15,46 +13,69 @@ function Navigation() {
   const [scrolled, setScrolled] = useState(false);
   const [expanded, setExpanded] = useState(false);
   
-  // Core Authentication state matrix tracking variables
   const [user, setUser] = useState(null);
   const [isAdminUser, setIsAdminUser] = useState(false);
+  // 🟢 NEW STATE SYNC: Tracks the active member data structure from Firestore
+  const [memberProfile, setMemberProfile] = useState({ photoUrl: null, displayName: "" });
+  
   const auth = getAuth();
   const db = getFirestore();
   const navigate = useNavigate();
 
   useEffect(() => {
     function handleScroll() {
-      // FIX: Triggers transition at 20px for immediate feedback
       setScrolled(window.scrollY > 20); 
     }
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Listen continuously to real-time login state variations and check role parameters
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
       
       if (currentUser) {
         try {
-          // Check if this explicit account context has administrator privileges set
+          // 🟢 HARMOIZED SYNCHRONIZATION RUNWAY: Check member snapshot fields for passports photos
+          const memberRef = doc(db, "members", currentUser.uid);
           const userRef = doc(db, "users", currentUser.uid);
-          const userSnap = await getDoc(userRef);
+
+          const [memberSnap, userSnap] = await Promise.all([
+            getDoc(memberRef),
+            getDoc(userRef)
+          ]);
           
+          if (memberSnap.exists()) {
+            const memberData = memberSnap.data();
+            const personal = memberData.personal || {};
+            const docs = memberData.documents || {};
+            
+            // Construct full string layout parameters from profile documents
+            const constructedName = [personal.firstName, personal.lastName].filter(Boolean).join(" ");
+
+            setMemberProfile({
+              // 🟢 EXTRACTS DIRECTLY FROM PASSPORTPHOTO NODE MAP downloadURL
+              photoUrl: docs.passportPhoto?.downloadURL || docs.documents?.passportPhoto?.downloadURL || currentUser.photoURL || null,
+              displayName: constructedName || currentUser.displayName || "Account"
+            });
+          } else {
+            setMemberProfile({ photoUrl: currentUser.photoURL, displayName: currentUser.displayName || "Account" });
+          }
+
           if (userSnap.exists()) {
             const userData = userSnap.data();
-            // Leverages your established role property token string mappings
             setIsAdminUser(userData.role === "admin" || userData.isAdmin === true);
           } else {
             setIsAdminUser(false);
           }
+
         } catch (err) {
           console.error("Failed to accurately determine active user privilege scopes:", err);
           setIsAdminUser(false);
         }
       } else {
         setIsAdminUser(false);
+        setMemberProfile({ photoUrl: null, displayName: "" });
       }
     });
     
@@ -63,51 +84,41 @@ function Navigation() {
 
   const closeMenu = () => setExpanded(false);
 
-    const handleLogout = async () => {
+  const handleLogout = async () => {
     try {
       closeMenu();
-      
-      // 👇 FIX 1: Cut off the local React state flags instantly BEFORE executing the signout async call.
-      // This immediately revokes privileges locally, blocking the UI from triggering a re-route.
       setUser(null);
       setIsAdminUser(false);
+      setMemberProfile({ photoUrl: null, displayName: "" });
       
-      // 👇 FIX 2: Force the code to strictly AWAIT the Firebase server token wipe confirmation
       await signOut(auth);
-      
-      console.log("Firebase session terminated successfully. Redirecting to home baseline...");
-      
-      // 👇 FIX 3: Route smoothly once the authentication session is guaranteed to be blank
       navigate(ROUTES.HOME, { replace: true });
-      
     } catch (err) {
       console.error("Critical error encountered during logout session closure:", err);
-      // Fallback redirection safety net
       navigate(ROUTES.HOME, { replace: true });
     }
   };
 
-
-  // Extract word initial tokens for fallback profile avatars representation
-  const initials = user?.displayName
-    ? user.displayName.split(" ").map(n => n[0]).join("").substring(0, 2).toUpperCase()
+  const initials = memberProfile.displayName
+    ? memberProfile.displayName.split(" ").map(n => n[0]).join("").substring(0, 2).toUpperCase()
     : "M";
 
-  // Custom title container constructor for the interactive avatar action block node
+  // Dynamic user profile photo element builder
   const userMenuDropdownTitle = (
     <div className="d-inline-flex align-items-center gap-2 cursor-pointer">
       <div 
         className="d-flex align-items-center justify-content-center rounded-circle bg-primary text-white fw-bold font-monospace shadow-sm"
         style={{ width: "36px", height: "36px", fontSize: "0.85rem", overflow: "hidden" }}
       >
-        {user?.photoURL ? (
-          <img src={user.photoURL} alt="User Roster" className="w-100 h-100 object-fit-cover" />
+        {/* 🟢 PROFILE IMAGE RE-ROUTING FIXED: Prioritizes verified Firestore asset links */}
+        {memberProfile.photoUrl ? (
+          <img src={memberProfile.photoUrl} alt="User Avatar" className="w-100 h-100 object-fit-cover" />
         ) : (
           <span>{initials}</span>
         )}
       </div>
       <span className="text-secondary small fw-bold d-none d-md-inline" style={{ textTransform: "capitalize" }}>
-        {user?.displayName ? user.displayName.split(" ")[0] : "Account"}
+        {memberProfile.displayName ? memberProfile.displayName.split(" ")[0] : "Account"}
       </span>
     </div>
   );
@@ -118,7 +129,6 @@ function Navigation() {
       fixed="top"
       expanded={expanded}
       onToggle={setExpanded}
-      // Uses correct local standard bindings to inject your layout classes seamlessly
       className={`wempa-navbar ${scrolled ? "navbar-scrolled" : ""}`}
     >
       <Container>
@@ -138,7 +148,6 @@ function Navigation() {
 
         <Navbar.Collapse id="main-navbar">
           <Nav className="mx-auto">
-            {/* 2. Public Application Navigation Link Mappings */}
             <Nav.Link as={NavLink} to={ROUTES.HOME} end onClick={closeMenu}>Home</Nav.Link>
             <Nav.Link as={NavLink} to="/about" onClick={closeMenu}>About</Nav.Link>
             <Nav.Link as={NavLink} to="/membership" onClick={closeMenu}>Membership</Nav.Link>
@@ -147,7 +156,6 @@ function Navigation() {
             <Nav.Link as={NavLink} to="/contact" onClick={closeMenu}>Contact</Nav.Link>
           </Nav>
 
-          {/* Dynamic Authentication Action Interceptor block layout framework */}
           <div className="navbar-buttons d-flex align-items-center gap-2">
             {user ? (
               <NavDropdown title={userMenuDropdownTitle} id="user-profile-nav-dropdown" align="end" className="border-0">
@@ -155,7 +163,6 @@ function Navigation() {
                   <i className="bi bi-person-circle me-2 text-primary" /> My Profile
                 </NavDropdown.Item>
                 
-                {/* 3. 🟢 CENTRALIZED REGISTRY DASHBOARD ROUTING INTERACTION LINK SWITCH */}
                 {isAdminUser ? (
                   <NavDropdown.Item as={Link} to={ROUTES.ADMIN_DASHBOARD} onClick={closeMenu} className="py-2 small">
                     <i className="bi bi-speedometer2 me-2 text-danger" /> Admin Dashboard

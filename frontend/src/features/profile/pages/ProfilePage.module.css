@@ -1,0 +1,306 @@
+/* src/features/profile/pages/ProfilePage.module.css */
+
+.profilePageWrapper {
+  width: 100%;
+  min-height: 100vh;
+  padding: 5rem 2rem 3rem 2rem;
+  /* 🌊 Polished Crisp White & Soft Blue Light Maritime Background */
+  background: radial-gradient(circle at 80% 20%, #f3f7fa 0%, #ffffff 100%);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.profileLayoutGrid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 2rem;
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.leftPane {
+  grid-column: span 4;
+}
+
+.rightPane {
+  grid-column: span 8;
+}
+
+/* 💎 Premium Clean Light Slate Profile Card */
+.passportCard {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important; /* Visible clean borders for light backgrounds */
+  border-radius: 20px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* 📸 PASSPORT PICTURE HOUSING FRAME */
+.avatarContainer {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0ea5e9 0%, #14b8a6 100%);
+  padding: 3px; 
+  box-shadow: 0 4px 14px rgba(14, 165, 233, 0.15);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.avatarInitials {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: #ffffff;
+  font-family: monospace;
+}
+
+.userName {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #0f172a; /* Deep charcoal replaces white text */
+  letter-spacing: 0.3px;
+}
+
+.membershipBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 1rem;
+  background: rgba(14, 165, 233, 0.08) !important;
+  border: 1px solid rgba(14, 165, 233, 0.2);
+  border-radius: 999px;
+  color: #0284c7; /* High-contrast Marine Cyan */
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 1.5rem;
+}
+
+.metaRow {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  margin-bottom: 1.5rem;
+  width: 100%;
+  padding: 0.75rem;
+  background: #f8fafc;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+}
+
+.metaLabel {
+  color: #64748b;
+  font-weight: 600;
+}
+
+.metaValue {
+  color: #334155;
+  font-weight: 700;
+  font-family: monospace;
+}
+
+/* Progress Meter Display Element */
+.progressContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1.5rem;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 1.25rem;
+}
+
+.progressHeader {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #64748b;
+  letter-spacing: 0.3px;
+}
+
+.progressTrack {
+  width: 100%;
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #0ea5e9, #14b8a6);
+  transition: width 0.4s ease;
+}
+
+.verifyFooter {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.2px;
+}
+
+.signOutButton {
+  width: 100%;
+  background: rgba(239, 68, 68, 0.04) !important;
+  border: 1px solid rgba(239, 68, 68, 0.2) !important;
+  color: #dc3545 !important;
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.signOutButton:hover {
+  background: #dc3545 !important;
+  color: #ffffff !important;
+  border-color: #dc3545 !important;
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.2);
+}
+
+/* 💎 Right Side Information Card Sheet */
+.detailsCard {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 20px;
+  padding: 2.5rem;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05);
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: 0.3px;
+}
+
+.cardSubtitle {
+  margin: 0.4rem 0 2rem 0;
+  font-size: 0.8125rem;
+  color: #64748b;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 1.25rem;
+}
+
+/* Info Grid Layout List Configuration */
+.infoList {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem 1.5rem;
+}
+
+.infoItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.iconBox {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+/* Vibrant Light Multi-Tone Icon Sub-containers */
+.blueIcon { background: rgba(56, 189, 248, 0.12); color: #0284c7; }
+.cyanIcon { background: rgba(14, 165, 233, 0.12); color: #0369a1; }
+.tealIcon { background: rgba(20, 184, 166, 0.12); color: #0f766e; }
+.emeraldIcon { background: rgba(16, 185, 129, 0.12); color: #047857; }
+.purpleIcon { background: rgba(168, 85, 247, 0.12); color: #7e22ce; }
+.indigoIcon { background: rgba(99, 102, 241, 0.12); color: #4338ca; }
+.orangeIcon { background: rgba(249, 115, 22, 0.12); color: #c2410c; }
+.slateIcon { background: rgba(148, 163, 184, 0.15); color: #475569; }
+
+.itemContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.itemLabel {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.itemValue {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #1e293b; /* Highly readable near-black values for light backgrounds */
+}
+
+/* Core Loading Screens */
+.loadingContainer {
+  width: 100vw;
+  height: 100vh;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.loadingText {
+  color: #64748b;
+  font-size: 0.8125rem;
+  font-family: monospace;
+  letter-spacing: 1px;
+}
+
+/* 📱 Responsive Adaptive Breakdown constraints */
+@media (max-width: 992px) {
+  .profilePageWrapper {
+    padding: 6rem 1rem 2rem 1rem;
+  }
+  
+  .profileLayoutGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .infoList {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .detailsCard, .passportCard {
+    padding: 1.5rem;
+  }
+}

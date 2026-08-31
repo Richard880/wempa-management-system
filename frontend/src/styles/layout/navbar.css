@@ -212,3 +212,132 @@ nav.navbar.wempa-navbar.navbar-scrolled.bg-body-tertiary {
     display: none;
   }
 }
+/* ====================================================================
+   📸 HIGH-FIDELITY NAVBAR PROFILE AVATAR MENU FRAMEWORK OVERRIDES
+   ==================================================================== */
+
+/* Dynamic User Action Anchor Placement Controls */
+#user-profile-nav-dropdown {
+  border: none !important;
+  background: transparent !important;
+}
+
+/* Force the toggler button to drop generic caret markers if they inject bugs */
+#user-profile-nav-dropdown::after {
+  display: none !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+/* 🧭 Precision Circle Avatar housing dimensions */
+.navbar-buttons :global(.bg-primary) {
+  /* Vibrant Marine Blue Base Fallback */
+  background: linear-gradient(135deg, #0ea5e9 0%, #14b8a6 100%) !important;
+  width: 38px !important;
+  height: 38px !important;
+  border-radius: 50% !important;
+  border: 2px solid rgba(242, 138, 43, 0.25) !important; /* Gold trim matching your corporate brand */
+  padding: 0 !important;
+  margin: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+  flex-shrink: 0 !important;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.06);
+}
+
+/* Interactive Hover Halo Effect */
+.navbar-buttons :global(.bg-primary):hover {
+  border-color: #f28a2b !important; /* Lights up gold on hover tracking */
+  transform: scale(1.04);
+  box-shadow: 0 4px 14px rgba(242, 138, 43, 0.3);
+}
+
+/* 🟢 THE CRITICAL CLIP: Forces the passport picture to behave as a perfect sphere avatar */
+.navbar-buttons img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important; /* Prevents compression distortion of face structures */
+  border-radius: 50% !important;
+  display: block !important;
+}
+
+/* Fallback letter-tokens text structure layout spacing */
+.navbar-buttons :global(.font-monospace) span {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-size: 0.85rem !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  letter-spacing: 0.5px;
+}
+
+/* Account First-Name text settings */
+.navbar-buttons span.text-secondary {
+  color: #1e293b !important; /* Dark crisp slate value tracking text */
+  font-weight: 700 !important;
+  font-size: 0.85rem !important;
+  letter-spacing: 0.3px;
+  transition: color 0.25s ease;
+}
+
+/* Toggle name text accentuation matching your hover indices */
+.navbar-buttons div:hover + span.text-secondary,
+.navbar-buttons span.text-secondary:hover {
+  color: #f28a2b !important;
+}
+
+/* Drop-Down Menu Panel Box Clean-Up */
+.dropdown-menu {
+  background: #ffffff !important;
+  border: 1px solid rgba(15, 23, 42, 0.08) !important;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.1) !important;
+  border-radius: 12px !important;
+  padding: 8px !important;
+  margin-top: 10px !important;
+  animation: dropdownFadeIn 0.25s ease-out;
+}
+
+@keyframes dropdownFadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.dropdown-item {
+  border-radius: 8px !important;
+  transition: all 0.2s ease !important;
+  font-weight: 600 !important;
+}
+
+.dropdown-item:hover {
+  background-color: rgba(242, 138, 43, 0.05) !important; /* Light amber tint hover runway */
+  color: #e0761b !important;
+}
+
+/* 📱 Responsive Adaptive Rules for smaller touch devices */
+@media (max-width: 991px) {
+  .navbar-buttons :global(.dropdown-toggle) {
+    width: 100% !important;
+    justify-content: center !important;
+    padding: 12px !important;
+    background: rgba(15, 23, 42, 0.02) !important;
+    border: 1px solid rgba(15, 23, 42, 0.05) !important;
+    border-radius: 10px !important;
+  }
+  
+  .navbar-buttons :global(.bg-primary) {
+    width: 40px !important;
+    height: 40px !important;
+  }
+  
+  .dropdown-menu {
+    border: none !important;
+    box-shadow: none !important;
+    background: #f8fafc !important; /* Distinct embedded tray for phone menus */
+    padding: 4px !important;
+    margin-top: 5px !important;
+  }
+}

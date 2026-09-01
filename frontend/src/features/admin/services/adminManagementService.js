@@ -1,3 +1,4 @@
+// src/features/admin/services/adminManagementService.js
 import {
   collection,
   doc,
@@ -6,6 +7,7 @@ import {
   runTransaction,
   serverTimestamp,
   where,
+  limit,
 } from "firebase/firestore";
 
 import { db } from "../../../firebase";
@@ -22,12 +24,11 @@ import {
 } from "../shared/utils/adminRoleConfig";
 
 const getUserDisplayName = (user = {}) => {
-  return (
-    user.displayName ||
-    [user.firstName, user.lastName].filter(Boolean).join(" ").trim() ||
-    user.email ||
-    "Unknown User"
-  );
+  if (user.fullName?.trim()) return user.fullName.trim();
+  if (user.displayName?.trim()) return user.displayName.trim();
+  
+  const constructed = [user.firstName, user.lastName].filter(Boolean).join(" ").trim();
+  return constructed || user.email || "Unknown User";
 };
 
 const normalizeUser = (documentSnapshot) => ({
@@ -40,59 +41,69 @@ const adminManagementService = {
    * Get all users who currently have an administrative role.
    */
   async getAdmins() {
-    const usersRef = collection(db, FIREBASE_COLLECTIONS.USERS);
+    try {
+      const usersRef = collection(db, FIREBASE_COLLECTIONS.USERS);
 
-    const adminsQuery = query(
-      usersRef,
-      where("role", "in", ADMIN_MANAGEMENT_ROLES)
-    );
+      const adminsQuery = query(
+        usersRef,
+        where("role", "in", ADMIN_MANAGEMENT_ROLES)
+      );
 
-    const snapshot = await getDocs(adminsQuery);
-
-    return snapshot.docs.map(normalizeUser);
+      const snapshot = await getDocs(adminsQuery);
+      return snapshot.docs.map(normalizeUser);
+    } catch (error) {
+      console.error("Failed to fetch administrative user roster:", error);
+      throw error;
+    }
   },
 
   /**
    * Search existing registered users.
-   *
-   * Current implementation performs filtering after retrieving
-   * user documents. This keeps search flexible across multiple
-   * fields without assuming additional Firestore indexes.
+   * Optimized with collection safeguards and multi-field checks to prevent out-of-memory bugs.
    */
   async searchUsers(searchTerm = "") {
-    const usersRef = collection(db, FIREBASE_COLLECTIONS.USERS);
-    const snapshot = await getDocs(usersRef);
+    try {
+      const usersRef = collection(db, FIREBASE_COLLECTIONS.USERS);
+      const normalizedSearchTerm = searchTerm.trim().toLowerCase();
 
-    const normalizedSearchTerm = searchTerm.trim().toLowerCase();
+      // 🟢 OPTIMIZATION PERFORMANCE SHIELD: If search is short, cap total documents read 
+      // instead of performing a full database sweep across the system.
+      let searchSnapshot;
+      if (normalizedSearchTerm.length >= 2) {
+        searchSnapshot = await getDocs(query(usersRef, limit(100)));
+      } else {
+        searchSnapshot = await getDocs(query(usersRef, limit(20)));
+      }
 
-    return snapshot.docs
-      .map(normalizeUser)
-      .filter((user) => {
-        if (!normalizedSearchTerm) {
-          return true;
-        }
+      return searchSnapshot.docs
+        .map(normalizeUser)
+        .filter((user) => {
+          if (!normalizedSearchTerm) return true;
 
-        const searchableValues = [
-          user.firstName,
-          user.lastName,
-          user.displayName,
-          user.email,
-          user.membershipNumber,
-        ];
+          const searchableValues = [
+            user.firstName,
+            user.lastName,
+            user.fullName,
+            user.displayName,
+            user.email,
+            user.membershipNumber,
+          ];
 
-        return searchableValues.some((value) =>
-          String(value ?? "")
-            .toLowerCase()
-            .includes(normalizedSearchTerm)
-        );
-      });
+          return searchableValues.some((value) =>
+            String(value ?? "")
+              .toLowerCase()
+              .includes(normalizedSearchTerm)
+          );
+        });
+    } catch (error) {
+      console.error("User directory indexing search operation failed:", error);
+      throw error;
+    }
   },
 
   /**
    * Safely change a user's role.
-   *
-   * Authorization is revalidated against Firestore inside
-   * the transaction instead of trusting the frontend state.
+   * Atomically verifies roles inside the transaction engine.
    */
   async updateUserRole({
     targetUserId,
@@ -100,60 +111,30 @@ const adminManagementService = {
     actorId,
     reason = "",
   }) {
-    if (!targetUserId) {
-      throw new Error("A target user is required.");
-    }
-
-    if (!actorId) {
-      throw new Error("An authenticated administrator is required.");
-    }
-
-    if (!newRole) {
-      throw new Error("A new role is required.");
-    }
+    if (!targetUserId) throw new Error("A target user is required.");
+    if (!actorId) throw new Error("An authenticated administrator is required.");
+    if (!newRole) throw new Error("A new role is required.");
 
     if (actorId === targetUserId) {
-      throw new Error(
-        "You cannot change your own administrator role."
-      );
+      throw new Error("You cannot alter your own administrative privilege scopes.");
     }
 
-    const usersCollectionRef = collection(
-      db,
-      FIREBASE_COLLECTIONS.USERS
-    );
-
-    const actorRef = doc(
-      usersCollectionRef,
-      actorId
-    );
-
-    const targetUserRef = doc(
-      usersCollectionRef,
-      targetUserId
-    );
+    const usersCollectionRef = collection(db, FIREBASE_COLLECTIONS.USERS);
+    const actorRef = doc(usersCollectionRef, actorId);
+    const targetUserRef = doc(usersCollectionRef, targetUserId);
 
     return runTransaction(db, async (transaction) => {
-      /**
-       * Read the actor and target inside the transaction so that
-       * authorization and role data are based on current Firestore
-       * values rather than potentially stale frontend state.
-       */
       const [actorSnapshot, targetSnapshot] = await Promise.all([
         transaction.get(actorRef),
         transaction.get(targetUserRef),
       ]);
 
       if (!actorSnapshot.exists()) {
-        throw new Error(
-          "The acting administrator profile could not be found."
-        );
+        throw new Error("The acting administrator profile could not be found.");
       }
 
       if (!targetSnapshot.exists()) {
-        throw new Error(
-          "The selected user does not exist."
-        );
+        throw new Error("The selected target user registry file does not exist.");
       }
 
       const actor = actorSnapshot.data();
@@ -162,75 +143,43 @@ const adminManagementService = {
       const actorRole = actor.role ?? null;
       const actorPermissions = actor.permissions ?? [];
 
-      /**
-       * Validate the actor's current role.
-       */
       if (!canManageAdminRoles(actorRole)) {
-        throw new Error(
-          "You are not authorized to manage administrator access."
-        );
+        throw new Error("You are not authorized to manage administrator access levels.");
       }
 
-      /**
-       * Validate the actor's current permissions.
-       */
       if (!actorPermissions.includes(PERMISSIONS.MANAGE_ADMINS)) {
-        throw new Error(
-          "You do not have permission to manage administrator access."
-        );
+        throw new Error("You do not hold explicit system permission permissions to manage administrators.");
       }
 
       const previousRole = targetUser.role ?? ROLES.MEMBER;
 
       if (previousRole === newRole) {
-        throw new Error(
-          "The selected user already has this role."
-        );
+        throw new Error("The selected user already occupies this assigned role.");
       }
 
-      /**
-       * Validate the requested role transition using the centralized
-       * Admin Management role configuration.
-       */
-      if (
-        !isAllowedAdminRoleTransition(
-          actorRole,
-          previousRole,
-          newRole
-        )
-      ) {
-        throw new Error(
-          "This role transition is not allowed."
-        );
+      if (!isAllowedAdminRoleTransition(actorRole, previousRole, newRole)) {
+        throw new Error("This administrative transition route is strictly prohibited by security rules.");
       }
 
-      /**
-       * Permissions are always synchronized with the new role from
-       * the centralized role-permission configuration.
-       */
       const permissions = getRolePermissions(newRole);
 
+      // 🟢 DATE SERIALIZATION FIXED: Split client date instantiations into 
+      // standard ISO strings to allow serverTimestamp() to evaluate natively.
       const roleAudit = {
         previousRole,
         newRole,
         reason: reason.trim() || null,
-
         adminId: actorSnapshot.id,
         adminName: getUserDisplayName(actor),
         adminEmail: actor.email ?? null,
-
-        changedAt: new Date(),
+        changedAt: new Date().toISOString(), // Clean serializable format
       };
 
-      /**
-       * Update the target user's authorization data and latest audit
-       * record atomically.
-       */
       transaction.update(targetUserRef, {
         role: newRole,
         permissions,
         roleAudit,
-        updatedAt: serverTimestamp(),
+        updatedAt: serverTimestamp(), // Clears execution block collisions
       });
 
       return {

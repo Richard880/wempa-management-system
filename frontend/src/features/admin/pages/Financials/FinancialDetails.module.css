@@ -1,0 +1,171 @@
+/* src/features/admin/pages/Financials/FinancialDetails.module.css */
+
+.detailWorkspace {
+  width: 100%;
+  min-height: 100vh;
+  padding: 1.5rem 0;
+  box-sizing: border-box;
+  background: transparent;
+}
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 2rem;
+  width: 100%;
+}
+
+.leftPane {
+  grid-column: span 7;
+}
+
+.rightPane {
+  grid-column: span 5;
+}
+
+/* ==========================================================
+   💎 PREMIUM INVOICE LAYOUT CARD
+   ========================================================== */
+.invoiceCard {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 2.25rem;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.02);
+}
+
+.invoiceHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 1.5rem;
+  margin-bottom: 1.75rem;
+}
+
+.invoiceBrand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.receiptBody {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.metaRow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.metaLabel {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ==========================================================
+   👤 APPLICANT PROFILE SUMMARY CARD
+   ========================================================== */
+.profileSummaryCard {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.02);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.profileRow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.rowLabel {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ==========================================================
+   🏷️ HIGH-CONTRAST STATUS PILLS
+   ========================================================== */
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.35rem 0.75rem;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badgePending { 
+  background: #fff7ed !important; 
+  color: #c2410c !important; 
+  border: 1px solid #ffedd5 !important; 
+}
+
+.badgeSuccess { 
+  background: #f0fdf4 !important; 
+  color: #166534 !important; 
+  border: 1px solid #dcfce7 !important; 
+}
+
+.badgeDanger { 
+  background: #fef2f2 !important; 
+  color: #991b1b !important; 
+  border: 1px solid #fee2e2 !important; 
+}
+
+/* ==========================================================
+   🛠️ INTERACTIVE AUDITING ACTIONS PANEL
+   ========================================================== */
+.actionsBlock {
+  border-top: 1px solid #e2e8f0;
+  padding-top: 1.5rem;
+  margin-top: 1.5rem;
+  display: flex;
+  width: 100%;
+}
+
+/* ==========================================================
+   ⏳ LOADER UTILITY HANDLERS
+   ========================================================== */
+.centerSpinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8rem 0;
+  width: 100%;
+}
+
+/* ==========================================================
+   📱 RESPONSIVE RESPONSIVE REALIGNMENTS
+   ========================================================== */
+@media (max-width: 992px) {
+  .gridContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .leftPane, .rightPane {
+    width: 100%;
+  }
+}

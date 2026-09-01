@@ -1,7 +1,6 @@
-// // frontend/src/features/members/steps/payments/MpesaPayment.jsx
-
 // frontend/src/features/members/steps/payments/MpesaPayment.jsx
 import { useState } from "react";
+import { FaReceipt, FaCheckCircle, FaExclamationCircle, FaInfoCircle } from "react-icons/fa";
 import styles from "./MpesaPayment.module.css";
 
 // Your definitive business logic pricing matrix
@@ -25,10 +24,13 @@ export default function MpesaPayment({ application, saveSection, submitApplicati
   const membershipName = activeTier.title;
   const amountToPay = activeTier.fee;
 
+  /* ==========================================================================
+     🟢 MANUAL PAYBILL TRANSACTION CODE RECEIPT HANDLER
+     ========================================================================== */
   const handleManualPaymentSubmit = async (e) => {
     e.preventDefault();
 
-    // 🟢 Clean and validate the M-Pesa Transaction Code Format
+    // Clean and validate the M-Pesa Transaction Code Format
     const cleanCode = transactionCode.trim().toUpperCase();
     
     // M-Pesa codes are exactly 10 characters long alphanumeric strings (e.g. SAA123XYZ9)
@@ -43,7 +45,7 @@ export default function MpesaPayment({ application, saveSection, submitApplicati
     setStatusMessage("Recording transaction tokens to secure storage...");
 
     try {
-      // 🟢 Save both selected tier data and code reference straight to Firestore
+      // Save both selected tier data and code reference straight to Firestore
       await saveSection("payment", {
         mpesaReceipt: cleanCode,
         amountCharged: amountToPay,
@@ -54,6 +56,9 @@ export default function MpesaPayment({ application, saveSection, submitApplicati
 
       setStatusType("success");
       setStatusMessage("🎉 Payment details filed successfully! Locking application and finalizing setup...");
+
+      // Small breather delay for smooth visual transition
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       // Lock down the multi-step form wizard and push them straight to the Member Dashboard
       await submitApplication();
@@ -68,8 +73,10 @@ export default function MpesaPayment({ application, saveSection, submitApplicati
 
   return (
     <div className={styles.container}>
-      <h3 className={styles.title}>Payment & Category Settlement</h3>
-      <p className={styles.subtitle}>Select your preferred membership allocation category, follow instructions to clear dues via Lipa Na M-Pesa, then paste your confirmation code below.</p>
+      <div className={styles.headerBlock}>
+        <h3 className={styles.title}>Payment & Category Settlement</h3>
+        <p className={styles.subtitle}>Select your preferred membership allocation category, follow instructions to clear dues via Lipa Na M-Pesa, then paste your confirmation code below.</p>
+      </div>
       
       {/* Category Selection Dropdown Menu */}
       <div className={styles.formGroup}>
@@ -82,30 +89,30 @@ export default function MpesaPayment({ application, saveSection, submitApplicati
         >
           {Object.values(MEMBERSHIP_PRICING).map((tier) => (
             <option key={tier.key} value={tier.key}>
-              {tier.title} — KES {tier.fee.toLocaleString()}
+              {tier.title} — KES {tier.fee.toLocaleString("en-KE")}
             </option>
           ))}
         </select>
       </div>
 
-      {/* 🟢 EXPLICIT PAYMENT INSTRUCTIONS CARD */}
-      <div className={styles.invoiceCard} style={{ borderLeft: '5px solid #16a34a', backgroundColor: '#f0fdf4' }}>
-        <h5 style={{ color: '#14532d', margin: '0 0 10px 0', fontWeight: '700' }}>💡 Lipa Na M-Pesa Instructions</h5>
+      {/* EXPLICIT PAYMENT INSTRUCTIONS CARD */}
+      <div className={styles.invoiceCard}>
+        <h5 className={styles.invoiceInstructionsTitle}>💡 Lipa Na M-Pesa Paybill Instructions</h5>
         <div className={styles.invoiceRow}>
           <span>1. Select Payment Method:</span>
           <strong>M-Pesa Paybill</strong>
         </div>
         <div className={styles.invoiceRow}>
           <span>2. Enter Business Number (Shortcode):</span>
-          <strong style={{ fontSize: '16px', color: '#16a34a' }}>522533</strong>
+          <strong className={styles.greenText}>522533</strong>
         </div>
         <div className={styles.invoiceRow}>
           <span>3. Enter Account Number:</span>
-          <strong style={{ fontSize: '16px', color: '#16a34a' }}>8134088</strong>
+          <strong className={styles.greenText}>8134088</strong>
         </div>
         <div className={styles.invoiceRow}>
           <span>4. Amount to pay:</span>
-          <strong style={{ fontSize: '18px', color: '#0284c7' }}>KES {amountToPay.toLocaleString()}</strong>
+          <strong className={styles.blueText}>KES {amountToPay.toLocaleString("en-KE")}</strong>
         </div>
       </div>
 
@@ -113,9 +120,9 @@ export default function MpesaPayment({ application, saveSection, submitApplicati
       <form onSubmit={handleManualPaymentSubmit}>
         <div className={styles.formGroup}>
           <label className={styles.label}>M-Pesa Transaction Code</label>
-          <div className={styles.phoneInputWrapper}>
-            <div className={styles.flagPrefix} style={{ width: '48px', justifyContent: 'center' }}>
-              <i className="bi bi-receipt text-muted" style={{ fontSize: '16px' }} />
+          <div className={styles.inputWrapper}>
+            <div className={styles.inputIconBox}>
+              <FaReceipt className="text-muted" style={{ fontSize: "16px" }} />
             </div>
             <input
               type="text"
@@ -123,13 +130,12 @@ export default function MpesaPayment({ application, saveSection, submitApplicati
               value={transactionCode}
               onChange={(e) => setTransactionCode(e.target.value)}
               disabled={loading}
-              className={styles.input}
-              style={{ paddingLeft: '58px' }} // Standard input styling padding adjustment
+              className={styles.inputField}
               maxLength={10}
               required
             />
           </div>
-          <small style={{ display: 'block', marginTop: '6px', color: '#64748b' }}>
+          <small className={styles.hintText}>
             Paste the 10-character code from your Safaricom payment confirmation message.
           </small>
         </div>
@@ -139,15 +145,22 @@ export default function MpesaPayment({ application, saveSection, submitApplicati
         </button>
       </form>
 
+      {/* DYNAMIC FORM RUNTIME STATUS RIBBON */}
       {statusMessage && (
-        <div className={`${styles.statusContainer} ${statusType === "error" ? styles.statusError : styles.statusInfo}`}>
-          <div>{statusMessage}</div>
+        <div 
+          className={`${styles.statusContainer} ${
+            statusType === "success" ? styles.statusSuccess : statusType === "error" ? styles.statusError : styles.statusInfo
+          }`}
+        >
+          <div className={styles.statusInnerRow}>
+            {statusType === "success" ? <FaCheckCircle /> : statusType === "error" ? <FaExclamationCircle /> : <FaInfoCircle />}
+            <span>{statusMessage}</span>
+          </div>
         </div>
       )}
     </div>
   );
 }
-
 
 
 

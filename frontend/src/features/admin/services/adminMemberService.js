@@ -1,3 +1,4 @@
+// src/features/admin/services/adminMemberService.js
 import {
   collection,
   getDocs,
@@ -14,99 +15,79 @@ import { db } from "../../../firebase";
 import FIREBASE_COLLECTIONS from "../../../constants/firebaseCollections";
 import MEMBERSHIP_STATUS from "../../../constants/membershipStatus";
 
-
-/* ==========================================
+/* ==========================================================================
    Collection Reference
-========================================== */
+   ========================================================================== */
 
-const membersCollection = collection(
-  db,
-  FIREBASE_COLLECTIONS.MEMBERS
-);
+const membersCollection = collection(db, FIREBASE_COLLECTIONS.MEMBERS);
 
-
-/* ==========================================
-   Validation Helpers
-========================================== */
+/* ==========================================================================
+   Validation Helpers (Hardened for Dynamic Audit Inputs)
+   ========================================================================== */
 
 function validateMembershipStatus(status) {
-  const allowedStatuses = Object.values(
-    MEMBERSHIP_STATUS
-  );
+  const allowedStatuses = Object.values(MEMBERSHIP_STATUS);
 
   if (!allowedStatuses.includes(status)) {
-    throw new Error(
-      "Invalid membership status."
-    );
+    throw new Error(`Invalid membership status parameter: "${status}".`);
   }
 }
 
-
-function validateStatusChange(
-  member,
-  newStatus
-) {
+function validateStatusChange(member, newStatus) {
   if (!member) {
+    throw new Error("Member profile not discovered inside database snapshot registries.");
+  }
+
+  if (member.applicationStatus !== "approved") {
     throw new Error(
-      "Member not found."
+      "Only approved applications can have an active membership status assigned."
     );
   }
 
-  if (
-    member.applicationStatus !== "approved"
-  ) {
-    throw new Error(
-      "Only approved applications can have a membership status."
-    );
-  }
-
-  if (
-    member.membershipStatus === newStatus
-  ) {
-    throw new Error(
-      `The member is already ${newStatus}.`
-    );
+  if (member.membershipStatus === newStatus) {
+    throw new Error(`The member profile status is already explicitly flagged as ${newStatus}.`);
   }
 }
 
-
+/**
+ * 🟢 FIREFIGHTING AUTHCATCH FIX: Safe-guards against auth context packaging variations
+ * Dynamically resolves admin parameters from flat rows or nested .currentUser properties
+ */
 function buildAdminAuditData(admin) {
-  if (!admin?.uid) {
+  const adminUser = admin?.currentUser || admin || {};
+  const activeUid = adminUser.uid || adminUser.id;
+
+  if (!activeUid) {
     throw new Error(
-      "Unable to identify the administrator performing this action."
+      "Unable to identify the administrator performing this action. Missing secure user session token."
     );
   }
 
   return {
-    changedBy: admin.uid,
-
+    changedBy: activeUid,
     changedByName:
-      admin.displayName ||
-      admin.name ||
-      admin.email ||
-      "Administrator",
-
-    changedByEmail:
-      admin.email || null,
+      adminUser.displayName ||
+      adminUser.fullName ||
+      adminUser.name ||
+      adminUser.email ||
+      "System Administrator",
+    changedByEmail: adminUser.email || null,
   };
 }
-
 
 function normalizeReason(reason) {
   return reason?.trim() || null;
 }
 
-
-/* ==========================================
-   Admin Member Service
-========================================== */
+/* ==========================================================================
+   Admin Member Service Engine
+   ========================================================================== */
 
 const adminMemberService = {
 
   /* ==========================================
-     Get Members
-  ========================================== */
-
+     Get Members List
+     ========================================== */
   async getMembers(status = "all") {
     try {
       let membersQuery;
@@ -114,11 +95,7 @@ const adminMemberService = {
       if (status === "all") {
         membersQuery = query(
           membersCollection,
-          where(
-            "applicationStatus",
-            "==",
-            "approved"
-          ),
+          where("applicationStatus", "==", "approved"),
           orderBy("updatedAt", "desc")
         );
       } else {
@@ -126,60 +103,35 @@ const adminMemberService = {
 
         membersQuery = query(
           membersCollection,
-          where(
-            "applicationStatus",
-            "==",
-            "approved"
-          ),
-          where(
-            "membershipStatus",
-            "==",
-            status
-          ),
+          where("applicationStatus", "==", "approved"),
+          where("membershipStatus", "==", status),
           orderBy("updatedAt", "desc")
         );
       }
 
-      const snapshot = await getDocs(
-        membersQuery
-      );
+      const snapshot = await getDocs(membersQuery);
 
       return snapshot.docs.map((document) => ({
         id: document.id,
         ...document.data(),
       }));
     } catch (error) {
-      console.error(
-        "Failed to fetch members:",
-        error
-      );
-
+      console.error("Failed to fetch verified members roster:", error);
       throw error;
     }
   },
 
-
   /* ==========================================
-     Get Single Member
-  ========================================== */
-
+     Get Single Member Profile
+     ========================================== */
   async getMemberById(memberId) {
     try {
       if (!memberId) {
-        throw new Error(
-          "Member ID is required."
-        );
+        throw new Error("Member ID is required.");
       }
 
-      const memberRef = doc(
-        db,
-        FIREBASE_COLLECTIONS.MEMBERS,
-        memberId
-      );
-
-      const snapshot = await getDoc(
-        memberRef
-      );
+      const memberRef = doc(db, FIREBASE_COLLECTIONS.MEMBERS, memberId);
+      const snapshot = await getDoc(memberRef);
 
       if (!snapshot.exists()) {
         return null;
@@ -187,13 +139,8 @@ const adminMemberService = {
 
       const member = snapshot.data();
 
-      /*
-       * Prevent applications that have not been
-       * approved from being treated as members.
-       */
-      if (
-        member.applicationStatus !== "approved"
-      ) {
+      // Prevent applications that have not been approved from being treated as members
+      if (member.applicationStatus !== "approved") {
         return null;
       }
 
@@ -202,150 +149,92 @@ const adminMemberService = {
         ...member,
       };
     } catch (error) {
-      console.error(
-        "Failed to fetch member:",
-        error
-      );
-
+      console.error("Failed to fetch single member profile snap:", error);
       throw error;
     }
   },
 
-
   /* ==========================================
-     Update Membership Status
-  ========================================== */
-
-  async updateMembershipStatus(
-    memberId,
-    status,
-    admin,
-    reason
-  ) {
+     Update Membership Status (Core Write Pipeline)
+     ========================================== */
+  async updateMembershipStatus(memberId, status, admin, reason) {
     try {
       if (!memberId) {
-        throw new Error(
-          "Member ID is required."
-        );
+        throw new Error("Member ID is required.");
       }
 
       validateMembershipStatus(status);
 
-      const memberRef = doc(
-        db,
-        FIREBASE_COLLECTIONS.MEMBERS,
-        memberId
-      );
+      const memberRef = doc(db, FIREBASE_COLLECTIONS.MEMBERS, memberId);
 
-      /*
-       * Always read the latest member state
-       * before changing membership status.
-       */
-      const snapshot = await getDoc(
-        memberRef
-      );
+      // Always read the latest member state before changing membership status
+      const snapshot = await getDoc(memberRef);
 
       if (!snapshot.exists()) {
-        throw new Error(
-          "Member not found."
-        );
+        throw new Error("Member record not found inside database registry.");
       }
 
       const member = snapshot.data();
 
-      validateStatusChange(
-        member,
-        status
-      );
+      validateStatusChange(member, status);
 
-      const adminAudit =
-        buildAdminAuditData(admin);
-
-      const normalizedReason =
-        normalizeReason(reason);
+      // Resolve the audit logs without dropping properties on structure changes
+      const adminAudit = buildAdminAuditData(admin);
+      const normalizedReason = normalizeReason(reason);
 
       await updateDoc(memberRef, {
         membershipStatus: status,
-
         membershipStatusAudit: {
-          previousStatus:
-            member.membershipStatus || null,
-
+          // 🟢 DEFENSIVE DEFAULTS: Fallback explicitly to active or clean placeholder states
+          previousStatus: member.membershipStatus || MEMBERSHIP_STATUS.PENDING || "pending",
           newStatus: status,
-
           reason: normalizedReason,
-
           ...adminAudit,
-
           changedAt: serverTimestamp(),
         },
-
         updatedAt: serverTimestamp(),
       });
     } catch (error) {
-      console.error(
-        "Failed to update membership status:",
-        error
-      );
-
+      console.error("Failed to execute membership status update transaction:", error);
       throw error;
     }
   },
 
-
   /* ==========================================
-     Activate Member
-  ========================================== */
-
-  async activateMember(
-    memberId,
-    admin,
-    reason
-  ) {
+     Activate Member Status
+     ========================================== */
+  async activateMember(memberId, admin, reason) {
     return this.updateMembershipStatus(
       memberId,
-      MEMBERSHIP_STATUS.ACTIVE,
+      MEMBERSHIP_STATUS.ACTIVE || "active",
       admin,
       reason
     );
   },
 
-
   /* ==========================================
-     Suspend Member
-  ========================================== */
-
-  async suspendMember(
-    memberId,
-    admin,
-    reason
-  ) {
+     Suspend Member Status
+     ========================================== */
+  async suspendMember(memberId, admin, reason) {
     return this.updateMembershipStatus(
       memberId,
-      MEMBERSHIP_STATUS.SUSPENDED,
+      MEMBERSHIP_STATUS.SUSPENDED || "suspended",
       admin,
       reason
     );
   },
 
-
   /* ==========================================
-     Deactivate Member
-  ========================================== */
-
-  async deactivateMember(
-    memberId,
-    admin,
-    reason
-  ) {
+     Deactivate Member Status
+     ========================================== */
+  async deactivateMember(memberId, admin, reason) {
     return this.updateMembershipStatus(
       memberId,
-      MEMBERSHIP_STATUS.INACTIVE,
+      MEMBERSHIP_STATUS.INACTIVE || "inactive",
       admin,
       reason
     );
   },
 };
-
 
 export default adminMemberService;

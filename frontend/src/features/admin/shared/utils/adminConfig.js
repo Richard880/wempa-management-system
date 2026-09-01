@@ -1,13 +1,8 @@
-/**
- * WEMPA Administration System Configuration Core
- * Designed for easy multi-tenant and corporate white-label re-branding.
- */
+// src/features/admin/shared/utils/adminConfig.js
 
 /**
  * WEMPA Administration System Configuration Core
- *
  * Central configuration for the administration workspace.
- * Role definitions remain centralized in src/constants/roles.js.
  */
 
 import ROLES from "../../../../constants/roles";
@@ -22,7 +17,7 @@ export const SIDEBAR_STRUCTURE = [
     type: "link",
     label: "Dashboard",
     path: "/admin",
-    icon: "bi-speedometer2",
+    icon: "bi-speedometer",
   },
 
   {
@@ -44,6 +39,13 @@ export const SIDEBAR_STRUCTURE = [
         path: "/admin/members/categories",
       },
     ],
+  },
+  
+  {
+    type: "link",
+    label: "Interested Parties",
+    path: "/admin/interested-parties",
+    icon: "bi-person-clock", // 🟢 HIGH-CONTRAST INDICATION ICON TOKEN
   },
 
   {
@@ -69,21 +71,19 @@ export const SIDEBAR_STRUCTURE = [
 
   {
     type: "group",
-    label: "Financials",
+    label: "Financials & Revenue",
     icon: "bi-credit-card",
     id: "paymentsGroup",
+    /* 🟢 REALIGNMENT TO YOUR NEW FINANCIALS DASHBOARD ROUTER: 
+       Maps the nested array sub-paths straight to your operational /admin/financials view */
     children: [
       {
-        label: "Transactions",
-        path: "/admin/payments",
+        label: "Transactions Ledger",
+        path: "/admin/financials", // Points to the main table workspace
       },
       {
         label: "Pending Approvals",
-        path: "/admin/payments?status=pending",
-      },
-      {
-        label: "Revenue Analytics",
-        path: "/admin/payments/revenue",
+        path: "/admin/financials?status=PENDING_VERIFICATION", // Forces instant filter matching
       },
     ],
   },
@@ -116,38 +116,21 @@ export const SIDEBAR_STRUCTURE = [
     icon: "bi-shield-check",
   },
 
-  /**
-   * Super Admin only.
-   *
-   * The sidebar filters this item using allowedRoles.
-   * This is UI visibility only; the route and service
-   * must continue enforcing authorization independently.
-   */
   {
     id: "admin-management",
     type: "link",
     label: "Admin Management",
     path: "/admin/management",
     icon: "bi-person-gear",
-    allowedRoles: [
-      ROLES.SUPER_ADMIN,
-    ],
+    allowedRoles: [ROLES.SUPER_ADMIN],
   },
 
-   /**
-   * Super Admin only.
-   *
-   * System settings configuration matrix.
-   */
   {
     id: "global-settings",
     type: "link",
     label: "Global Settings",
-    path: "/admin/settings/general", // Points directly to our leaf route
+    path: "/admin/settings/general",
     icon: "bi-gear",
-    allowedRoles: [
-      ROLES.SUPER_ADMIN,
-    ],
+    allowedRoles: [ROLES.SUPER_ADMIN],
   },
 ];
-

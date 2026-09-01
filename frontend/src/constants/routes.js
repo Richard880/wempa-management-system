@@ -31,6 +31,7 @@ const ROUTES = {
   ADMIN_MEMBER_NEW: "/admin/members/new",
   ADMIN_MEMBER_CATEGORIES: "/admin/members/categories",
   ADMIN_MEMBER_DETAILS: "/admin/members/:memberId",
+  ADMIN_INTERESTED_PARTIES: "/admin/interested-parties",
 
   ADMIN_APPLICATIONS: "/admin/applications",
   ADMIN_APPLICATION_REVIEW: "/admin/applications/:applicationId",
@@ -51,6 +52,16 @@ const ROUTES = {
   ADMIN_NEWS_NEW: "/admin/news/new",
   ADMIN_NEWS_EDIT: "/admin/news/edit/:newsId", 
 
+ /* ==========================================
+   * Admin Financials Routes
+   * ========================================== */
+  ADMIN_FINANCIALS: "/admin/financials", 
+  ADMIN_FINANCIALS_DETAIL: "/admin/financials/:applicationId", 
+
+
+ /* ==========================================
+   * Admin Settings Routes
+   * ========================================== */
 
    ADMIN_SETTINGS: '/admin/settings',
   ADMIN_SETTINGS_GENERAL: '/admin/settings/general',

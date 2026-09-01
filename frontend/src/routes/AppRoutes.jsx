@@ -59,6 +59,7 @@ import ApplicationReview from "../features/admin/pages/ApplicationReview";
 import Members from "../features/admin/pages/Members";
 import MemberDetails from "../features/admin/pages/MemberDetails";
 import AdminManagementPage from "../features/admin/pages/adminManagement/AdminManagementPage";
+import InterestedParties from "../features/admin/pages/InterestedParties/InterestedParties";
 
 /* ==========================================
    ADD NEW EVENTS MANAGEMENT IMPORTS HERE
@@ -79,6 +80,12 @@ import NewsForm from "../features/admin/pages/news/NewsForm";
 import NewsDetail from "../features/public/pages/NewsDetail";
 import CreateNewsPage from "../features/admin/pages/news/CreateNewsPage";
 import EditNewsPage from "../features/admin/pages/news/EditNewsPage";
+
+/* ==========================================
+   ADD  FINANCIALS IMPORTS HERE
+   ========================================== */
+import Financials from "../features/admin/pages/Financials/Financials";
+import FinancialsDetail from "../features/admin/pages/Financials/FinancialsDetail";
 
 
 /* ==========================================
@@ -179,6 +186,7 @@ function AppRoutes() {
             >
               <Route path={ROUTES.ADMIN_MEMBERS} element={<Members />} />
               <Route path={ROUTES.ADMIN_MEMBER_DETAILS} element={<MemberDetails />} />
+              <Route path={ROUTES.ADMIN_INTERESTED_PARTIES} element={<InterestedParties />} />
             </Route>
 
             {/* ==========================================
@@ -205,6 +213,13 @@ function AppRoutes() {
               <Route path={ROUTES.ADMIN_NEWS_NEW} element={<CreateNewsPage />} />
               <Route path={ROUTES.ADMIN_NEWS_EDIT} element={<EditNewsPage />} />
 
+
+
+              {/* ==========================================
+                INSERT FINANCIALS MANAGEMENT SUB-ROUTES HERE
+                ========================================== */}
+              <Route path={ROUTES.ADMIN_FINANCIALS} element={<Financials />} />
+              <Route path={ROUTES.ADMIN_FINANCIALS_DETAIL} element={<FinancialsDetail />} />
 
                 {/* Global Settings Subsystem Roots */}
              

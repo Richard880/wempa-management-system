@@ -1,188 +1,239 @@
 /* src/features/members/steps/payments/MpesaPayment.module.css */
 
 .container {
-  width: 100%;
-  max-width: 580px;
-  margin: 0 auto;
-  background: #ffffff;
-  box-sizing: border-box;
-}
-
-.headerBlock {
-  margin-bottom: 1.75rem;
+  padding: 8px 4px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .title {
-  font-size: 1.4rem;
+  font-size: 20px;
   font-weight: 700;
   color: #0f172a;
-  margin: 0 0 0.5rem 0;
-  letter-spacing: -0.2px;
+  margin-bottom: 6px;
 }
 
 .subtitle {
-  font-size: 0.875rem;
+  font-size: 14px;
   color: #64748b;
-  line-height: 1.5;
-  margin: 0;
+  margin-bottom: 24px;
 }
 
-.formGroup {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
-  width: 100%;
-}
-
-.label {
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: #475569;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.selectInput, .inputField {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  border: 1px solid #cbd5e1;
-  border-radius: 8px;
-  font-size: 0.9375rem;
-  color: #1e293b;
-  background: #f8fafc;
-  transition: all 0.2s ease;
-  box-sizing: border-box;
-}
-
-.selectInput:focus, .inputField:focus {
-  outline: none;
-  border-color: #f28a2b;
-  background: #ffffff;
-  box-shadow: 0 0 0 3px rgba(242, 138, 43, 0.15);
-}
-
-/* Input Prefix Icon Architecture Wrapper */
-.inputWrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  width: 100%;
-}
-
-.inputIconBox {
-  position: absolute;
-  left: 1px;
-  top: 1px;
-  bottom: 1px;
-  width: 46px;
-  background: #e2e8f0;
-  border-right: 1px solid #cbd5e1;
-  border-top-left-radius: 7px;
-  border-bottom-left-radius: 7px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-}
-
-.inputField {
-  padding-left: 3.75rem !important;
-}
-
-.hintText {
-  font-size: 0.78rem;
-  color: #64748b;
-  line-height: 1.4;
-  margin-top: 0.15rem;
-}
-
-/* ==========================================================
-   💡 PREMIUM PAYBILL INSTRUCTIONS STATION CARD
-   ========================================================== */
+/* Receipt Summary Box Card */
 .invoiceCard {
-  border-left: 5px solid #16a34a; /* Distinctive Green Safe Status Indicator */
-  background: #f0fdf4;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
   border-radius: 12px;
-  padding: 1.25rem 1.5rem;
-  margin-bottom: 1.75rem;
-  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.02);
-}
-
-.invoiceInstructionsTitle {
-  color: #14532d;
-  margin: 0 0 1rem 0;
-  font-weight: 700;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
+  padding: 20px;
+  margin-bottom: 28px;
 }
 
 .invoiceRow {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem 0;
-  font-size: 0.875rem;
-  border-bottom: 1px solid rgba(22, 163, 74, 0.1);
+  padding: 8px 0;
+  font-size: 14px;
   color: #475569;
 }
 
-.invoiceRow:last-child {
-  border-bottom: none;
-  padding-bottom: 0;
+.invoiceRowDivider {
+  height: 1px;
+  background-color: #e2e8f0;
+  margin: 8px 0;
 }
 
-.greenText { color: #16a34a !important; font-weight: 700; font-family: monospace; fontSize: 16px; }
-.blueText { color: #0284c7 !important; font-weight: 700; font-size: 18px; }
+.invoiceTotalRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+}
 
-/* Global Corporate Gold Accent Submit Button */
+.totalLabel {
+  font-weight: 600;
+  color: #0f172a;
+  font-size: 15px;
+}
+
+.totalAmount {
+  font-size: 22px;
+  font-weight: 800;
+  color: #0284c7; /* Wempa Blue Theme styling */
+}
+
+/* Form Styles */
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.label {
+  display: block;
+  font-weight: 600;
+  font-size: 14px;
+  color: #334155;
+  margin-bottom: 8px;
+}
+
+/* Kenyan Styled Phone Input Container Wrapper */
+.phoneInputWrapper {
+  display: flex;
+  position: relative;
+  align-items: center;
+}
+
+.flagPrefix {
+  position: absolute;
+  left: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #64748b;
+  user-select: none;
+  border-right: 1px solid #cbd5e1;
+  padding-right: 10px;
+  height: 24px;
+}
+
+.flagEmoji {
+  font-size: 16px;
+}
+/* Ensure this rule handles the layout width within your module stylesheet */
+.input {
+  width: 100%;
+  padding: 14px 14px 14px 58px; /* Safe size alignment space for the code receipt icon wrapper */
+  font-size: 15px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #0f172a;
+  transition: all 0.2s ease;
+}
+
+
+.input:focus {
+  outline: none;
+  border-color: #0284c7;
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+}
+
+.input:disabled {
+  background-color: #f1f5f9;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+/* Primary M-Pesa Action Button Customizations */
 .submitBtn {
   width: 100%;
+  padding: 15px;
+  background-color: #14532d; /* Safe M-Pesa Brand Green */
+  color: #ffffff;
   border: none;
   border-radius: 8px;
-  padding: 0.85rem 1.5rem;
-  font-size: 0.9375rem;
+  font-size: 16px;
   font-weight: 700;
-  color: #ffffff;
-  background: #f28a2b;
   cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 4px 12px rgba(242, 138, 43, 0.2);
-  margin-top: 0.75rem;
+  transition: background-color 0.2s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 6px -1px rgba(20, 83, 45, 0.15);
 }
 
 .submitBtn:hover:not(:disabled) {
-  background: #e0761b;
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(242, 138, 43, 0.3);
+  background-color: #166534;
 }
 
 .submitBtn:disabled {
-  background: #cbd5e1;
-  color: #94a3b8;
+  background-color: #94a3b8;
   cursor: not-allowed;
   box-shadow: none;
 }
 
-/* ==========================================================
-   🏷️ RUNTIME MESSAGES TOAST LABELS
-   ========================================================== */
+/* Custom CSS Inline Status Component Layouts */
 .statusContainer {
-  margin-top: 1.5rem;
-  padding: 1rem 1.25rem;
+  margin-top: 24px;
+  padding: 16px;
   border-radius: 8px;
-  font-size: 0.875rem;
-  font-weight: 600;
-}
-
-.statusInnerRow {
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  line-height: 1.4;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 14px;
+  line-height: 1.5;
+  animation: fadeIn 0.3s ease;
 }
 
-.statusInfo { background: #f0fdf4; color: #166434; border: 1px solid #dcfce7; }
-.statusError { background: #fef2f2; color: #991b1b; border: 1px solid #fee2e2; }
-.statusSuccess { background: #f0fdf4; color: #166434; border: 1px solid #dcfce7; }
+.statusInfo {
+  background-color: #f0fdfa;
+  border: 1px solid #ccfbf1;
+  color: #115e59;
+}
+
+.statusError {
+  background-color: #fef2f2;
+  border: 1px solid #fee2e2;
+  color: #991b1b;
+}
+
+/* Inline Loading Dots Animation */
+.pulseSpinner {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+}
+
+/* Append this rule to your src/features/members/steps/payments/MpesaPayment.module.css */
+
+.selectInput {
+  width: 100%;
+  padding: 14px; /* Even spacing across edges without left-side prefix room */
+  font-size: 15px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #0f172a;
+  cursor: pointer;
+  appearance: none; /* Removes standard operating system arrows */
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://w3.org' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 16px;
+  transition: all 0.2s ease;
+}
+
+.selectInput:focus {
+  outline: none;
+  border-color: #0284c7;
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+}
+
+.selectInput:disabled {
+  background-color: #f1f5f9;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+
+.pulseSpinner span {
+  width: 6px;
+  height: 6px;
+  background-color: currentColor;
+  border-radius: 50%;
+  animation: pulse 1.2s infinite ease-in-out both;
+}
+
+.pulseSpinner span:nth-child(2) { animation-delay: 0.2s; }
+.pulseSpinner span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes pulse {
+  0%, 80%, 100% { transform: scale(0); }
+  40% { transform: scale(1.0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}

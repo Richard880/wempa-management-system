@@ -11,7 +11,7 @@ const ROUTES = {
   VERIFY_EMAIL: "/verify-email",
   PUBLIC_NEWS_DETAIL: "/news/:newsId",
   PUBLIC_PROFILE: "/profile/:userId", // Added for viewing member directories publicly if needed
-
+      
   /* ==========================================
    * Member Routes
    * ========================================== */

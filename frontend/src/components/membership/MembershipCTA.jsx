@@ -36,14 +36,14 @@ function MembershipCTA() {
               Apply for Membership
             </Button>
 
-            <Button
+            {/* <Button
               variant="outline-light"
               as={Link}
               to="/downloads"
               size="lg"
             >
               Download Membership Guide
-            </Button>
+            </Button> */}
           </div>
         </motion.div>
       </Container>

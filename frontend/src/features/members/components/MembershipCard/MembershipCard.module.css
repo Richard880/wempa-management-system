@@ -1,167 +1,294 @@
+/* src/features/members/components/MembershipCard/MembershipCard.module.css */
+
 .wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1.5rem;
-  padding: 1rem;
+  padding: 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-/* 💳 PHYSICAL CARD FRAME SPECIFICATIONS (CR80 Standard Ratio dimensions) */
+/* ==========================================================
+   💳 PHYSICAL CARD FRAME SPECIFICATIONS (CR80 Standard Ratio)
+   ========================================================== */
 .idCard {
   width: 450px;
   height: 270px;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 1.25rem;
-  padding: 1.5rem;
+  /* WEMPA Theme: Premium Luxury Navy Base to high-contrast Dark Oceanic Slate */
+  background: linear-gradient(135deg, #0b1329 0%, #111c44 50%, #1a2342 100%);
+  border: 1px solid rgba(242, 138, 43, 0.25); /* Subtle Amber/Gold perimeter bounding box wire frame */
+  border-radius: 1rem;
+  padding: 1.25rem 1.5rem;
   box-sizing: border-box;
   position: relative;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.3), 0 10px 10px -5px rgba(15, 23, 42, 0.2);
+  box-shadow: 0 15px 35px rgba(11, 19, 41, 0.45), 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* Decorative Background Abstract Vector Lines */
+/* Decorative Background Abstract Vector Lines - Golden Waves Accent */
 .wavesBg {
   position: absolute;
-  top: -20%;
-  right: -10%;
-  width: 300px;
-  height: 300px;
-  background: radial-gradient(circle, rgba(56, 189, 248, 0.06) 0%, transparent 70%);
+  top: -40%;
+  right: -20%;
+  width: 320px;
+  height: 320px;
+  /* Hardware-accelerated ambient glowing trace rings */
+  background: radial-gradient(circle, rgba(242, 138, 43, 0.08) 0%, rgba(224, 118, 27, 0.02) 50%, transparent 75%);
   border-radius: 50%;
   pointer-events: none;
+  z-index: 1;
+}
+
+.wavesBg::after {
+  content: "";
+  position: absolute;
+  top: 15%;
+  right: 15%;
+  width: 200px;
+  height: 200px;
+  border: 1px dashed rgba(242, 138, 43, 0.05);
+  border-radius: 50%;
 }
 
 .cardHeader {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   z-index: 2;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding-bottom: 0.75rem;
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.65rem;
   color: #ffffff;
 }
 
-.brand :global(.bi-compass-fill) {
-  font-size: 2.25rem;
-  color: #38bdf8; /* Ocean Cyan Accent */
+.brand svg, .brand :global(.bi-compass-fill) {
+  font-size: 1.65rem;
+  /* WEMPA Gold Accent Brand coloring vectors */
+  color: #f28a2b !important;
+  filter: drop-shadow(0 2px 8px rgba(242, 138, 43, 0.3));
+}
+
+.brandText {
+  display: flex;
+  flex-direction: column;
 }
 
 .brandText h1 {
-  font-size: 1.25rem;
+  font-size: 1.35rem;
   font-weight: 800;
   margin: 0;
-  letter-spacing: 0.05em;
+  letter-spacing: 1.5px;
   line-height: 1;
+  background: linear-gradient(120deg, #ffffff 0%, #f1f5f9 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .brandText h2 {
-  font-size: 0.65rem;
-  font-weight: 500;
+  font-size: 0.58rem;
+  font-weight: 700;
   color: #94a3b8;
   margin: 0;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.8px;
+  margin-top: 2px;
 }
 
+/* Translucent Premium Tier Badge Token */
 .badge {
-  background: rgba(56, 189, 248, 0.12);
-  border: 1px solid rgba(56, 189, 248, 0.25);
-  color: #38bdf8;
-  padding: 0.25rem 0.65rem;
-  border-radius: 0.5rem;
-  font-size: 0.65rem;
-  font-weight: 700;
+  background: rgba(242, 138, 43, 0.1);
+  border: 1px solid rgba(242, 138, 43, 0.3);
+  color: #f28a2b;
+  padding: 0.3rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.625rem;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.8px;
+  box-shadow: 0 2px 10px rgba(242, 138, 43, 0.05);
 }
 
-.cardBody {
+/* ==========================================================
+   🔓 BALANCED 3-COLUMN LAYOUT BODY DECK (Avatar | Details | QR)
+   ========================================================== */
+/* .cardBody {
   display: flex;
   align-items: center;
-  gap: 1.25rem;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
   margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  box-sizing: border-box;
   z-index: 2;
-}
+} */
 
+/* Passport Picture Dynamic Image Housing */
 .avatar {
-  width: 70px;
-  height: 70px;
+  width: 76px;
+  height: 76px;
   background: #1e293b;
-  border: 2px solid #334155;
+  border: 2px solid rgba(255, 255, 255, 0.8);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #ffffff;
-  font-size: 2rem;
-  font-weight: 700;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+  color: #94a3b8;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+  flex-shrink: 0;
+  background-color: #111c44 !important;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .metaGrid {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.65rem;
+  flex-grow: 1;
+  padding-left: 0.25rem;
 }
 
 .metaGroup {
   display: flex;
   flex-direction: column;
+  gap: 1px;
 }
 
 .metaGroup label {
   font-size: 0.55rem;
-  font-weight: 600;
+  font-weight: 700;
   color: #64748b;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.8px;
   margin: 0;
+  text-transform: uppercase;
 }
 
 .metaGroup strong {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 700;
-  color: #f8fafc;
+  color: #ffffff;
   line-height: 1.2;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
 }
 
 .idValue {
-  font-family: monospace;
-  color: #cbd5e1 !important;
-  font-size: 0.85rem !important;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace !important;
+  color: #e2e8f0 !important;
+  font-size: 0.9rem !important;
+  letter-spacing: 0.5px;
 }
 
+/* High-Contrast Interactive Validation QR Box Element */
+/* Update your existing file with these hardened dimensions overrides */
+
+.cardBody {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  box-sizing: border-box;
+  z-index: 2;
+}
+
+/* ==========================================================
+   🟢 FIXED QR BOUNDING BOX: Cures layout thrashing and glitches
+   ========================================================== */
+.qrContainer {
+  width: 68px;
+  height: 68px;
+  min-width: 68px;   /* 🟢 Prevents compression or grid shrinking during side rendering */
+  min-height: 68px;  /* 🟢 Forces fixed aspect ratios layout constraints */
+  background: #ffffff !important;
+  border: 1.5px solid rgba(242, 138, 43, 0.35);
+  border-radius: 8px;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+}
+
+.qrImage {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  animation: fadeInMoveUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Inline SVG skeleton matrix spinner design */
+.qrLoaderSvg {
+  width: 28px;
+  height: 32px;
+  color: #cbd5e1;
+  opacity: 0.6;
+  animation: pulseLoop 1.5s ease-in-out infinite;
+}
+
+@keyframes pulseLoop {
+  0%, 100% { opacity: 0.4; transform: scale(0.96); }
+  50% { opacity: 0.8; transform: scale(1); }
+}
+
+@keyframes fadeInMoveUp {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* ==========================================================
+   CARD FOOTER PANELS
+   ========================================================== */
 .cardFooter {
   display: flex;
-  gap: 2.5rem;
-  border-top: 1px solid #1e293b;
-  padding-top: 0.75rem;
+  align-items: center;
+  gap: 2.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 0.65rem;
   z-index: 2;
 }
 
 .dateBlock {
   display: flex;
   flex-direction: column;
+  gap: 1px;
 }
 
 .dateBlock label {
   font-size: 0.5rem;
-  font-weight: 600;
+  font-weight: 700;
   color: #64748b;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
 
 .dateBlock span {
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 700;
-  color: #e2e8f0;
+  color: #cbd5e1;
+  font-family: monospace;
 }
 
 .watermark {
@@ -169,38 +296,27 @@
   display: flex;
   align-items: center;
   gap: 0.25rem;
-  color: #10b981; /* Verified Seafoam Green text label */
+  color: #10b981; /* Verified Seafoam Green text token */
   font-size: 0.65rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  background: rgba(16, 185, 129, 0.08);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid rgba(16, 185, 129, 0.15);
 }
 
-/* 🖨️ ACTION BUTTON TRIGGER HANDLING BACKGROUNDS */
-.downloadBtn {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background-color: #0284c7;
-  color: white;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
-  font-weight: 600;
-  font-size: 0.95rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 6px -1px rgba(2, 132, 199, 0.3);
+.watermark svg {
+  font-size: 0.75rem;
 }
 
-.downloadBtn:hover {
-  background-color: #0369a1;
-  transform: translateY(-1px);
-}
-
-/* 🖨️ PRINT MEDIA STYLESHEET HOOK: Hides everything except the precise card boundary rectangle */
+/* ==========================================================
+   🖨️ PRINT SYSTEM LAYOUT MEDIA OVERRIDES
+   ========================================================== */
 @media print {
   body * {
-    visibility: hidden; /* Hide sidebar, layout, links and footer headers entirely */
+    visibility: hidden; /* Hide all navigation sidebars, headers, and footer components completely */
   }
   #physical-membership-card, #physical-membership-card * {
     visibility: visible;
@@ -211,7 +327,7 @@
     top: 0;
     box-shadow: none;
     border: none;
-    -webkit-print-color-adjust: exact; /* Force browser canvas graphics renderer engines to retain dark color layers */
+    -webkit-print-color-adjust: exact; /* Instructs layout engines to preserve premium navy-amber color matrices */
     print-color-adjust: exact;
   }
 }

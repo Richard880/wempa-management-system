@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FaArrowRight } from "react-icons/fa";
+//import { FaArrowRight } from "react-icons/fa";
 
 function FeatureCard({ icon, title, description }) {
   return (
@@ -16,9 +16,9 @@ function FeatureCard({ icon, title, description }) {
 
       <p>{description}</p>
 
-      <div className="feature-link">
+      {/* <div className="feature-link">
         Learn More <FaArrowRight />
-      </div>
+      </div> */}
     </motion.div>
   );
 }

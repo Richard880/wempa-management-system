@@ -1,10 +1,14 @@
 // src/components/events/PastEvents.jsx
-import { Container, Row, Col, Button, Badge } from "react-bootstrap";
+import { Container, 
+  Row,
+   Col, 
+ // Button, 
+  Badge } from "react-bootstrap";
 import {
   FaCalendarAlt,
   FaMapMarkerAlt,
   FaUsers,
-  FaImages,
+ // FaImages,
 } from "react-icons/fa";
 import { motion } from "framer-motion";
 
@@ -75,10 +79,10 @@ function PastEvents() {
                     </span>
                   </div>
 
-                  <Button variant="outline-primary" className="w-100 mt-3">
+                  {/* <Button variant="outline-primary" className="w-100 mt-3">
                     <FaImages className="me-2" />
                     View Gallery
-                  </Button>
+                  </Button> */}
                 </div>
               </motion.div>
             </Col>

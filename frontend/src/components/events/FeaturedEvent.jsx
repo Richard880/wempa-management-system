@@ -1,7 +1,10 @@
 // src/components/events/FeaturedEvent.jsx
 import { Container, Row, Col, Button } from "react-bootstrap";
 import EventCountdown from "../common/EventCountdown";
-import { FaCalendarAlt, FaMapMarkerAlt, FaArrowRight } from "react-icons/fa";
+import { FaCalendarAlt, 
+  FaMapMarkerAlt, 
+  //FaArrowRight 
+} from "react-icons/fa";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 
@@ -97,11 +100,11 @@ function FeaturedEvent() {
                           Register Now
                         </Button>
 
-
+{/* 
                     <Button variant="outline-primary" as={Link} to="/events">
                       Learn More
                       <FaArrowRight className="ms-2" />
-                    </Button>
+                    </Button> */}
                   </div>
                 </div>
               </Col>

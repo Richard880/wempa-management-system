@@ -61,3 +61,38 @@ main {
   position: relative !important;
   z-index: 1;
 }
+/* ==========================================================================
+   WEMPA Logo Styling - Circular Badge & Dynamic Helm Rotation
+   ========================================================================== */
+
+/* Option 2: Maritime Badge Container */
+.wempa-badge-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;              /* Uniform bounding constraints for Navbars */
+  height: 50px;
+  border-radius: 50%;
+  border: 3px solid #0f172a; /* Deep maritime slate/navy border */
+  background-color: #ffffff; /* Solid backdrop layer to shield background transparency bugs */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  overflow: hidden;         /* Ensures the inner image clips cleanly to the circle */
+  box-sizing: border-box;
+}
+
+/* Option 2 + 3: Core Image Style with Helm Interaction */
+.wempa-circular-logo {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;        /* Prevents the ship's wheel from stretching out of aspect ratio */
+  
+  /* Option 3: Smooth transition mimicking turning the helm of a ship */
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Option 3 Hover Effect: Interacts beautifully when hovering over the container or image */
+.wempa-badge-container:hover .wempa-circular-logo,
+.wempa-circular-logo:hover {
+  transform: rotate(30deg);  /* Rotates the ship's wheel exactly 30 degrees smoothly */
+}

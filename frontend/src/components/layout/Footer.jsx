@@ -8,7 +8,7 @@ import {
 import { FaXTwitter } from "react-icons/fa6";
 import { FaEnvelope, FaPhoneAlt, FaMapMarkerAlt } from "react-icons/fa";
 
-import logo from "../../assets/logos/wempa-logo.jpeg";
+import logo from "../../../public/wempa-logo.jpeg";
 
 import "../../styles/layout/footer.css";
 

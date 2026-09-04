@@ -8,7 +8,7 @@ import "./loginForm.css";
 
 // 	🏼 1. IMPORT YOUR LOGO GRAPHIC FROM YOUR LOCAL ASSETS FILE PATH
 import ROUTES from "../../../../constants/routes"; 
-import wempaLogo from "../../../../assets/logos/wempa-logo.jpeg"; // Adjust the relative file path directory structure as needed
+import wempaLogo from "../../../../../public/wempa-logo.jpeg"; // Adjust the relative file path directory structure as needed
 
 function LoginForm() {
   const {

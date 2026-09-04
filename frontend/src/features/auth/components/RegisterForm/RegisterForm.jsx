@@ -7,7 +7,7 @@ import useRegisterForm from "../../forms/useRegisterForm";
 import "./registerForm.css";
 
 // Import your asset logo
-import wempaLogo from "../../../../assets/logos/wempa-logo.jpeg"; // Adjust the relative file path directory structure as needed
+import wempaLogo from "../../../../../public/wempa-logo.jpeg";  // Adjust the relative file path directory structure as needed
 import ROUTES from "../../../../constants/routes"; 
 
 function RegisterForm() {

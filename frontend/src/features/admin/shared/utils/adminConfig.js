@@ -102,19 +102,19 @@ export const SIDEBAR_STRUCTURE = [
     icon: "bi-newspaper",
   },
 
-  {
-    type: "link",
-    label: "Reports Generator",
-    path: "/admin/reports",
-    icon: "bi-graph-up",
-  },
+  // {
+  //   type: "link",
+  //   label: "Reports Generator",
+  //   path: "/admin/reports",
+  //   icon: "bi-graph-up",
+  // },
 
-  {
-    type: "link",
-    label: "Credential Verification",
-    path: "/admin/verification",
-    icon: "bi-shield-check",
-  },
+  // {
+  //   type: "link",
+  //   label: "Credential Verification",
+  //   path: "/admin/verification",
+  //   icon: "bi-shield-check",
+  // },
 
   {
     id: "admin-management",

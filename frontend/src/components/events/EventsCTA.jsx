@@ -35,7 +35,7 @@ function EventsCTA() {
                     />
                   </Form.Group>
 
-                  <Button className="w-100 mb-3">Subscribe</Button>
+                  {/* <Button className="w-100 mb-3">Subscribe</Button> */}
 
                   <Button
                     as={Link}

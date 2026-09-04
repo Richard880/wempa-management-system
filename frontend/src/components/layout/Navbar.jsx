@@ -6,7 +6,7 @@ import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 
 import ROUTES from "../../constants/routes"; 
-import logo from "../../assets/logos/wempa-logo.jpeg";
+import logo from "../../../public/wempa-logo.jpeg";
 import "../../styles/layout/navbar.css";
 
 function Navigation() {
